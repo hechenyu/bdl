@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+option optimize_for = LITE_RUNTIME;
+
+// from viper
+option java_package="com.sensetime.spring.dataset.metadata";
+package sensetime.spring.dataset.metadata;
+
+message Timestamp {
+
+  // Represents seconds of UTC time since Unix epoch
+  // 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
+  // 9999-12-31T23:59:59Z inclusive.
+  int64 seconds = 1;
+
+  // Non-negative fractions of a second at nanosecond resolution. Negative
+  // second values with fractions must still have non-negative nanos values
+  // that count forward in time. Must be from 0 to 999,999,999
+  // inclusive.
+  int32 nanos = 2;
+}
+
+message MetaData{
+  // 对象数据大小, 单位为 byte
+  // 取值范围: (0, 1024*1024*15]
+  int32 size = 1;
+  // 可选，对象数据 md5 校验值, 如: aa41efe0a1b3eeb9bf303e4561ff8392，一般情况下建议提供此参数用于数据进行端对端的校验
+  string etag = 2;
+  // 可选, 指定数据内容类型.
+  // 取值范围参考: https://en.wikipedia.org/wiki/Media_type.
+  // 如: image/jpeg
+  string content_type = 3;
+  // 可选, 对象创建时间, 使用UTC时区.
+  Timestamp creation_time = 4;
+  // 可选, 一组 KV 数据, 可放入相关业务信息, 范围: 任意, 如 { 'camera_id': '123' }
+  map<string, string> attrs = 5;
+}
