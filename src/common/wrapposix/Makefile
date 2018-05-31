@@ -8,7 +8,7 @@ LDFLAGS =
 LDPATH = 
 VPATH = ..
 
-PROGS =	hole mycat
+PROGS =	hole seek mycat mywrite
 
 .PHONY: all
 all: $(PROGS)
@@ -24,7 +24,13 @@ clean:
 hole: hole.o wrapposix.o error.o
 	$(CXX) -o $@ $^ $(LDFLAGS) $(LDPATH)
 
+seek: seek.o wrapposix.o error.o
+	$(CXX) -o $@ $^ $(LDFLAGS) $(LDPATH)
+
 mycat: mycat.o wrapposix.o error.o
+	$(CXX) -o $@ $^ $(LDFLAGS) $(LDPATH)
+
+mywrite: mywrite.o wrapposix.o error.o
 	$(CXX) -o $@ $^ $(LDFLAGS) $(LDPATH)
 
 

@@ -1,6 +1,9 @@
 set(LIBBASE_DATASET_LOADER_SRC 
     common/error.cpp
-    common/wrapposix.cpp)
+    common/wrapposix.cpp
+    io/i_file_writer.cpp
+    io/posix_file_writer.cpp
+    )
 
 add_library(base_dataset_loader SHARED ${LIBBASE_DATASET_LOADER_SRC})
 #set_target_properties(base_dataset_loader PROPERTIES VERSION 1.2 SOVERSION 1)
