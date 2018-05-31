@@ -32,7 +32,7 @@ bool PosixFileWriter::is_open()
 
 void PosixFileWriter::write(const char *buf, int len) 
 {
-    Write(fd_, buf, len);
+    Write(fd_, const_cast<char *>(buf), len);
 }
 
 int PosixFileWriter::seek(int offset, int whence) 

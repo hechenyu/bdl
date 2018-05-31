@@ -5,6 +5,11 @@ set(LIBBASE_DATASET_LOADER_SRC
     io/posix_file_writer.cpp
     )
 
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/common
+    ${CMAKE_CURRENT_SOURCE_DIR}/io
+    )
+
 add_library(base_dataset_loader SHARED ${LIBBASE_DATASET_LOADER_SRC})
 #set_target_properties(base_dataset_loader PROPERTIES VERSION 1.2 SOVERSION 1)
 
