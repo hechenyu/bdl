@@ -7,7 +7,7 @@
     b) cp -r main your_dir_name,
     c) cd your_dir_name
     d) 修改main.cpp
-    e) 修改工程顶级目录的CMakeLists.txt, 增加一行add_subdirectory(test/your_dir_name)
+    e) 修改test目录的CMakeLists.txt, 增加一行add_subdirectory(your_dir_name)
 
 3) 构建工程, 工程顶级目录下, 执行./build.sh, 生成的lib和测试代码都在工程顶级目录的build路径下.
 
