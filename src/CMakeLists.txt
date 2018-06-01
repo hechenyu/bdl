@@ -7,6 +7,7 @@ set(LIBBASE_DATASET_LOADER_SRC
     io/posix_file_reader.cpp
     proto/metadata.pb.cc
     storage/datafile_metadata.cpp
+    storage/datafile_serializer.cpp
     )
 
 include_directories(
