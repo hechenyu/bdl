@@ -5,4 +5,5 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/src/io
     )
 
+add_subdirectory(main)
 add_subdirectory(io)

@@ -14,6 +14,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/io
     ${CMAKE_CURRENT_SOURCE_DIR}/proto
     ${CMAKE_CURRENT_SOURCE_DIR}/storage
+    ${PROJECT_SOURCE_DIR}/thirdparty/protobuf/src/
     )
 
 add_library(base_dataset_loader SHARED ${LIBBASE_DATASET_LOADER_SRC})
