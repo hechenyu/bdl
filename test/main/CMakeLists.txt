@@ -1,3 +1,3 @@
-set(APP_SRC main.cpp)
-add_executable(test ${APP_SRC})
-target_link_libraries(test ${DEPEND_LIBS})
+set(MAIN_SRC main.cpp)
+add_executable(main ${MAIN_SRC})
+target_link_libraries(main ${DEPEND_LIBS})
