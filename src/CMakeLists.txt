@@ -4,6 +4,7 @@ set(LIBBASE_DATASET_LOADER_SRC
     io/i_file_writer.cpp
     io/posix_file_writer.cpp
     io/i_file_reader.cpp
+    io/posix_file_reader.cpp
     )
 
 include_directories(

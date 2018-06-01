@@ -46,3 +46,9 @@ off_t Lseek(int fd, off_t offset, int whence)
         err_sys("lseek error");
     return(pos);
 }
+
+void Close(int fd)
+{
+    if (close(fd) < 0)
+        err_ret("close error");
+}

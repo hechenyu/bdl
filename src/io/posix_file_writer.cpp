@@ -42,5 +42,6 @@ int PosixFileWriter::seek(int offset, int whence)
 
 void PosixFileWriter::close()
 {
-    ::close(fd_);
+    Close(fd_);
+    fd_ = -1;
 }
