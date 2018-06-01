@@ -3,6 +3,8 @@
 
 class IFileReader {
 public:
+    virtual ~IFileReader();
+
     virtual void open(const char *filepath) = 0;
     virtual bool is_open() = 0;
     virtual int read(char *buf, int len) = 0;
