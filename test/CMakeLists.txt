@@ -6,5 +6,6 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/src/storage
     )
 
+add_subdirectory(main)
 add_subdirectory(io)
 add_subdirectory(storage)
