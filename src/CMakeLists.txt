@@ -5,11 +5,15 @@ set(LIBBASE_DATASET_LOADER_SRC
     io/posix_file_writer.cpp
     io/i_file_reader.cpp
     io/posix_file_reader.cpp
+    proto/metadata.pb.cc
+    storage/datafile_metadata.cpp
     )
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/common
     ${CMAKE_CURRENT_SOURCE_DIR}/io
+    ${CMAKE_CURRENT_SOURCE_DIR}/proto
+    ${CMAKE_CURRENT_SOURCE_DIR}/storage
     )
 
 add_library(base_dataset_loader SHARED ${LIBBASE_DATASET_LOADER_SRC})

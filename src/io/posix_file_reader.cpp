@@ -17,7 +17,6 @@ void PosixFileReader::open(const char *filepath)
 {
     if (is_open()) {
         err_quit("couldn't open %s, because this reader already opened!", filepath);
-        return;
     }
 
     fd_ = Open(filepath, O_RDONLY);

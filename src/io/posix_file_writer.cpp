@@ -19,7 +19,6 @@ void PosixFileWriter::open(const char *filepath)
 {
     if (is_open()) {
         err_quit("couldn't open %s, because this writer already opened!", filepath);
-        return;
     }
 
     fd_ = Open(filepath, O_WRONLY | O_CREAT , FILE_MODE);
