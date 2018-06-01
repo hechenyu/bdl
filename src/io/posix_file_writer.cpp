@@ -30,6 +30,16 @@ bool PosixFileWriter::is_open()
     return (fd_ >= 0);
 }
 
+void PosixFileWriter::truncate() 
+{
+    truncate(0);
+}
+
+void PosixFileWriter::truncate(int len)
+{
+    Ftruncate(fd_, len);
+}
+
 void PosixFileWriter::write(const char *buf, int len) 
 {
     Write(fd_, const_cast<char *>(buf), len);

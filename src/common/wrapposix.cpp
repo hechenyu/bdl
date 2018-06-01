@@ -52,3 +52,9 @@ void Close(int fd)
     if (close(fd) < 0)
         err_ret("close error");
 }
+
+void Ftruncate(int fd, off_t length)
+{
+    if (ftruncate(fd, length) == -1)
+        err_sys("ftruncate error");
+}
