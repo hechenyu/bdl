@@ -13,8 +13,8 @@ public:
     typedef std::tuple<char *, int> buffer_type;
     typedef std::tuple<const char *, int> const_buffer_type;
 
-    int serializer(buffer_type output, const_buffer_type blob, const_buffer_type metadata);
-    std::vector<uint8_t> serializer(const char *blob, int blob_len, const DatafileMetadata &metadata);
+    int serialize(buffer_type output, const_buffer_type blob, const_buffer_type metadata);
+    std::vector<uint8_t> serialize(const char *blob, int blob_len, const DatafileMetadata &metadata);
 };
 
 #endif

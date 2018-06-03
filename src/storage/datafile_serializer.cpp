@@ -2,13 +2,14 @@
 #include "datafile_serializer.h"
 #include "datafile_header.h"
 #include "datafile_metadata.h"
+#include "datafile_config.h"
 #include "ceil_to_align_at.h"
 #include <cstring>
 #include <cassert>
 
 using namespace std;
 
-int DatafileSerializer::serializer(buffer_type output, const_buffer_type blob, const_buffer_type metadata)
+int DatafileSerializer::serialize(buffer_type output, const_buffer_type blob, const_buffer_type metadata)
 {
     // get buffer and size
     char *output_buffer; int output_capacity;
@@ -22,7 +23,7 @@ int DatafileSerializer::serializer(buffer_type output, const_buffer_type blob, c
 
     // calculate total size with alginment, and check if overflow
     uint32_t total_size = sizeof(DatafileHeader) + blob_size + metadata_size;
-    total_size = ceil_to_align_at(total_size, 8);
+    total_size = ceil_to_align_at(total_size, DatafileConfig::kAlignSize);
     if (total_size > output_capacity)
         err_quit("serialize datafile output buffer overflow");
 
@@ -40,17 +41,17 @@ int DatafileSerializer::serializer(buffer_type output, const_buffer_type blob, c
     return total_size;
 }
 
-vector<uint8_t> DatafileSerializer::serializer(const char *blob, int blob_len, 
+vector<uint8_t> DatafileSerializer::serialize(const char *blob, int blob_len, 
         const DatafileMetadata &metadata)
 {
     vector<uint8_t> output;
     string serialize_meta = metadata.toString();
 
     int total_size = sizeof(DatafileHeader) + blob_len + serialize_meta.length();
-    total_size = ceil_to_align_at(total_size, 8);
+    total_size = ceil_to_align_at(total_size, DatafileConfig::kAlignSize);
     output.resize(total_size);
 
-    auto n = serializer(buffer_type(reinterpret_cast<char *>(output.data()), output.size()),
+    auto n = serialize(buffer_type(reinterpret_cast<char *>(output.data()), output.size()),
             const_buffer_type(blob, blob_len),
             const_buffer_type(serialize_meta.data(), serialize_meta.length()));
     assert(n == total_size);
