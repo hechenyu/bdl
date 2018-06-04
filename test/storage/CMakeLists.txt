@@ -13,3 +13,7 @@ target_link_libraries(write_datafile ${DEPEND_LIBS})
 set(READ_DATAFILE_SRC read_datafile.cpp dump_data.cpp print_metadata.cpp print_datafile.cpp)
 add_executable(read_datafile ${READ_DATAFILE_SRC})
 target_link_libraries(read_datafile ${DEPEND_LIBS})
+
+set(TEST_SECTION_WRITE_SRC test_section_write.cpp create_datafile.cpp print_section.cpp)
+add_executable(test_section_write ${TEST_SECTION_WRITE_SRC})
+target_link_libraries(test_section_write ${DEPEND_LIBS})
