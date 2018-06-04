@@ -9,7 +9,7 @@ SectionMemoryCache::SectionMemoryCache(int buffer_size): buffer_(buffer_size)
     assert(buffer_size >= sizeof (SectionHeader));
 
     header_ = reinterpret_cast<SectionHeader *>(buffer_.data());
-    available_size_ = buffer_.size() - sizeof (SectionHeader);
+    used_size_ =  sizeof (SectionHeader);
 
     init_header();
 }
@@ -28,21 +28,26 @@ SectionMemoryCache::SectionMemoryCache(IFileReader &reader, int buffer_size): bu
         ptr   += nread;
     }
 
-    if (ptr - buffer_.data() < sizeof (SectionHeader))
+    if (nleft > 0)
         err_quit("incomplete section header");
 
     header_ = reinterpret_cast<SectionHeader *>(buffer_.data());
-    available_size_ = nleft;
+    used_size_ = header_->section_size;
 }
 
 void SectionMemoryCache::flush(IFileWriter &writer)
 {
-    header_->section_size = buffer_.size() - available_size_;
+    header_->section_size = used_size_;
 
     // TODO: calculate CRC32
     header_->CRC = 0x2345;
 
-    writer.write(buffer_.data(), header_->section_size);
+    writer.write(buffer_.data(), buffer_.size());
+}
+
+int SectionMemoryCache::available_size() const
+{
+    return buffer_.size() - used_size_;
 }
 
 bool SectionMemoryCache::append_file(const uint8_t *file_data, int file_size)
@@ -58,14 +63,14 @@ bool SectionMemoryCache::append_file(const uint8_t *file_data, int file_size)
     }
 
     memcpy(append_ptr(), file_data, file_size);
-    available_size_ -= file_size;
+    used_size_ += file_size;
     return true;
 }
 
 std::vector<DatafileView> SectionMemoryCache::get_file_list() const
 {
-    uint8_t *data = header_->files;
-    uint8_t *data_end = header_->files + (buffer_.size() - available_size_ - sizeof (SectionHeader));
+    const uint8_t *data = header_->files;
+    const uint8_t *data_end = buffer_.data() + used_size_;
 
     std::vector<DatafileView> files;
     while (data < data_end) {
@@ -104,7 +109,7 @@ const uint8_t *SectionMemoryCache::files_begin() const
 
 uint8_t *SectionMemoryCache::append_ptr()
 {
-    return buffer_.data()+(buffer_.size()-available_size_);
+    return buffer_.data()+used_size_;
 }
 
 void SectionMemoryCache::init_header()

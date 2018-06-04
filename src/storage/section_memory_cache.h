@@ -13,19 +13,19 @@ class SectionMemoryCache {
 private:
     SectionHeader *header_ = nullptr;
     std::vector<uint8_t> buffer_;
-    int available_size_ = 0;
+    int used_size_ = 0;
 
 public:
-    SectionMemoryCache(int buffer_size = SectionConfig::kSectionSize); 
+    SectionMemoryCache(int section_size); 
 
     // load section data from disk
-    SectionMemoryCache(IFileReader &reader, int buffer_size = SectionConfig::kSectionSize); 
+    SectionMemoryCache(IFileReader &reader, int section_size); 
 
     // write all data to file
     void flush(IFileWriter &writer);
 
     // free space of buffer in bytes
-    int available_size() const { return available_size_; }
+    int available_size() const;
 
     // append file to this section, 
     // if this section has no enough space to take in this file, return false
@@ -39,6 +39,7 @@ public:
     uint32_t magic() const;
     uint32_t CRC() const;
     uint32_t version() const;
+    uint32_t section_size() const;
     uint64_t timestamp() const;
     const uint8_t *files_begin() const;
 
