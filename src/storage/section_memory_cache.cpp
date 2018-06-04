@@ -97,6 +97,11 @@ uint32_t SectionMemoryCache::version() const
     return header_->version;
 }
 
+uint32_t SectionMemoryCache::section_size() const
+{
+    return used_size_;
+}
+
 uint64_t SectionMemoryCache::timestamp() const
 {
     return header_->timestamp;
