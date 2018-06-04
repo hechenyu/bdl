@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 
     SectionMemoryCache section(section_size); 
     for (int i = 0; i < nfile; i++) {
-        string index = to_string(i);
+        string index = to_string(i+1);
         auto serialized_data = create_datafile(
                 etag+index, content_type+index, attrs,
                 blob+index);
