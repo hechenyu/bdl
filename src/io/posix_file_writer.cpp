@@ -39,9 +39,9 @@ void PosixFileWriter::truncate(int len)
     Ftruncate(fd_, len);
 }
 
-void PosixFileWriter::write(const char *buf, int len) 
+void PosixFileWriter::write(const void *buf, int len) 
 {
-    Write(fd_, const_cast<char *>(buf), len);
+    Write(fd_, const_cast<void *>(buf), len);
 }
 
 int PosixFileWriter::seek(int offset, int whence) 

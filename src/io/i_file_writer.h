@@ -10,7 +10,7 @@ public:
     virtual bool is_open() = 0;
     virtual void truncate() = 0;
     virtual void truncate(int len) = 0;
-    virtual void write(const char *buf, int len) = 0;
+    virtual void write(const void *buf, int len) = 0;
     virtual int seek(int offset, int whence) = 0;   // whence: SEEK_SET, SEEK_CUR, SEEK_END
     virtual void close() = 0;
 };
