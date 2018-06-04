@@ -27,7 +27,7 @@ bool PosixFileReader::is_open()
     return (fd_ >= 0);
 }
 
-int PosixFileReader::read(char *buf, int len)
+int PosixFileReader::read(void *buf, int len)
 {
     return Read(fd_, buf, len);
 }

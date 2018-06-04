@@ -9,6 +9,7 @@ set(LIBBASE_DATASET_LOADER_SRC
     storage/datafile_metadata.cpp
     storage/datafile_serializer.cpp
     storage/datafile_view.cpp
+    storage/section_memory_cache.cpp
     )
 
 include_directories(
