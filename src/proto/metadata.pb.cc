@@ -363,6 +363,7 @@ const int MetaData::kEtagFieldNumber;
 const int MetaData::kContentTypeFieldNumber;
 const int MetaData::kCreationTimeFieldNumber;
 const int MetaData::kAttrsFieldNumber;
+const int MetaData::kFileNameFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 MetaData::MetaData()
@@ -387,6 +388,10 @@ MetaData::MetaData(const MetaData& from)
   if (from.content_type().size() > 0) {
     content_type_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.content_type_);
   }
+  file_name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.file_name().size() > 0) {
+    file_name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.file_name_);
+  }
   if (from.has_creation_time()) {
     creation_time_ = new ::sensetime::spring::dataset::metadata::Timestamp(*from.creation_time_);
   } else {
@@ -399,6 +404,7 @@ MetaData::MetaData(const MetaData& from)
 void MetaData::SharedCtor() {
   etag_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   content_type_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  file_name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&creation_time_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&size_) -
       reinterpret_cast<char*>(&creation_time_)) + sizeof(size_));
@@ -413,6 +419,7 @@ MetaData::~MetaData() {
 void MetaData::SharedDtor() {
   etag_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   content_type_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  file_name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != internal_default_instance()) delete creation_time_;
 }
 
@@ -443,6 +450,7 @@ void MetaData::Clear() {
   attrs_.Clear();
   etag_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   content_type_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  file_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (GetArenaNoVirtual() == NULL && creation_time_ != NULL) {
     delete creation_time_;
   }
@@ -546,6 +554,22 @@ bool MetaData::MergePartialFromCodedStream(
             parser.value().data(), static_cast<int>(parser.value().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
             "sensetime.spring.dataset.metadata.MetaData.AttrsEntry.value"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // string file_name = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_file_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->file_name().data(), static_cast<int>(this->file_name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "sensetime.spring.dataset.metadata.MetaData.file_name"));
         } else {
           goto handle_unusual;
         }
@@ -662,6 +686,16 @@ void MetaData::SerializeWithCachedSizes(
     }
   }
 
+  // string file_name = 6;
+  if (this->file_name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->file_name().data(), static_cast<int>(this->file_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "sensetime.spring.dataset.metadata.MetaData.file_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      6, this->file_name(), output);
+  }
+
   output->WriteRaw((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).data(),
                    static_cast<int>((::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()).size()));
   // @@protoc_insertion_point(serialize_end:sensetime.spring.dataset.metadata.MetaData)
@@ -699,6 +733,13 @@ size_t MetaData::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
         this->content_type());
+  }
+
+  // string file_name = 6;
+  if (this->file_name().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->file_name());
   }
 
   // .sensetime.spring.dataset.metadata.Timestamp creation_time = 4;
@@ -743,6 +784,10 @@ void MetaData::MergeFrom(const MetaData& from) {
 
     content_type_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.content_type_);
   }
+  if (from.file_name().size() > 0) {
+
+    file_name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.file_name_);
+  }
   if (from.has_creation_time()) {
     mutable_creation_time()->::sensetime::spring::dataset::metadata::Timestamp::MergeFrom(from.creation_time());
   }
@@ -771,6 +816,7 @@ void MetaData::InternalSwap(MetaData* other) {
   attrs_.Swap(&other->attrs_);
   etag_.Swap(&other->etag_);
   content_type_.Swap(&other->content_type_);
+  file_name_.Swap(&other->file_name_);
   swap(creation_time_, other->creation_time_);
   swap(size_, other->size_);
   _internal_metadata_.Swap(&other->_internal_metadata_);

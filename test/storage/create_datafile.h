@@ -6,7 +6,7 @@
 #include <map>
 
 std::vector<uint8_t> create_datafile(
-        const std::string &etag, const std::string &content_type,
+        const std::string &file_name, const std::string &content_type,
         const std::map<std::string, std::string> attrs,
         const std::string &blob);
 

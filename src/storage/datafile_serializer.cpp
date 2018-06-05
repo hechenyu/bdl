@@ -53,7 +53,7 @@ vector<uint8_t> DatafileSerializer::serialize(const char *blob, int blob_size,
     assert(blob && blob_size >= 0);
 
     vector<uint8_t> output;
-    string serialize_meta = metadata.toString();
+    string serialize_meta = metadata.serialize();
 
     int total_size = calculate_total_size(blob_size, serialize_meta.size());
     output.resize(total_size);

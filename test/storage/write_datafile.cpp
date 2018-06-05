@@ -18,15 +18,6 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    DatafileMetadata meta;
-
-    meta.etag = argv[1];
-    meta.content_type = "image";
-    meta.creation_time = system_clock::now();
-    meta.attrs = {{"key1", "value1"}, {"key2", "value2"}};
-
-    print(meta, "orignal metadata:");
-
     string blob;
 
     string line;
@@ -34,6 +25,11 @@ int main(int argc, char *argv[])
         blob += line;
         blob += '\n';
     }
+
+    DatafileMetadata meta(argv[1], "plain/txt", (const uint8_t *) blob.data(), blob.size(),
+            {{"key1", "value1"}, {"key2", "value2"}});
+
+    print(meta, "orignal metadata:");
 
     DatafileSerializer datafile_serializer;
     vector<uint8_t> serialize_data = datafile_serializer.serialize(blob.data(), blob.size(), meta);

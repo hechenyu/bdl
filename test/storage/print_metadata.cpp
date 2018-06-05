@@ -27,11 +27,13 @@ string utc_to_string(const system_clock::time_point &tp)
 void print(const DatafileMetadata &meta, const string &title)
 {
     cout << title << "\n";
-    cout << "\tmeta.etag: " << meta.etag << "\n";
-    cout << "\tmeta.content_type: " << meta.content_type << "\n";
-    cout << "\tmeta.creation_time: " << utc_to_string(meta.creation_time) << "\n";
+    cout << "\tmeta.file_name: " << meta.file_name() << "\n";
+    cout << "\tmeta.file_size: " << meta.file_size() << "\n";
+    cout << "\tmeta.etag: " << meta.etag() << "\n";
+    cout << "\tmeta.content_type: " << meta.content_type() << "\n";
+    cout << "\tmeta.creation_time: " << utc_to_string(meta.creation_time()) << "\n";
 
-    for (auto &attr: meta.attrs)
+    for (auto &attr: meta.attrs())
         cout << "\tmeta.attrs[" << attr.first << "]: " << attr.second << "\n";
 }
 

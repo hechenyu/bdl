@@ -320,6 +320,20 @@ class MetaData : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
   ::std::string* release_content_type();
   void set_allocated_content_type(::std::string* content_type);
 
+  // string file_name = 6;
+  void clear_file_name();
+  static const int kFileNameFieldNumber = 6;
+  const ::std::string& file_name() const;
+  void set_file_name(const ::std::string& value);
+  #if LANG_CXX11
+  void set_file_name(::std::string&& value);
+  #endif
+  void set_file_name(const char* value);
+  void set_file_name(const char* value, size_t size);
+  ::std::string* mutable_file_name();
+  ::std::string* release_file_name();
+  void set_allocated_file_name(::std::string* file_name);
+
   // .sensetime.spring.dataset.metadata.Timestamp creation_time = 4;
   bool has_creation_time() const;
   void clear_creation_time();
@@ -347,6 +361,7 @@ class MetaData : public ::google::protobuf::MessageLite /* @@protoc_insertion_po
       0 > attrs_;
   ::google::protobuf::internal::ArenaStringPtr etag_;
   ::google::protobuf::internal::ArenaStringPtr content_type_;
+  ::google::protobuf::internal::ArenaStringPtr file_name_;
   ::sensetime::spring::dataset::metadata::Timestamp* creation_time_;
   ::google::protobuf::int32 size_;
   mutable int _cached_size_;
@@ -584,6 +599,59 @@ inline ::google::protobuf::Map< ::std::string, ::std::string >*
 MetaData::mutable_attrs() {
   // @@protoc_insertion_point(field_mutable_map:sensetime.spring.dataset.metadata.MetaData.attrs)
   return attrs_.MutableMap();
+}
+
+// string file_name = 6;
+inline void MetaData::clear_file_name() {
+  file_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& MetaData::file_name() const {
+  // @@protoc_insertion_point(field_get:sensetime.spring.dataset.metadata.MetaData.file_name)
+  return file_name_.GetNoArena();
+}
+inline void MetaData::set_file_name(const ::std::string& value) {
+  
+  file_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:sensetime.spring.dataset.metadata.MetaData.file_name)
+}
+#if LANG_CXX11
+inline void MetaData::set_file_name(::std::string&& value) {
+  
+  file_name_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:sensetime.spring.dataset.metadata.MetaData.file_name)
+}
+#endif
+inline void MetaData::set_file_name(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  file_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:sensetime.spring.dataset.metadata.MetaData.file_name)
+}
+inline void MetaData::set_file_name(const char* value, size_t size) {
+  
+  file_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:sensetime.spring.dataset.metadata.MetaData.file_name)
+}
+inline ::std::string* MetaData::mutable_file_name() {
+  
+  // @@protoc_insertion_point(field_mutable:sensetime.spring.dataset.metadata.MetaData.file_name)
+  return file_name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* MetaData::release_file_name() {
+  // @@protoc_insertion_point(field_release:sensetime.spring.dataset.metadata.MetaData.file_name)
+  
+  return file_name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void MetaData::set_allocated_file_name(::std::string* file_name) {
+  if (file_name != NULL) {
+    
+  } else {
+    
+  }
+  file_name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), file_name);
+  // @@protoc_insertion_point(field_set_allocated:sensetime.spring.dataset.metadata.MetaData.file_name)
 }
 
 #ifdef __GNUC__
