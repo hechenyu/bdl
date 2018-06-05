@@ -16,7 +16,7 @@ public:
     void truncate() override;
     void truncate(int len) override;
     void write(const void *buf, int len) override;
-    int seek(int offset, int whence) override;
+    long seek(long offset, int whence) override;
     void close() override;
 
     PosixFileWriter(const PosixFileWriter &) = delete;

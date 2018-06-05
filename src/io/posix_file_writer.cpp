@@ -44,7 +44,7 @@ void PosixFileWriter::write(const void *buf, int len)
     Write(fd_, const_cast<void *>(buf), len);
 }
 
-int PosixFileWriter::seek(int offset, int whence) 
+long PosixFileWriter::seek(long offset, int whence) 
 {
     return Lseek(fd_, offset, whence);
 }

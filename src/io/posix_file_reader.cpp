@@ -32,7 +32,7 @@ int PosixFileReader::read(void *buf, int len)
     return Read(fd_, buf, len);
 }
 
-int PosixFileReader::seek(int offset, int whence)
+long PosixFileReader::seek(long offset, int whence)
 {
     return Lseek(fd_, offset, whence);
 }
