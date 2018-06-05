@@ -7,18 +7,20 @@ set(LIBBASE_DATASET_LOADER_SRC
     io/i_file_reader.cpp
     io/posix_file_reader.cpp
     proto/metadata.pb.cc
-    storage/datafile_metadata.cpp
-    storage/datafile_serializer.cpp
-    storage/datafile_view.cpp
-    storage/section_memory_cache.cpp
-    storage/partition_writer.cpp
+    datafile/datafile_metadata.cpp
+    datafile/datafile_serializer.cpp
+    datafile/datafile_view.cpp
+    section/section_memory_cache.cpp
+    partition/partition_writer.cpp
     )
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/common
     ${CMAKE_CURRENT_SOURCE_DIR}/io
     ${CMAKE_CURRENT_SOURCE_DIR}/proto
-    ${CMAKE_CURRENT_SOURCE_DIR}/storage
+    ${CMAKE_CURRENT_SOURCE_DIR}/datafile
+    ${CMAKE_CURRENT_SOURCE_DIR}/section
+    ${CMAKE_CURRENT_SOURCE_DIR}/partition
     )
 
 add_library(base_dataset_loader SHARED ${LIBBASE_DATASET_LOADER_SRC})
