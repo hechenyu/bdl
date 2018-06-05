@@ -11,6 +11,7 @@ set(LIBBASE_DATASET_LOADER_SRC
     storage/datafile_serializer.cpp
     storage/datafile_view.cpp
     storage/section_memory_cache.cpp
+    storage/partition_writer.cpp
     )
 
 include_directories(
