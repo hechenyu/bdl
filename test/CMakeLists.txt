@@ -10,4 +10,5 @@ include_directories(
 
 add_subdirectory(main)
 add_subdirectory(io)
-add_subdirectory(storage)
+add_subdirectory(datafile)
+add_subdirectory(section)
