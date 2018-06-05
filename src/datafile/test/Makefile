@@ -8,7 +8,7 @@ LDFLAGS =
 LDPATH = 
 VPATH = ..
 
-PROGS =	data_file_header_size
+PROGS =	datafile_header_size
 
 .PHONY: all
 all: $(PROGS)
@@ -21,6 +21,6 @@ clean:
 %.o:%.cpp
 	$(CXX) -o $@ -c $< $(CXXFLAGS) $(INCLUDE)
 
-data_file_header_size: data_file_header_size.o
+datafile_header_size: datafile_header_size.o
 	$(CXX) -o $@ $^ $(LDFLAGS) $(LDPATH)
 
