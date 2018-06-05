@@ -13,5 +13,5 @@ vector<uint8_t> create_datafile(
 {
     DatafileMetadata meta(file_name, content_type, (const uint8_t *) blob.data(), blob.size(), attrs);
     DatafileSerializer datafile_serializer;
-    return datafile_serializer.serialize(blob.data(), blob.size(), meta);
+    return datafile_serializer.serialize((const uint8_t *) blob.data(), blob.size(), meta);
 }

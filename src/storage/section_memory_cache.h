@@ -24,6 +24,9 @@ public:
     // reset section memory cache
     void reset();
 
+    // if not data in section return true
+    bool is_empty();
+
     // write all data to file
     void flush(IFileWriter &writer);
 
