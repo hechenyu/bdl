@@ -48,6 +48,11 @@ void SectionMemoryCache::reset()
     init_header();
 }
 
+bool SectionMemoryCache::is_empty()
+{
+    return used_size_ == sizeof (SectionHeader);
+}
+
 void SectionMemoryCache::flush(IFileWriter &writer)
 {
     header_->section_size = used_size_;

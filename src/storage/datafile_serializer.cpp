@@ -20,13 +20,13 @@ int DatafileSerializer::calculate_total_size(int blob_size, int metadata_size)
 int DatafileSerializer::serialize(buffer_type output, const_buffer_type blob, const_buffer_type metadata)
 {
     // get buffer and size
-    char *output_buffer; int output_capacity;
+    uint8_t *output_buffer; int output_capacity;
     std::tie(output_buffer, output_capacity) = output;
 
-    const char *blob_data; int blob_size;
+    const uint8_t *blob_data; int blob_size;
     std::tie(blob_data, blob_size) = blob;
 
-    const char *metadata_data; int metadata_size;
+    const uint8_t *metadata_data; int metadata_size;
     std::tie(metadata_data, metadata_size) = metadata;
 
     // calculate total size with alginment, and check if overflow
@@ -48,7 +48,7 @@ int DatafileSerializer::serialize(buffer_type output, const_buffer_type blob, co
     return total_size;
 }
 
-vector<uint8_t> DatafileSerializer::serialize(const char *blob, int blob_size, 
+vector<uint8_t> DatafileSerializer::serialize(const uint8_t *blob, int blob_size, 
         const DatafileMetadata &metadata)
 {
     assert(blob && blob_size >= 0);
@@ -59,9 +59,9 @@ vector<uint8_t> DatafileSerializer::serialize(const char *blob, int blob_size,
     int total_size = calculate_total_size(blob_size, serialize_meta.size());
     output.resize(total_size);
 
-    auto n = serialize(buffer_type(reinterpret_cast<char *>(output.data()), output.size()),
+    auto n = serialize(buffer_type(output.data(), output.size()), 
             const_buffer_type(blob, blob_size),
-            const_buffer_type(serialize_meta.data(), serialize_meta.length()));
+            const_buffer_type(reinterpret_cast<const uint8_t *>(serialize_meta.data()), serialize_meta.length()));
     assert(n == total_size);
 
     return std::move(output);

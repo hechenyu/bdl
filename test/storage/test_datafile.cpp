@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     print(meta, "orignal metadata:");
 
     DatafileSerializer datafile_serializer;
-    vector<uint8_t> serialize_data = datafile_serializer.serialize(blob.data(), blob.size(), meta);
+    vector<uint8_t> serialize_data = datafile_serializer.serialize((const uint8_t *) blob.data(), blob.size(), meta);
     assert(serialize_data.size() % DatafileConfig::kAlignSize == 0);
 
     dump_data("\ndatafile serialize", (const char *) serialize_data.data(), serialize_data.size());
