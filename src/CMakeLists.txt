@@ -1,6 +1,7 @@
 set(LIBBASE_DATASET_LOADER_SRC 
     common/error.cpp
     common/wrapposix.cpp
+    common/calculate_crc32.cpp
     io/i_file_writer.cpp
     io/posix_file_writer.cpp
     io/i_file_reader.cpp

@@ -21,6 +21,9 @@ public:
     // load section data from disk
     SectionMemoryCache(IFileReader &reader, int section_size); 
 
+    // reset section memory cache
+    void reset();
+
     // write all data to file
     void flush(IFileWriter &writer);
 
@@ -45,8 +48,8 @@ public:
 
 private:
     uint8_t *append_ptr();
-
     void init_header();
+    uint32_t section_body_size();
 };
 
 #endif

@@ -14,7 +14,7 @@ public:
     void open(const char *filepath) override;
     bool is_open() override;
     int read(void *buf, int len) override;
-    int seek(int offset, int whence) override;
+    long seek(long offset, int whence) override;
     void close() override;
 };
 

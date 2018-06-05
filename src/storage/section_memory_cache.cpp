@@ -1,10 +1,14 @@
 #include <cassert>
 #include <cstring>
+#include <algorithm>
 #include "error.h"
 #include "section_memory_cache.h"
 #include "datafile_serializer.h"
+#include "calculate_crc32.h"
 
-SectionMemoryCache::SectionMemoryCache(int buffer_size): buffer_(buffer_size)
+using namespace std;
+
+SectionMemoryCache::SectionMemoryCache(int buffer_size): buffer_(buffer_size, 0)
 {
     assert(buffer_size >= sizeof (SectionHeader));
 
@@ -35,13 +39,19 @@ SectionMemoryCache::SectionMemoryCache(IFileReader &reader, int buffer_size): bu
     used_size_ = header_->section_size;
 }
 
+void SectionMemoryCache::reset()
+{
+    fill(buffer_.begin(), buffer_.end(), 0);
+    header_ = reinterpret_cast<SectionHeader *>(buffer_.data());
+    used_size_ =  sizeof (SectionHeader);
+
+    init_header();
+}
+
 void SectionMemoryCache::flush(IFileWriter &writer)
 {
     header_->section_size = used_size_;
-
-    // TODO: calculate CRC32
-    header_->CRC = 0x2345;
-
+    header_->CRC = calculate_crc32(header_->files, section_body_size());
     writer.write(buffer_.data(), buffer_.size());
 }
 
@@ -67,12 +77,12 @@ bool SectionMemoryCache::append_file(const uint8_t *file_data, int file_size)
     return true;
 }
 
-std::vector<DatafileView> SectionMemoryCache::get_file_list() const
+vector<DatafileView> SectionMemoryCache::get_file_list() const
 {
     const uint8_t *data = header_->files;
     const uint8_t *data_end = buffer_.data() + used_size_;
 
-    std::vector<DatafileView> files;
+    vector<DatafileView> files;
     while (data < data_end) {
         DatafileView file(data, data_end - data);
         files.push_back(file);
@@ -122,4 +132,9 @@ void SectionMemoryCache::init_header()
     // TODO initialize header, magic, version, timestamp etc...
     header_->magic = SectionConfig::kSectionMagic; 
     header_->version = SectionConfig::kSectionVersion;
+}
+
+uint32_t SectionMemoryCache::section_body_size()
+{
+    return section_size() - sizeof (SectionHeader);
 }

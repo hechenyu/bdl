@@ -1,4 +1,5 @@
 #include "error.h"
+#include "calculate_crc32.h"
 #include "datafile_serializer.h"
 #include "datafile_header.h"
 #include "datafile_metadata.h"
@@ -38,7 +39,7 @@ int DatafileSerializer::serialize(buffer_type output, const_buffer_type blob, co
     memcpy(file_header->blob, blob_data, blob_size);
     memcpy(file_header->blob + blob_size, metadata_data, metadata_size);
 
-    file_header->CRC = 0xabcd;    // TODO
+    file_header->CRC = calculate_crc32(file_header->blob, blob_size);
     file_header->total_size = total_size;
     file_header->blob_size = blob_size;
     file_header->metadata_size = metadata_size;
