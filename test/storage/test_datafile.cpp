@@ -15,16 +15,11 @@ using namespace std::chrono;
 
 int main(int argc, char *argv[])
 {
-    DatafileMetadata meta;
+    string blob = "hello world!";
 
-    meta.etag = "tag_aaa";
-    meta.content_type = "image";
-    meta.creation_time = system_clock::now();
-    meta.attrs = {{"key1", "value1"}, {"key2", "value2"}};
+    DatafileMetadata meta("test.txt", "plain/txt", (const uint8_t *) blob.data(), blob.size(), {{"key1", "value1"}, {"key2", "value2"}});
 
     print(meta, "orignal metadata:");
-
-    string blob = "hello world!";
 
     DatafileSerializer datafile_serializer;
     vector<uint8_t> serialize_data = datafile_serializer.serialize(blob.data(), blob.size(), meta);

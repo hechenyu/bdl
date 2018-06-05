@@ -34,4 +34,6 @@ message MetaData{
   Timestamp creation_time = 4;
   // 可选, 一组 KV 数据, 可放入相关业务信息, 范围: 任意, 如 { 'camera_id': '123' }
   map<string, string> attrs = 5;
+  // 可选, 文件名
+  string file_name = 6;
 }

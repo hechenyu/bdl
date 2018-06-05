@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
     int section_size = 10*1024;
 
     string blob = "hello world! xxx -- ";
-    string etag = "tag yyy -- ";
-    string content_type = "type zzz -- ";
+    string file_prefix = "file";
+    string content_type = "plain/txt";
     map<string, string> attrs = 
         {{"key1", "value1"}, {"key2", "value2"}};
 
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     for (int i = 0; i < nfile; i++) {
         string index = to_string(i+1);
         auto serialized_data = create_datafile(
-                etag+index, content_type+index, attrs,
+                file_prefix+index+".txt", content_type, attrs,
                 blob+index);
         if (!section.append_file(serialized_data.data(), 
                     serialized_data.size())) {

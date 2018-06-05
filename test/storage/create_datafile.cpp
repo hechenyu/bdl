@@ -7,17 +7,11 @@ using namespace std;
 using namespace std::chrono;
 
 vector<uint8_t> create_datafile(
-        const string &etag, const string &content_type,
+        const string &file_name, const string &content_type,
         const map<string, string> attrs,
         const string &blob)
 {
-    DatafileMetadata meta;
-
-    meta.etag = etag;
-    meta.content_type = content_type;
-    meta.creation_time = system_clock::now();
-    meta.attrs = attrs;
-
+    DatafileMetadata meta(file_name, content_type, (const uint8_t *) blob.data(), blob.size(), attrs);
     DatafileSerializer datafile_serializer;
     return datafile_serializer.serialize(blob.data(), blob.size(), meta);
 }

@@ -5,33 +5,40 @@
 #include <string>
 #include <chrono>
 
-struct DatafileMetadata {
+class DatafileMetadata {
+public:
     static const char *METADATA_KEY;
     static const char *METADATA_REFTYPE;
 
     using AttrMap = std::map<std::string, std::string>;
 
-    int32_t size = 0;
-    std::string etag;
-    std::string content_type;
-    std::chrono::system_clock::time_point creation_time;
-    std::map<std::string, std::string> attrs;
+private:
+    int32_t size_ = 0;
+    std::string etag_;
+    std::string content_type_;
+    std::chrono::system_clock::time_point creation_time_;
+    AttrMap attrs_;
+    std::string file_name_;
 
-    DatafileMetadata() {}
+public:
+    DatafileMetadata(const std::string &file_name, const std::string &file_type,
+            const uint8_t *file_data, int file_size, const AttrMap &attrs);
 
-    DatafileMetadata(const char *data, size_t len) {
-        init(data, len);
-    }
+    DatafileMetadata(const char *serialized_data, size_t len);
 
-    DatafileMetadata(const std::string &data) {
-		if (!data.empty())
-			init(data.data(), data.size());
-    }
+    DatafileMetadata(const std::string &serialized_data); 
 
-    std::string toString() const ;
+    std::string serialize() const ;
+
+    int32_t file_size() const;
+    const std::string &etag() const;
+    const std::string &content_type() const;
+    std::chrono::system_clock::time_point creation_time() const;
+    const std::map<std::string, std::string> &attrs() const;
+    const std::string &file_name() const;
 
 private:
-    void init(const char *data, size_t len);
+    void deserialize(const char *data, size_t len);
 };
 
 #endif
