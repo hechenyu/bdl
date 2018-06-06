@@ -3,8 +3,16 @@
 #include "config_parser.h"
 #include "posix_file_reader.h"
 #include "partition_reader.h"
+#include "boost/filesystem.hpp"
 
 using namespace std;
+namespace fs = boost::filesystem;
+
+void write_file(const string &datafile_name, const uint8_t *data, int size)
+{
+    ofstream ofile(datafile_name);
+    ofile.write((const char *)data, size);
+}
 
 int main(int argc, char *argv[])
 {
@@ -22,19 +30,30 @@ int main(int argc, char *argv[])
     }
 
     string partfile_name = parser.get_string_variables("file");
-    string output_dir = parser.get_string_variables("dir", ".");
+    string output_dir = parser.get_string_variables("dir", "");
     bool list_flag = parser.has_parsed_option("list");
 
     auto file_reader = make_shared<PosixFileReader>();
     PartitionReader partition_reader(partfile_name, file_reader);
 
+    if (!output_dir.empty())
+        fs::create_directories(output_dir);
+
     while (partition_reader.has_next()) {
         auto datafile = partition_reader.next();
         auto metadata = datafile.metadata();
         auto datafile_name = metadata.file_name();
+
         if (list_flag) {
             cout << datafile_name << "\n";
         }
+
+        if (!output_dir.empty())
+            datafile_name = output_dir+"/"+datafile_name;
+        fs::path path(datafile_name);
+
+        fs::create_directories(path.parent_path());
+        write_file(datafile_name, datafile.blob_data(), datafile.blob_size());
     }
 
     return 0;
