@@ -10,6 +10,7 @@ public:
     virtual int read(void *buf, int len) = 0;       // if EOF, return 0
     virtual long seek(long offset, int whence) = 0; // whence: SEEK_SET, SEEK_CUR, SEEK_END
     virtual void close() = 0;
+    virtual long file_size() = 0;
 };
 
 #endif

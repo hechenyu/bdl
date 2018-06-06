@@ -58,3 +58,9 @@ void Ftruncate(int fd, off_t length)
     if (ftruncate(fd, length) == -1)
         err_sys("ftruncate error");
 }
+
+void Fstat(int fd, struct stat *ptr)
+{
+	if (fstat(fd, ptr) == -1)
+		err_sys("fstat error");
+}

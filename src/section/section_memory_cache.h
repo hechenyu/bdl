@@ -18,14 +18,14 @@ private:
 public:
     SectionMemoryCache(int section_size); 
 
-    // load section data from disk
-    SectionMemoryCache(IFileReader &reader, int section_size); 
-
     // reset section memory cache
     void clear_data();
 
     // if not data in section return true
     bool is_empty();
+
+    // read section data from disk
+    void load(IFileReader &reader); 
 
     // write all data to file
     void flush(IFileWriter &writer);

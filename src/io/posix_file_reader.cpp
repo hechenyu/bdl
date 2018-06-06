@@ -42,3 +42,11 @@ void PosixFileReader::close()
     Close(fd_);
     fd_ = -1;
 }
+
+long PosixFileReader::file_size() 
+{
+    struct stat buf;
+    Fstat(fd_, &buf);
+    return buf.st_size;
+}
+

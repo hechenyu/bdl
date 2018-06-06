@@ -12,6 +12,7 @@ set(LIBBASE_DATASET_LOADER_SRC
     datafile/datafile_view.cpp
     section/section_memory_cache.cpp
     partition/partition_writer.cpp
+    partition/partition_reader.cpp
     )
 
 include_directories(

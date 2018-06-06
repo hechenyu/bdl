@@ -16,6 +16,7 @@ public:
     int read(void *buf, int len) override;
     long seek(long offset, int whence) override;
     void close() override;
+    long file_size() override;
 };
 
 #endif
