@@ -5,10 +5,9 @@
 
 using namespace std;
 
-PartitionWriter::PartitionWriter(const string &partition_path, shared_ptr<IFileWriter> writer):
-    path_(partition_path), writer_(writer)
+PartitionWriter::PartitionWriter(const string &partition_path, shared_ptr<IFileWriter> writer): writer_(writer)
 {
-    writer_->open(path_.c_str());
+    writer_->open(partition_path.c_str());
     writer_->truncate();
     const int section_size = PartitionConfig::kSectionSize;
     section_ = make_shared<SectionMemoryCache>(section_size);

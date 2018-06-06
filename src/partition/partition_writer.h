@@ -9,7 +9,6 @@
 
 class PartitionWriter {
 private:
-    std::string path_;
     std::shared_ptr<IFileWriter> writer_;
     std::shared_ptr<SectionMemoryCache> section_; 
     long section_index_ = 0;
