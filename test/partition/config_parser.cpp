@@ -1,6 +1,7 @@
 #include "config_parser.h"
 #include <map>
 #include <fstream>
+#include <functional>
 #include "boost/ref.hpp"
 #include "boost/bind.hpp"
 
@@ -58,7 +59,7 @@ void ConfigParser::parse_environment(const std::map<std::string, std::string> &n
     NameMapper name_mapper(name_map);
     boost::program_options::store(
             boost::program_options::parse_environment(desc_, 
-                boost::bind(&NameMapper::find, name_mapper, boost::placeholders::_1)), 
+                std::bind(&NameMapper::find, name_mapper, std::placeholders::_1)), 
             vm_);
 }
 
