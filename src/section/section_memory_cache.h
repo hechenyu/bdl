@@ -53,6 +53,7 @@ private:
     uint8_t *append_ptr();
     void init_header();
     uint32_t section_body_size();
+    void check_section_header();
 };
 
 #endif

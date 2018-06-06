@@ -52,6 +52,8 @@ void SectionMemoryCache::load(IFileReader &reader)
 
     header_ = reinterpret_cast<SectionHeader *>(buffer_.data());
     used_size_ = header_->section_size;
+
+    check_section_header();
 }
 
 void SectionMemoryCache::flush(IFileWriter &writer)
@@ -143,4 +145,11 @@ void SectionMemoryCache::init_header()
 uint32_t SectionMemoryCache::section_body_size()
 {
     return section_size() - sizeof (SectionHeader);
+}
+
+void SectionMemoryCache::check_section_header()
+{
+    if (header_->magic != SectionConfig::kSectionMagic) {
+        err_quit("invalid section header, magic");
+    }
 }
