@@ -1,8 +1,12 @@
 #include "error.h"
 #include "calculate_crc32.h"
+#include <boost/crc.hpp>
+
+using namespace boost;
 
 uint32_t calculate_crc32(const uint8_t *data, int size)
 {
-    err_msg("%s unimplement", __func__);
-    return 0x2345;
+    crc_32_type crc32;
+    crc32.process_bytes(data, size);
+    return crc32.checksum();
 }

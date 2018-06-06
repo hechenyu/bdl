@@ -22,7 +22,7 @@ public:
     SectionMemoryCache(IFileReader &reader, int section_size); 
 
     // reset section memory cache
-    void reset();
+    void clear_data();
 
     // if not data in section return true
     bool is_empty();
