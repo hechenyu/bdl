@@ -15,7 +15,8 @@ int main(int argc, char *argv[])
     PosixFileReader reader;
     reader.open(filename.c_str());
 
-    SectionMemoryCache section(reader, section_size); 
+    SectionMemoryCache section(section_size); 
+    section.load(reader);
     print(section, "section from file: ");
 
     return 0;

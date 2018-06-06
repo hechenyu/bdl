@@ -19,7 +19,21 @@ SectionMemoryCache::SectionMemoryCache(int buffer_size): buffer_(buffer_size, 0)
     init_header();
 }
 
-SectionMemoryCache::SectionMemoryCache(IFileReader &reader, int buffer_size): buffer_(buffer_size)
+void SectionMemoryCache::clear_data()
+{
+    fill(buffer_.begin(), buffer_.end(), 0);
+    header_ = reinterpret_cast<SectionHeader *>(buffer_.data());
+    used_size_ =  sizeof (SectionHeader);
+
+    init_header();
+}
+
+bool SectionMemoryCache::is_empty()
+{
+    return used_size_ == sizeof (SectionHeader);
+}
+
+void SectionMemoryCache::load(IFileReader &reader)
 {
     uint8_t *ptr = buffer_.data();
     int nleft = buffer_.size();
@@ -38,20 +52,6 @@ SectionMemoryCache::SectionMemoryCache(IFileReader &reader, int buffer_size): bu
 
     header_ = reinterpret_cast<SectionHeader *>(buffer_.data());
     used_size_ = header_->section_size;
-}
-
-void SectionMemoryCache::clear_data()
-{
-    fill(buffer_.begin(), buffer_.end(), 0);
-    header_ = reinterpret_cast<SectionHeader *>(buffer_.data());
-    used_size_ =  sizeof (SectionHeader);
-
-    init_header();
-}
-
-bool SectionMemoryCache::is_empty()
-{
-    return used_size_ == sizeof (SectionHeader);
 }
 
 void SectionMemoryCache::flush(IFileWriter &writer)
