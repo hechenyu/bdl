@@ -25,7 +25,13 @@ PartitionReader::~PartitionReader()
 
 bool PartitionReader::has_next()
 {
-    return (section_index_ < total_section_);
+    if (static_cast<size_t>(datafile_index_) == datafile_list_.size()) {
+        get_next_section();
+        datafile_index_ = 0;
+    }
+
+    return (section_index_ < total_section_ || 
+            static_cast<size_t>(datafile_index_) < datafile_list_.size());
 }
 
 DatafileView PartitionReader::next()
@@ -33,17 +39,11 @@ DatafileView PartitionReader::next()
     if (!has_next())
         err_quit("PartitionReader::next fail: overflow");
 
-    DatafileView file = datafile_list_.at(datafile_index_++);
-
-    if (static_cast<size_t>(datafile_index_) == datafile_list_.size()) {
-        get_next_section();
-        datafile_index_ = 0;
-    }
-
-    return file;
+    return datafile_list_.at(datafile_index_++);
 }
 
 void PartitionReader::get_next_section() {
+    datafile_list_.clear();
     while (section_index_ < total_section_) {
         section_index_++;
         section_->load(*reader_);
