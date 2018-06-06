@@ -10,7 +10,8 @@ using namespace std;
 
 SectionMemoryCache::SectionMemoryCache(int buffer_size): buffer_(buffer_size, 0)
 {
-    assert(buffer_size >= sizeof (SectionHeader));
+    assert(buffer_size > 0);
+    assert(static_cast<size_t>(buffer_size) >= sizeof (SectionHeader));
 
     header_ = reinterpret_cast<SectionHeader *>(buffer_.data());
     used_size_ =  sizeof (SectionHeader);
@@ -39,7 +40,7 @@ SectionMemoryCache::SectionMemoryCache(IFileReader &reader, int buffer_size): bu
     used_size_ = header_->section_size;
 }
 
-void SectionMemoryCache::reset()
+void SectionMemoryCache::clear_data()
 {
     fill(buffer_.begin(), buffer_.end(), 0);
     header_ = reinterpret_cast<SectionHeader *>(buffer_.data());

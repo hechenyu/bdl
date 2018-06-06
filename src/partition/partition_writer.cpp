@@ -6,7 +6,7 @@
 using namespace std;
 
 PartitionWriter::PartitionWriter(const string &partition_path, shared_ptr<IFileWriter> writer):
-    writer_(writer), path_(partition_path)
+    path_(partition_path), writer_(writer)
 {
     writer_->open(path_.c_str());
     writer_->truncate();
@@ -31,7 +31,7 @@ void PartitionWriter::write(const string &file_name, const string &file_type,
 
     if (!section_->append_file(output.data(), output.size())) {
         section_->flush(*writer_);
-        section_.reset();
+        section_->clear_data();
         section_index_++;
 
         auto ret = section_->append_file(output.data(), output.size());

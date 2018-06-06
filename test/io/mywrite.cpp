@@ -8,8 +8,6 @@ using namespace std;
 int
 main(int argc, char *argv[])
 {
-	int		n;
-
     if (argc != 2) {
         err_msg("usage: %s file\n", argv[0]);
         return -1;

@@ -7,11 +7,14 @@ using namespace std;
 
 DatafileView::DatafileView(const uint8_t *data, int size)
 {
-    if (size < sizeof (DatafileHeader))
+    assert(data);
+    assert(size >= 0);
+
+    if (static_cast<size_t>(size) < sizeof (DatafileHeader))
         err_quit("incomplete datafile header");
 
     header_ = reinterpret_cast<const DatafileHeader *>(data);
-    if (size < header_->total_size)
+    if (static_cast<size_t>(size) < header_->total_size)
         err_quit("incomplete datafile data");
 
     assert(header_->total_size % DatafileConfig::kAlignSize == 0);

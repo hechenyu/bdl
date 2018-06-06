@@ -20,7 +20,8 @@ public:
 
     // write file to partition
     void write(const std::string &file_name, const std::string &file_type,
-            const uint8_t *file_data, int file_size, const DatafileMetadata::AttrMap &attrs);
+            const uint8_t *file_data, int file_size, 
+            const DatafileMetadata::AttrMap &attrs = DatafileMetadata::AttrMap{});
 };
 
 #endif
