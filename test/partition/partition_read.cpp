@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <fstream>
 #include "config_parser.h"
 #include "posix_file_reader.h"
 #include "partition_reader.h"

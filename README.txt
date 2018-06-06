@@ -12,5 +12,5 @@
 3) 构建工程, 工程顶级目录下, 执行./build.sh, 生成的lib和测试代码都在工程顶级目录的build路径下.
 
 4) 项目生成lib(即src目录)需要依赖boost的头文件(不需要lib), 测试(即test目录)需要依赖boost库, 确保系统安装boost
-    $ sudo apt-get install libboost-dev # ubuntu
+    $ sudo apt-get install libboost-all-dev # ubuntu
     $ sudo pacman -S boost # arch
