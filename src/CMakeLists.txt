@@ -1,3 +1,5 @@
+#set(CMAKE_BUILD_TYPE debug)
+
 set(LIBBASE_DATASET_LOADER_SRC 
     common/error.cpp
     common/wrapposix.cpp
@@ -15,6 +17,7 @@ set(LIBBASE_DATASET_LOADER_SRC
     section/section_memory_cache.cpp
     partition/partition_writer.cpp
     partition/partition_reader.cpp
+    index/index_item.cpp
     )
 
 include_directories(
@@ -24,6 +27,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/datafile
     ${CMAKE_CURRENT_SOURCE_DIR}/section
     ${CMAKE_CURRENT_SOURCE_DIR}/partition
+    ${CMAKE_CURRENT_SOURCE_DIR}/index
     )
 
 add_library(base_dataset_loader SHARED ${LIBBASE_DATASET_LOADER_SRC})
