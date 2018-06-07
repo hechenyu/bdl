@@ -40,8 +40,6 @@ set_target_properties(base_dataset_loader_static PROPERTIES OUTPUT_NAME "base_da
 get_target_property(OUTPUT_VALUE base_dataset_loader_static OUTPUT_NAME)
 message(STATUS "This is the base_dataset_loader_static OUTPUT_NAME: " ${OUTPUT_VALUE})
 
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build/lib)
-
 install(TARGETS base_dataset_loader base_dataset_loader_static
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib)
