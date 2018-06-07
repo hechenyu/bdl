@@ -21,3 +21,7 @@ target_link_libraries(myappend ${DEPEND_LIBS})
 set(SEEK_SRC seek.cpp)
 add_executable(seek ${SEEK_SRC})
 target_link_libraries(seek ${DEPEND_LIBS})
+
+set(GETLINE_SRC getline.cpp)
+add_executable(getline ${GETLINE_SRC})
+target_link_libraries(getline ${DEPEND_LIBS})
