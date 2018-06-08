@@ -47,20 +47,28 @@ PartitionWriter::~PartitionWriter()
     writer_->close();
 }
 
-void PartitionWriter::write(const string &file_name, const string &file_type,
+DatafileIndex PartitionWriter::write(const string &file_name, const string &file_type,
         const uint8_t *file_data, int file_size, const DatafileMetadata::AttrMap &attrs)
 {
     DatafileMetadata meta(file_name, file_type, file_data, file_size, attrs);
     DatafileSerializer datafile_serializer;
     auto output = datafile_serializer.serialize(file_data, file_size, meta);
 
+    long offset = static_cast<long>(PartitionConfig::kSectionSize) * section_index_ + section_->section_size();
     if (!section_->append_file(output.data(), output.size())) {
         section_->flush(*writer_);
         section_->clear_data();
         section_index_++;
 
+        offset = static_cast<long>(PartitionConfig::kSectionSize) * section_index_ + section_->section_size();
         auto ret = section_->append_file(output.data(), output.size());
         assert(ret);
     }
+
+    DatafileIndex index;
+    index.offset = offset;
+    index.file_size = output.size();
+
+    return index;
 }
 
