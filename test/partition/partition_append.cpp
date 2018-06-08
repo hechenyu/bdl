@@ -2,6 +2,7 @@
 #include <memory>
 #include "posix_file_writer.h"
 #include "partition_writer.h"
+#include "posix_file_reader.h"
 #include "test_partition_util.h"
 
 using namespace std;
@@ -14,7 +15,8 @@ int main(int argc, char *argv[])
     }
 
     auto file_writer = make_shared<PosixFileWriter>();
-    PartitionWriter partition_writer(argv[2], file_writer);
+    auto file_reader = make_shared<PosixFileReader>();
+    PartitionWriter partition_writer(argv[2], file_writer, file_reader);
 
     auto file_list = get_file_list(argv[1]);
     for (auto &file_name : file_list) {
