@@ -1,15 +1,9 @@
-#include "index_item.h"
 #include <iostream>
 
-using namespace std;
+#include "index_item.h"
+#include "print_index_item.h"
 
-ostream &operator <<(ostream &out, const IndexItem &item)
-{
-    out << '\"' << item.key << '\"' << ", " 
-        << item.offset << ", "
-        << item.file_size;
-    return out;
-}
+using namespace std;
 
 int main(int argc, char *arg[])
 {
