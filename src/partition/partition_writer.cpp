@@ -7,11 +7,37 @@ using namespace std;
 
 PartitionWriter::PartitionWriter(const string &partition_path, shared_ptr<IFileWriter> writer): writer_(writer)
 {
-    writer_->open(partition_path.c_str());
-    writer_->truncate();
     const int section_size = PartitionConfig::kSectionSize;
     section_ = make_shared<SectionMemoryCache>(section_size);
     section_index_ = 0;
+    writer_->open(partition_path.c_str());
+
+    writer_->truncate();
+}
+
+PartitionWriter::PartitionWriter(const string &partition_path, shared_ptr<IFileWriter> writer, shared_ptr<IFileReader> reader): writer_(writer)
+{
+    const int section_size = PartitionConfig::kSectionSize;
+    section_ = make_shared<SectionMemoryCache>(section_size);
+    section_index_ = 0;
+    writer_->open(partition_path.c_str());
+
+    reader->open(partition_path.c_str());
+    long file_size = reader->file_size();
+    int total_section = file_size / section_size; 
+
+    if (total_section == 0) {   // empty file or new file
+        reader->close();
+        return;
+    } 
+
+    section_index_ = total_section - 1;
+    long offset = static_cast<long>(section_size) * section_index_;
+    reader->seek(offset, SEEK_SET);
+    section_->load(*reader);
+    reader->close();
+
+    writer_->seek(offset, SEEK_SET);
 }
 
 PartitionWriter::~PartitionWriter()

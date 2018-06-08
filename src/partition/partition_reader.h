@@ -24,7 +24,6 @@ public:
     bool has_next();
     DatafileView next();
 
-//    void rewind();
 private:
     void get_next_section();    // get next non empty section
 };

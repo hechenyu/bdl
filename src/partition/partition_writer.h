@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include "i_file_reader.h"
 #include "i_file_writer.h"
 #include "datafile_metadata.h"
 #include "section_memory_cache.h"
@@ -14,7 +15,12 @@ private:
     long section_index_ = 0;
 
 public:
+    // open file for write and truncate
     PartitionWriter(const std::string &partition_path, std::shared_ptr<IFileWriter> writer);
+
+    // open file for append
+    PartitionWriter(const std::string &partition_path, std::shared_ptr<IFileWriter> writer, std::shared_ptr<IFileReader> reader);
+
     ~PartitionWriter();
 
     // write file to partition
