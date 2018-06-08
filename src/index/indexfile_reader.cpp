@@ -1,12 +1,14 @@
 #include "indexfile_reader.h"
 
-IndexfileReader::IndexfileReader(std::shared_ptr<ILineReader> reader): reader_(reader)
+using namespace std;
+
+IndexfileReader::IndexfileReader(shared_ptr<ILineReader> reader): reader_(reader)
 {
 }
 
 bool IndexfileReader::has_next()
 {
-    std::string s;
+    string s;
     bool ret = reader_->getline(s);
     if (!ret) { // EOF
         return false;

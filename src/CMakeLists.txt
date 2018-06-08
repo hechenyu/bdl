@@ -21,6 +21,7 @@ set(LIBBASE_DATASET_LOADER_SRC
     partition/partition_reader.cpp
     index/index_item.cpp
     index/indexfile_reader.cpp
+    index/indexfile_writer.cpp
     )
 
 include_directories(
