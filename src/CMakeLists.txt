@@ -10,6 +10,8 @@ set(LIBBASE_DATASET_LOADER_SRC
     io/posix_file_reader.cpp
     io/i_line_reader.cpp
     io/file_line_reader.cpp
+    io/i_line_writer.cpp
+    io/file_line_writer.cpp
     proto/metadata.pb.cc
     datafile/datafile_metadata.cpp
     datafile/datafile_serializer.cpp
@@ -18,6 +20,7 @@ set(LIBBASE_DATASET_LOADER_SRC
     partition/partition_writer.cpp
     partition/partition_reader.cpp
     index/index_item.cpp
+    index/indexfile_reader.cpp
     )
 
 include_directories(

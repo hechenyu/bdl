@@ -1,6 +1,7 @@
 #ifndef __file_line_reader_h
 #define __file_line_reader_h
 
+#include <string>
 #include <vector>
 #include <memory>
 #include "i_line_reader.h"

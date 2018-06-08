@@ -25,3 +25,8 @@ target_link_libraries(seek ${DEPEND_LIBS})
 set(GETLINE_SRC getline.cpp)
 add_executable(getline ${GETLINE_SRC})
 target_link_libraries(getline ${DEPEND_LIBS})
+
+set(MYCP2_SRC mycp2.cpp)
+add_executable(mycp2 ${MYCP2_SRC})
+target_link_libraries(mycp2 ${DEPEND_LIBS})
+
