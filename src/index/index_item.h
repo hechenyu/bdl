@@ -9,6 +9,9 @@ public:
     uint32_t offset = 0;
     uint32_t file_size = 0;
 
+    IndexItem() = default;
+    IndexItem(const std::string &key, uint32_t offset, uint32_t file_size);
+
     std::string serialize() const;
     void deserialize(const std::string &s);
 };

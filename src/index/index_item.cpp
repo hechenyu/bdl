@@ -8,6 +8,11 @@
 using namespace std;
 using namespace boost;
 
+IndexItem::IndexItem(const string &key, uint32_t offset, uint32_t file_size):
+    key(key), offset(offset), file_size(file_size)
+{
+}
+
 string IndexItem::serialize() const
 {
     ostringstream os;
