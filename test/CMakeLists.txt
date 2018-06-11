@@ -1,4 +1,4 @@
-set (DEPEND_LIBS base_dataset_loader protobuf-lite)
+set (DEPEND_LIBS base_dataset_loader protobuf-lite boost_filesystem boost_system)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/src/common

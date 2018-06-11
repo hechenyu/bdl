@@ -1,3 +1,4 @@
+#include <boost/filesystem.hpp>
 #include "posix_file_system.h"
 #include "file_line_reader.h"
 #include "file_line_writer.h"
@@ -5,10 +6,15 @@
 #include "posix_file_writer.h"
 
 using namespace std;
+namespace fs = boost::filesystem;
 
 vector<string> PosixFileSystem::list_dir_file(const string &dir)
 {
-    return vector<string>();
+    vector<string> file_list;
+    for(auto& p: fs::directory_iterator(dir)) {
+        file_list.push_back(p.path().string());
+    }
+    return file_list;
 }
 
 shared_ptr<IFileReader> PosixFileSystem::create_file_reader()
