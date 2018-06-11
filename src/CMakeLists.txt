@@ -19,6 +19,7 @@ set(LIBBASE_DATASET_LOADER_SRC
     section/section_memory_cache.cpp
     partition/partition_writer.cpp
     partition/partition_reader.cpp
+    partition/partition_pos_reader.cpp
     index/index_item.cpp
     index/indexfile_reader.cpp
     index/indexfile_writer.cpp
