@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include "datafile_index.h"
 #include "i_file_reader.h"
 #include "i_file_writer.h"
 #include "datafile_metadata.h"
@@ -24,7 +25,7 @@ public:
     ~PartitionWriter();
 
     // write file to partition
-    void write(const std::string &file_name, const std::string &file_type,
+    DatafileIndex write(const std::string &file_name, const std::string &file_type,
             const uint8_t *file_data, int file_size, 
             const DatafileMetadata::AttrMap &attrs = DatafileMetadata::AttrMap{});
 };
