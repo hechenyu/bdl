@@ -13,6 +13,6 @@
     a) lib文件在build/lib目录下
     b) 测试程序在build/test目录下
 
-4) 项目生成lib(即src目录)需要依赖boost的头文件(不需要lib), 测试(即test目录)需要依赖boost库, 确保系统安装boost
+4) 项目工程需要依赖boost库, 确保系统安装boost
     $ sudo apt-get install libboost-all-dev # ubuntu
     $ sudo pacman -S boost # arch
