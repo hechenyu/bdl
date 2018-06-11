@@ -32,6 +32,23 @@ int PosixFileReader::read(void *buf, int len)
     return Read(fd_, buf, len);
 }
 
+int PosixFileReader::readn(void *buf, int n)
+{
+    int nleft = n;
+    int nread = 0;
+	char *ptr = static_cast<char *>(buf);
+    while (nleft > 0) {
+        if ( (nread = this->read(ptr, nleft)) == 0) {
+            break;              /* EOF */
+        }
+
+        nleft -= nread;
+        ptr   += nread;
+    }
+
+	return(n - nleft);		/* return >= 0 */
+}
+
 long PosixFileReader::seek(long offset, int whence)
 {
     return Lseek(fd_, offset, whence);

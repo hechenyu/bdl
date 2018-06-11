@@ -35,20 +35,11 @@ bool SectionMemoryCache::is_empty()
 
 void SectionMemoryCache::load(IFileReader &reader)
 {
-    uint8_t *ptr = buffer_.data();
-    int nleft = buffer_.size();
-    int nread = 0;
-    while (nleft > 0) {
-        if ( (nread = reader.read(ptr, nleft)) == 0) {
-            break;              /* EOF */
-        }
+    int n = reader.readn(buffer_.data(), buffer_.size());
 
-        nleft -= nread;
-        ptr   += nread;
+    if (n != static_cast<int>(buffer_.size())) {
+        err_quit("incomplete section");
     }
-
-    if (nleft > 0)
-        err_quit("incomplete section header");
 
     header_ = reinterpret_cast<SectionHeader *>(buffer_.data());
     used_size_ = header_->section_size;
