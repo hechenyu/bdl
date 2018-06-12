@@ -2,8 +2,14 @@
 
 using namespace std;
 
-IndexfileWriter::IndexfileWriter(shared_ptr<ILineWriter> writer): writer_(writer)
+IndexfileWriter::IndexfileWriter(const std::string &file_path, shared_ptr<ILineWriter> writer): writer_(writer)
 {
+    writer_->open_for_append(file_path.c_str());
+}
+
+IndexfileWriter::~IndexfileWriter()
+{
+    writer_->close();
 }
 
 void IndexfileWriter::write(const IndexItem &item)

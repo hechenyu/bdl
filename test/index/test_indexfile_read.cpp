@@ -14,12 +14,8 @@ int main(int argc, char *argv[])
     string filename = "test.index";
     int buf_size = 2048;
 
-    auto file_reader = make_shared<PosixFileReader>();
-    file_reader->open(filename.c_str());
-
-    auto line_reader = make_shared<FileLineReader>(file_reader, buf_size);
-
-    IndexfileReader reader(line_reader);
+    auto line_reader = make_shared<FileLineReader>(make_shared<PosixFileReader>(), buf_size);
+    IndexfileReader reader(filename, line_reader);
 
     while (reader.has_next()) {
         auto item = reader.next();

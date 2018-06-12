@@ -24,13 +24,8 @@ int main(int argc, char *argv[])
     int nfile = 1000;
     int buf_size = 1024;
 
-    auto file_writer = make_shared<PosixFileWriter>();
-    file_writer->open(filename.c_str());
-    file_writer->truncate();
-
-    auto line_writer = make_shared<FileLineWriter>(file_writer, buf_size);
-
-    IndexfileWriter writer(line_writer);
+    auto line_writer = make_shared<FileLineWriter>(make_shared<PosixFileWriter>(), buf_size);
+    IndexfileWriter writer(filename, line_writer);
 
     string file_prefix = "file";
     uint32_t file_size = 2048;

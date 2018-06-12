@@ -9,8 +9,25 @@ FileLineWriter::FileLineWriter(std::shared_ptr<IFileWriter> file_writer, int cac
 
 FileLineWriter::~FileLineWriter()
 {
-    if (!write_buf_.empty())
-        writer_->write(write_buf_.data(), write_buf_.size());
+    if (is_open())
+        close();
+}
+
+void FileLineWriter::open_truncate(const char *filepath)
+{
+    writer_->open(filepath);
+    writer_->truncate();
+}
+
+void FileLineWriter::open_for_append(const char *filepath)
+{
+    writer_->open(filepath);
+    writer_->seek(0, SEEK_END);
+}
+
+bool FileLineWriter::is_open()
+{
+    return writer_->is_open();
 }
 
 void FileLineWriter::putline(const std::string &str)
@@ -25,3 +42,10 @@ void FileLineWriter::putline(const std::string &str)
     write_buf_.clear();
 }
 
+void FileLineWriter::close()
+{
+    if (!write_buf_.empty())
+        writer_->write(write_buf_.data(), write_buf_.size());
+
+    writer_->close();
+}
