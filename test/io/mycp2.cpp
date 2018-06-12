@@ -16,15 +16,12 @@ int main (int argc, char *argv[])
         return 0;
     }
 
-    auto file_reader = make_shared<PosixFileReader>();
-    file_reader->open(argv[1]);
+	FileLineReader reader(make_shared<PosixFileReader>(), 8192);
+    reader.open(argv[1]);
 
-    auto file_writer = make_shared<PosixFileWriter>();
-    file_writer->open(argv[2]);
-    file_writer->truncate();
+    FileLineWriter writer(make_shared<PosixFileWriter>(), 8192);
+    writer.open_truncate(argv[2]);
 
-	FileLineReader reader(file_reader, 8192);
-    FileLineWriter writer(file_writer, 8192);
     string str;
 	while (reader.getline(str))
         writer.putline(str);

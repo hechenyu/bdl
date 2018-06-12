@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     PosixFileSystem file_system;
     PartitionPosReader partition_pos_reader(partfile_name, file_system.create_file_reader());
 
-    IndexfileReader index_reader(file_system.create_line_reader(partfile_name+".idx"));
+    IndexfileReader index_reader(partfile_name+".idx", file_system.create_line_reader());
 
     if (!output_dir.empty())
         fs::create_directories(output_dir);

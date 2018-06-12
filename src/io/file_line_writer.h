@@ -14,8 +14,15 @@ private:
 
 public:
     FileLineWriter(std::shared_ptr<IFileWriter> file_writer, int cache_size);
-    ~FileLineWriter();
+    ~FileLineWriter() override;
+
+    void open_truncate(const char *filepath) override;
+    void open_for_append(const char *filepath) override;
+    bool is_open() override;
+
     void putline(const std::string &str) override;
+
+    void close() override;
 };
 
 #endif

@@ -13,10 +13,9 @@ int main (int argc, char *argv[])
         err_msg("usage: %s file\n", argv[0]);
         return 0;
     }
-    auto file_reader = make_shared<PosixFileReader>();
-    file_reader->open(argv[1]);
 
-	FileLineReader reader(file_reader, 8192);
+	FileLineReader reader(make_shared<PosixFileReader>(), 8192);
+    reader.open(argv[1]);
     string str;
 	while (reader.getline(str))
         cout << str << endl;

@@ -2,8 +2,14 @@
 
 using namespace std;
 
-IndexfileReader::IndexfileReader(shared_ptr<ILineReader> reader): reader_(reader)
+IndexfileReader::IndexfileReader(const string &file_path, shared_ptr<ILineReader> reader): reader_(reader)
 {
+    reader_->open(file_path.c_str());
+}
+
+IndexfileReader::~IndexfileReader()
+{
+    reader_->close();
 }
 
 bool IndexfileReader::has_next()

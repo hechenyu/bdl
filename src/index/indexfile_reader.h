@@ -11,7 +11,8 @@ private:
     IndexItem item_;   // cache last item
 
 public:
-    IndexfileReader(std::shared_ptr<ILineReader> reader);
+    IndexfileReader(const std::string &file_path, std::shared_ptr<ILineReader> reader);
+    ~IndexfileReader();
 
     bool has_next();
     IndexItem next();

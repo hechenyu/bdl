@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
             file_system.create_file_writer(),
             file_system.create_file_reader());
 
-    IndexfileWriter index_writer(file_system.create_line_writer(argv[2]+string(".idx")));
+    IndexfileWriter index_writer(argv[2]+string(".idx"), file_system.create_line_writer());
 
     auto file_list = get_file_list(argv[1]);
     for (auto &file_name : file_list) {

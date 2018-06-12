@@ -8,6 +8,22 @@ FileLineReader::FileLineReader(shared_ptr<IFileReader> file_reader, int buf_size
 {
 }
 
+FileLineReader::~FileLineReader()
+{
+    if (is_open())
+        close();
+}
+
+void FileLineReader::open(const char *filepath)
+{
+    reader_->open(filepath);
+}
+
+bool FileLineReader::is_open()
+{
+    return reader_->is_open();
+}
+
 int FileLineReader::read_char(char *ptr)
 {
 	if (read_cnt_ <= 0) {
@@ -43,5 +59,10 @@ bool FileLineReader::getline(string &str)
         str.pop_back();
 
     return true;
+}
+
+void FileLineReader::close()
+{
+    reader_->close();
 }
 

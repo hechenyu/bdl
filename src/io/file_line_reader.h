@@ -16,7 +16,14 @@ private:
 
 public:
     FileLineReader(std::shared_ptr<IFileReader> file_reader, int buf_size);
+    ~FileLineReader() override;
+
+    void open(const char *filepath) override;
+    bool is_open() override;
+
     bool getline(std::string &str) override;
+
+    void close() override;
 
 private:
     int read_char(char *ptr);  // if eof return 0, else return 1 and save data in *ptr
