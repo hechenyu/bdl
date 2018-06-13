@@ -30,6 +30,7 @@ set(LIBBASE_DATASET_LOADER_SRC
     io_context/dataset_index.cpp
     io_context/dataset_util.cpp
     io_context/dataset_writer.cpp
+    io_context/dataset_config.cpp
     )
 
 include_directories(

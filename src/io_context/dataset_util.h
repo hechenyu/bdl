@@ -6,6 +6,9 @@
 
 class DatasetUtil {
 public:
+    static std::string gen_dataset_path(const std::string &root_name, 
+            const std::string &dataset_name);
+
     static std::string gen_partition_path(const std::string &root_name,
             const std::string &dataset_name, int part_id);
 

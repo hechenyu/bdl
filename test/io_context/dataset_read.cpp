@@ -12,6 +12,6 @@ int main(int argc, char *argv[])
     string index_path = "file_set";
 
     auto io_context = make_shared<IOContext>(root, make_shared<PosixFileSystem>());
-    DatasetIndex index(io_context.get(), index_path, "a");
+    DatasetIndex index(io_context, index_path, "r");
     return 0;
 }

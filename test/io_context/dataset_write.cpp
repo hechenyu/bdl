@@ -4,6 +4,7 @@
 #include "posix_file_system.h"
 #include "io_context.h"
 #include "dataset_index.h"
+#include "test_partition_util.h"
 
 using namespace std;
 
@@ -25,8 +26,17 @@ int main(int argc, char *argv[])
     string root_name = parser.get_string_variables("root", "/tmp");
     string dataset_index_name = parser.get_string_variables("dataset", "file_set");
 
-    IOContext io_context(root_name, make_shared<PosixFileSystem>());
-    DatasetIndex index(&io_context, dataset_index_name, "a");
+    auto io_context = make_shared<IOContext>(root_name, make_shared<PosixFileSystem>());
+    DatasetIndex index(io_context, dataset_index_name, "a");
+
+    auto file_list = get_file_list(parser.get_string_variables("list_file"));
+    for (auto &file_name : file_list) {
+        auto file_data = read_all(file_name);
+        auto file_type = get_suffix(file_name);
+        auto file_handle = index.appendFile(file_name, file_type);
+        file_handle->writeAll(file_data);
+        cout << "process " << file_type << " type: " << file_name << " ok" << endl;
+    }
 
     return 0;
 }

@@ -5,6 +5,12 @@
 
 using namespace std;
 
+std::string DatasetUtil::gen_dataset_path(const std::string &root_name, 
+            const std::string &dataset_name)
+{
+    return root_name+"/"+dataset_name;
+}
+
 string DatasetUtil::gen_partition_path(const string &root_name, const string &dataset_name, int part_id)
 {
     return root_name+"/"+dataset_name+"/"+part_id_to_string(part_id)+".part";
