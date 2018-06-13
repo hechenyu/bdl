@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 
     while (index_reader.has_next()) {
         auto index_item = index_reader.next();
-        auto datafile = partition_pos_reader.read(DatafileIndex(index_item.offset, index_item.file_size));
+        auto datafile = partition_pos_reader.read(DatafileIndex(index_item->offset, index_item->file_size));
         auto metadata = datafile.metadata();
         auto datafile_name = metadata.file_name();
 

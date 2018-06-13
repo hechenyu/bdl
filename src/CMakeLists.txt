@@ -23,9 +23,9 @@ set(LIBBASE_DATASET_LOADER_SRC
     partition/partition_reader.cpp
     partition/partition_pos_reader.cpp
     partition/partition_full_error.cpp
-    index/index_item.cpp
-    index/indexfile_reader.cpp
-    index/indexfile_writer.cpp
+    indexfile/indexfile_item.cpp
+    indexfile/indexfile_reader.cpp
+    indexfile/indexfile_writer.cpp
     io_context/io_context.cpp
     io_context/dataset_index.cpp
     io_context/dataset_util.cpp
@@ -41,7 +41,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/datafile
     ${CMAKE_CURRENT_SOURCE_DIR}/section
     ${CMAKE_CURRENT_SOURCE_DIR}/partition
-    ${CMAKE_CURRENT_SOURCE_DIR}/index
+    ${CMAKE_CURRENT_SOURCE_DIR}/indexfile
     ${CMAKE_CURRENT_SOURCE_DIR}/io_context
     )
 

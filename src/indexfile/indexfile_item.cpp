@@ -1,5 +1,5 @@
 #include "error.h"
-#include "index_item.h"
+#include "indexfile_item.h"
 #include <sstream>
 #include <iomanip>
 #include <vector>
@@ -8,12 +8,12 @@
 using namespace std;
 using namespace boost;
 
-IndexItem::IndexItem(const string &key, uint32_t offset, uint32_t file_size):
+IndexfileItem::IndexfileItem(const string &key, uint32_t offset, uint32_t file_size):
     key(key), offset(offset), file_size(file_size)
 {
 }
 
-string IndexItem::serialize() const
+string IndexfileItem::serialize() const
 {
     ostringstream os;
     os << this->key << "," 
@@ -23,7 +23,7 @@ string IndexItem::serialize() const
     return os.str();
 }
 
-void IndexItem::deserialize(const string &s)
+void IndexfileItem::deserialize(const string &s)
 {
     vector<string> results;
 

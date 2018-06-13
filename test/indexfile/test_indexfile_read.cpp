@@ -1,8 +1,8 @@
 #include "posix_file_reader.h"
 #include "file_line_reader.h"
-#include "index_item.h"
+#include "indexfile_item.h"
 #include "indexfile_reader.h"
-#include "print_index_item.h"
+#include "print_indexfile_item.h"
 #include <iostream>
 #include <string>
 #include <memory>
@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
     while (reader.has_next()) {
         auto item = reader.next();
-        cout << item << "\n";
+        cout << *item << "\n";
     }
 
     return 0;

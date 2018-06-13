@@ -1,13 +1,13 @@
 #include <iostream>
 
-#include "index_item.h"
-#include "print_index_item.h"
+#include "indexfile_item.h"
+#include "print_indexfile_item.h"
 
 using namespace std;
 
 int main(int argc, char *arg[])
 {
-    IndexItem item;
+    IndexfileItem item;
     item.key = "/tmp/test.txt";
     item.offset = 1024;
     item.file_size = 2048;
@@ -18,7 +18,7 @@ int main(int argc, char *arg[])
 
     cout << "serialized data: " << serialized_data << endl; 
 
-    IndexItem item2;
+    IndexfileItem item2;
     item2.deserialize(serialized_data);
     cout << "desrialized item: " << item2 << endl;
 

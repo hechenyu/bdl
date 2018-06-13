@@ -33,7 +33,7 @@ void DatasetWriter::write(const std::string &file_name, const std::string &file_
 void DatasetWriter::write_aux(const std::string &file_name, const std::string &file_type, const std::string &file_data)
 {
     auto index_item = partition_writer_->write(file_name, file_type, (uint8_t *) file_data.data(), file_data.size());
-    indexfile_writer_->write(IndexItem(file_name, index_item.offset, index_item.file_size));
+    indexfile_writer_->write(IndexfileItem(file_name, index_item.offset, index_item.file_size));
 }
 
 void DatasetWriter::check_current_part_id_valid()

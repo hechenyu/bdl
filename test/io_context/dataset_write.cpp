@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
         auto file_data = read_all(file_name);
         auto file_type = get_suffix(file_name);
         auto file_handle = index.appendFile(file_name, file_type);
-        file_handle->writeAll(file_data);
+        file_handle.writeAll(file_data);
         cout << "process " << file_type << " type: " << file_name << " ok" << endl;
     }
 

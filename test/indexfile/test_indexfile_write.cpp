@@ -1,6 +1,6 @@
 #include "posix_file_writer.h"
 #include "file_line_writer.h"
-#include "index_item.h"
+#include "indexfile_item.h"
 #include "indexfile_writer.h"
 #include <iostream>
 #include <string>
@@ -8,9 +8,9 @@
 
 using namespace std;
 
-IndexItem create_index_item(const std::string &key, uint32_t offset, uint32_t file_size)
+IndexfileItem create_index_item(const std::string &key, uint32_t offset, uint32_t file_size)
 {
-    IndexItem item;
+    IndexfileItem item;
     item.key = key;
     item.offset = offset;
     item.file_size = file_size;

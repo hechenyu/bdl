@@ -2,7 +2,7 @@
 #define __indexfile_writer_h
 
 #include <memory>
-#include "index_item.h"
+#include "indexfile_item.h"
 #include "i_line_writer.h"
 
 class IndexfileWriter {
@@ -13,7 +13,7 @@ public:
     IndexfileWriter(const std::string &file_path, std::shared_ptr<ILineWriter> writer);
     ~IndexfileWriter();
 
-    void write(const IndexItem &item);
+    void write(const IndexfileItem &item);
 };
 
 #endif

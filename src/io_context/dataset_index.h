@@ -27,8 +27,8 @@ public:
     class FileAppendHandle {
     private:
         std::shared_ptr<DatasetWriter> dataset_writer_;
-        std::string file_name_; 
-        std::string file_type_;
+        std::shared_ptr<std::string> file_name_; 
+        std::shared_ptr<std::string> file_type_;
 
     public:
         FileAppendHandle(std::shared_ptr<DatasetWriter> dataset_writer, 
@@ -37,7 +37,7 @@ public:
         void writeAll(const std::string &file_data);
     };
 
-    std::shared_ptr<FileAppendHandle> appendFile(std::string file_name, std::string file_type);
+    FileAppendHandle appendFile(std::string file_name, std::string file_type);
 
 private:
     void load_partition_name_list();

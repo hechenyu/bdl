@@ -12,7 +12,7 @@ IndexfileWriter::~IndexfileWriter()
     writer_->close();
 }
 
-void IndexfileWriter::write(const IndexItem &item)
+void IndexfileWriter::write(const IndexfileItem &item)
 {
     auto data = item.serialize();
     writer_->putline(data);

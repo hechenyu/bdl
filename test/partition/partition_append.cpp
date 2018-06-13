@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
         auto file_data = read_all(file_name);
         auto file_type = get_suffix(file_name);
         auto index = partition_writer.write(file_name, file_type, (uint8_t *) file_data.data(), file_data.size());
-        index_writer.write(IndexItem(file_name, index.offset, index.file_size));
+        index_writer.write(IndexfileItem(file_name, index.offset, index.file_size));
         cout << "process " << file_type << " type: " << file_name << " ok" << endl;
     }
 
