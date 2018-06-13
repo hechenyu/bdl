@@ -3,14 +3,14 @@
 
 #include <string>
 
-class IndexItem {
+class IndexfileItem {
 public:
     std::string key;
     uint32_t offset = 0;
     uint32_t file_size = 0;
 
-    IndexItem() = default;
-    IndexItem(const std::string &key, uint32_t offset, uint32_t file_size);
+    IndexfileItem() = default;
+    IndexfileItem(const std::string &key, uint32_t offset, uint32_t file_size);
 
     std::string serialize() const;
     void deserialize(const std::string &s);

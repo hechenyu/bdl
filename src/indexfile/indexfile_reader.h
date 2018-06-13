@@ -8,14 +8,14 @@
 class IndexfileReader {
 private:
     std::shared_ptr<ILineReader> reader_;
-    IndexItem item_;   // cache last item
+    IndexfileItem item_;   // cache last item
 
 public:
     IndexfileReader(const std::string &file_path, std::shared_ptr<ILineReader> reader);
     ~IndexfileReader();
 
     bool has_next();
-    IndexItem next();
+    IndexfileItem next();
 };
 
 #endif

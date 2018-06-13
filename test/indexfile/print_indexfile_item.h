@@ -4,7 +4,7 @@
 #include <iostream>
 #include "indexfile_item.h"
 
-std::ostream &operator <<(std::ostream &out, const IndexItem &item)
+std::ostream &operator <<(std::ostream &out, const IndexfileItem &item)
 {
     out << '\"' << item.key << '\"' << ", " 
         << item.offset << ", "

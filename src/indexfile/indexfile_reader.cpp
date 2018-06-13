@@ -24,7 +24,7 @@ bool IndexfileReader::has_next()
     return true;
 }
 
-IndexItem IndexfileReader::next()
+IndexfileItem IndexfileReader::next()
 {
     return std::move(item_);
 }
