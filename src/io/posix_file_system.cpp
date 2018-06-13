@@ -8,6 +8,11 @@
 using namespace std;
 namespace fs = boost::filesystem;
 
+void PosixFileSystem::make_dir(const std::string &path)
+{
+    fs::create_directories(path);
+}
+
 vector<string> PosixFileSystem::list_dir_file(const string &dir)
 {
     vector<string> file_list;

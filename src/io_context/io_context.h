@@ -7,15 +7,14 @@
 
 class IOContext {
 private:
-    std::string root_;
+    std::string root_name_;
     std::shared_ptr<IFileSystem> file_system_;
 
 public:
-    IOContext(std::string root, std::shared_ptr<IFileSystem> file_system);
+    IOContext(std::string root_name, std::shared_ptr<IFileSystem> file_system);
 
-    const std::string &root() const;
+    const std::string &root_name() const;
     std::shared_ptr<IFileSystem> file_system();
 };
-
 
 #endif

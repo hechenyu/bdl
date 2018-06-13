@@ -22,11 +22,14 @@ set(LIBBASE_DATASET_LOADER_SRC
     partition/partition_writer.cpp
     partition/partition_reader.cpp
     partition/partition_pos_reader.cpp
+    partition/partition_full_error.cpp
     index/index_item.cpp
     index/indexfile_reader.cpp
     index/indexfile_writer.cpp
     io_context/io_context.cpp
     io_context/dataset_index.cpp
+    io_context/dataset_util.cpp
+    io_context/dataset_writer.cpp
     )
 
 include_directories(

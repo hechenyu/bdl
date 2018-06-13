@@ -2,14 +2,14 @@
 
 using namespace std;
 
-IOContext::IOContext(string root, shared_ptr<IFileSystem> file_system):
-    root_(root), file_system_(file_system)
+IOContext::IOContext(string root_name, shared_ptr<IFileSystem> file_system):
+    root_name_(root_name), file_system_(file_system)
 {
 }
 
-const string &IOContext::root() const
+const string &IOContext::root_name() const
 {
-    return root_;
+    return root_name_;
 }
 
 shared_ptr<IFileSystem> IOContext::file_system()
