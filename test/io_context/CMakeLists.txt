@@ -1,4 +1,4 @@
-set(CONFIG_PARSER_SRC ../partition/config_parser.cpp)
+set(CONFIG_PARSER_SRC ../partition/config_parser.cpp ../partition/test_partition_util.cpp)
 include_directories(../partition)
 
 set(DATASET_WRITE_SRC dataset_write.cpp)

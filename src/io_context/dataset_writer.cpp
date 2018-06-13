@@ -6,12 +6,12 @@
 
 using namespace std;
 
-DatasetWriter::DatasetWriter(IOContext *io_context, const string &dataset_name, int cur_part_id):
+DatasetWriter::DatasetWriter(shared_ptr<IOContext> io_context, const string &dataset_name, int cur_part_id):
     DatasetWriter(io_context, dataset_name, cur_part_id, 0, 9999)
 {
 }
 
-DatasetWriter::DatasetWriter(IOContext *io_context, const string &dataset_name, 
+DatasetWriter::DatasetWriter(shared_ptr<IOContext> io_context, const string &dataset_name, 
         int cur_part_id, int min_part_id, int max_part_id): 
     io_context_(io_context), dataset_name_(dataset_name), 
     cur_part_id_(cur_part_id), min_part_id_(min_part_id), max_part_id_(max_part_id)
