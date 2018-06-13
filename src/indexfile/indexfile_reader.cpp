@@ -24,7 +24,7 @@ bool IndexfileReader::has_next()
     return true;
 }
 
-IndexfileItem IndexfileReader::next()
+shared_ptr<IndexfileItem> IndexfileReader::next()
 {
-    return std::move(item_);
+    return make_shared<IndexfileItem>(item_);
 }

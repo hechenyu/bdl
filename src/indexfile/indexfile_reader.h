@@ -15,7 +15,7 @@ public:
     ~IndexfileReader();
 
     bool has_next();
-    IndexfileItem next();
+    std::shared_ptr<IndexfileItem> next();
 };
 
 #endif

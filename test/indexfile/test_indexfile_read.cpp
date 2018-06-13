@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
     while (reader.has_next()) {
         auto item = reader.next();
-        cout << item << "\n";
+        cout << *item << "\n";
     }
 
     return 0;

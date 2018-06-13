@@ -26,12 +26,12 @@ DatasetIndex::DatasetIndex(shared_ptr<IOContext> io_context, string dataset_inde
     }
 }
 
-shared_ptr<DatasetIndex::FileAppendHandle> DatasetIndex::appendFile(string file_name, string file_type)
+DatasetIndex::FileAppendHandle DatasetIndex::appendFile(string file_name, string file_type)
 {
     if (open_flag_ != OpenFlag::kAppend)
         err_quit("DatasetIndex::appendFile error: invalid open mode");
 
-    return make_shared<FileAppendHandle>(dataset_writer_, file_name, file_type);
+    return FileAppendHandle(dataset_writer_, file_name, file_type);
 }
 
 void DatasetIndex::load_partition_name_list()
@@ -88,8 +88,10 @@ int DatasetIndex::get_max_part_id() const
 
 DatasetIndex::FileAppendHandle::FileAppendHandle(shared_ptr<DatasetWriter> dataset_writer,
         const string &file_name, const string &file_type):
-    dataset_writer_(dataset_writer), file_name_(file_name), file_type_(file_type)
+    dataset_writer_(dataset_writer)
 {
+    file_name_ = make_shared<string>(file_name);
+    file_type_ = make_shared<string>(file_type);
 }
 
 void DatasetIndex::FileAppendHandle::writeAll(const std::string &file_data)
@@ -97,6 +99,6 @@ void DatasetIndex::FileAppendHandle::writeAll(const std::string &file_data)
     if (!dataset_writer_)
         err_quit("invalid DatasetIndex::FileAppendHandle");
 
-    dataset_writer_->write(file_name_, file_type_, file_data);
+    dataset_writer_->write(*file_name_, *file_type_, file_data);
     dataset_writer_.reset();
 }
