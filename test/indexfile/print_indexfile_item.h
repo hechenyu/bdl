@@ -1,5 +1,5 @@
-#ifndef __print_index_h
-#define __print_index_h
+#ifndef __print_indexfile_item_h
+#define __print_indexfile_item_h
 
 #include <iostream>
 #include "indexfile_item.h"

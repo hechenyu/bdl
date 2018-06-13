@@ -15,8 +15,10 @@ private:
     std::shared_ptr<std::string> partition_path_;
 
 public:
-    DatasetIndexfileReader(std::shared_ptr<IFileSystem> file_system, const std::string &indexfile_path_, const std::string &partition_path_);
+    DatasetIndexfileReader(std::shared_ptr<IFileSystem> file_system, 
+            const std::string &indexfile_path, const std::string &partition_path);
 
+public:
     struct iterator: public std::iterator<std::input_iterator_tag, DatasetIndexItem, std::ptrdiff_t, 
             const DatasetIndexItem *, const DatasetIndexItem &>  {
         std::shared_ptr<std::string> partition_path_;
@@ -46,8 +48,8 @@ public:
 
         void next()
         {
-            is_eof_ = indexfile_reader_->has_next();
-            if (is_eof_) {
+            is_eof_ = !indexfile_reader_->has_next();
+            if (!is_eof_) {
                 index_item_.file_item_ = indexfile_reader_->next();
                 index_item_.partition_path_ = this->partition_path_;
             }
