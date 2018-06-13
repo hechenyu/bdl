@@ -2,6 +2,7 @@
 #include "partition_config.h"
 #include "partition_writer.h"
 #include "datafile_serializer.h"
+#include "partition_full_error.h"
 
 using namespace std;
 
@@ -59,6 +60,10 @@ DatafileIndex PartitionWriter::write(const string &file_name, const string &file
         section_->flush(*writer_);
         section_->clear_data();
         section_index_++;
+
+        if (section_index_ == PartitionConfig::kMaxSectionIndex) {
+            throw PartitionFullError();
+        } 
 
         offset = static_cast<long>(PartitionConfig::kSectionSize) * section_index_ + section_->section_size();
         auto ret = section_->append_file(output.data(), output.size());

@@ -7,6 +7,7 @@ class PosixFileSystem: public IFileSystem {
 public:
     static const int LINE_BUF_SIZE;
 
+    void make_dir(const std::string &path) override;
     std::vector<std::string> list_dir_file(const std::string &dir) override;
     std::shared_ptr<IFileReader> create_file_reader() override;
     std::shared_ptr<IFileWriter> create_file_writer() override;

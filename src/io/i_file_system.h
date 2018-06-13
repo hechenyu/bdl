@@ -14,6 +14,7 @@ class IFileSystem {
 public:
     virtual ~IFileSystem();
 
+    virtual void make_dir(const std::string &path) = 0;
     virtual std::vector<std::string> list_dir_file(const std::string &dir) = 0;
     virtual std::shared_ptr<IFileReader> create_file_reader() = 0;
     virtual std::shared_ptr<IFileWriter> create_file_writer() = 0;
