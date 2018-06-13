@@ -7,6 +7,7 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/src/section
     ${PROJECT_SOURCE_DIR}/src/partition
     ${PROJECT_SOURCE_DIR}/src/index
+    ${PROJECT_SOURCE_DIR}/src/io_context
     )
 
 add_subdirectory(main)
@@ -15,3 +16,4 @@ add_subdirectory(datafile)
 add_subdirectory(section)
 add_subdirectory(partition)
 add_subdirectory(index)
+add_subdirectory(io_context)
