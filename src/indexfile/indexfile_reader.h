@@ -2,7 +2,7 @@
 #define __indexfile_reader_h
 
 #include <memory>
-#include "index_item.h"
+#include "indexfile_item.h"
 #include "i_line_reader.h"
 
 class IndexfileReader {

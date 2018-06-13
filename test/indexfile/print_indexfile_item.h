@@ -2,7 +2,7 @@
 #define __print_index_h
 
 #include <iostream>
-#include "index_item.h"
+#include "indexfile_item.h"
 
 std::ostream &operator <<(std::ostream &out, const IndexItem &item)
 {

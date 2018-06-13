@@ -1,6 +1,6 @@
 #include "posix_file_writer.h"
 #include "file_line_writer.h"
-#include "index_item.h"
+#include "indexfile_item.h"
 #include "indexfile_writer.h"
 #include <iostream>
 #include <string>
