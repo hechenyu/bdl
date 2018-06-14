@@ -46,6 +46,13 @@ string DatasetUtil::gen_indexfile_suffix(const string &index_branch)
     return "."+index_branch+DatasetConfig::kIdxFileSuffix;
 }
 
+string DatasetUtil::partition_path_to_indexfile_path(const string &partition_path, const string &index_branch)
+{
+    auto indexfile_path = partition_path.substr(0, partition_path.size() - DatasetConfig::kPartFileSuffix.size()); 
+    indexfile_path += gen_indexfile_suffix(index_branch);
+    return indexfile_path;
+}
+
 tuple<string, string> DatasetUtil::parse_dataset_index_name(const string &dataset_index_name)
 {
     auto pos = dataset_index_name.rfind('.');

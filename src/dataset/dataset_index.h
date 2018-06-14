@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <iterator>
 
 #include "dataset_index_item.h"
 #include "dataset_indexfile_reader.h"
@@ -11,6 +12,7 @@
 class IOContext;
 class DatasetWriter;
 class DatasetReader;
+class DatasetIndexfileWriter;
 class PartitionPosReader;
 
 class DatasetIndex {
@@ -27,6 +29,7 @@ private:
     std::shared_ptr<DatasetWriter> dataset_writer_;
     std::shared_ptr<DatasetReader> dataset_reader_;
     std::vector<DatasetIndexfileReader> dataset_indexfile_readers_;
+    std::shared_ptr<DatasetIndexfileWriter> dataset_indexfile_writer_;
 
 public:
     class FileAppendHandle {
@@ -54,14 +57,100 @@ public:
         std::string readAll();
     };
 
+    struct iterator: public std::iterator<std::input_iterator_tag, DatasetIndexItem, std::ptrdiff_t, 
+            const DatasetIndexItem *, const DatasetIndexItem &>  {
+        std::vector<DatasetIndexfileReader>::const_iterator file_;
+        std::vector<DatasetIndexfileReader>::const_iterator end_;
+        DatasetIndexfileReader::iterator item_;
+
+        typedef iterator this_type;
+
+        iterator(std::vector<DatasetIndexfileReader>::const_iterator file,
+                std::vector<DatasetIndexfileReader>::const_iterator end)
+                : file_(file), end_(end)
+        {
+            while (file_ != end_) {
+                item_ = file_->begin();
+                if (item_ != file_->end())
+                    break;
+                ++file_;
+            }
+        }
+
+        reference operator *() const
+        {
+            return *item_;
+        }
+
+        pointer operator ->() const
+        {
+            return &*item_;
+        }
+
+        void next()
+        {
+            assert(file_ != end_);
+
+            ++item_;
+            if (item_ != file_->end())
+                return;
+
+            ++file_;
+            while (file_ != end_) {
+                item_ = file_->begin();
+                if (item_ != file_->end())
+                    break;
+                ++file_;
+            }
+        }
+
+        this_type &operator ++()
+        {
+            next();
+            return *this;
+        }
+
+        this_type operator ++(int)
+        {
+            this_type tmp(*this);
+            next();
+            return *this;
+        }
+
+        bool operator ==(const this_type &other) const
+        {
+            if (this->file_ == other.file_ && this->item_ == other.item_)
+                return true;
+            else
+                return false;
+        }
+
+        bool operator !=(const this_type &other) const
+        {
+            return !(*this == other);
+        }
+    };
+
 public:
     DatasetIndex(std::shared_ptr<IOContext> io_context, std::string dataset_index_name, std::string open_flag);
 
     FileAppendHandle appendFile(std::string file_name, std::string file_type);
 
+    void appendItem(DatasetIndexItem index_item);
+
     FileReadHandle openFile(DatasetIndexItem index_item);   // open file for read only
 
     std::vector<DatasetIndexfileReader> getIndexFiles();
+
+    iterator begin() const
+    {
+        return iterator(dataset_indexfile_readers_.begin(), dataset_indexfile_readers_.end());
+    }
+
+    iterator end() const
+    {
+        return iterator(dataset_indexfile_readers_.end(), dataset_indexfile_readers_.end());
+    }
 
 private:
     void fill_indexfile_readers();

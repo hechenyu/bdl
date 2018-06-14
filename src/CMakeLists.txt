@@ -33,6 +33,7 @@ set(LIBBASE_DATASET_LOADER_SRC
     dataset/dataset_config.cpp
     dataset/dataset_indexfile_reader.cpp
     dataset/dataset_reader.cpp
+    dataset/dataset_indexfile_writer.cpp
     )
 
 include_directories(

@@ -23,6 +23,8 @@ public:
 
     static std::string gen_indexfile_suffix(const std::string &index_branch);
 
+    static std::string partition_path_to_indexfile_path(const std::string &partition_path, const std::string &index_branch);
+
     static std::tuple<std::string, std::string> parse_dataset_index_name(const std::string &dataset_index_name);
 };
 
