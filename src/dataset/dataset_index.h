@@ -10,6 +10,7 @@
 class IOContext;
 class DatasetWriter;
 class DatasetReader;
+class PartitionPosReader;
 
 class DatasetIndex {
 public:
@@ -26,9 +27,6 @@ private:
     std::shared_ptr<DatasetReader> dataset_reader_;
 
 public:
-    DatasetIndex(std::shared_ptr<IOContext> io_context, std::string dataset_index_name, std::string open_flag);
-
-public:
     class FileAppendHandle {
     private:
         std::shared_ptr<DatasetWriter> dataset_writer_;
@@ -42,14 +40,24 @@ public:
         void writeAll(const std::string &file_data);
     };
 
-    FileAppendHandle appendFile(std::string file_name, std::string file_type);
-
     class FileReadHandle {
     private:
+        std::shared_ptr<PartitionPosReader> partition_reader_;
         DatasetIndexItem index_item_;
 
     public:
+        FileReadHandle(std::shared_ptr<PartitionPosReader> partition_reader, 
+                DatasetIndexItem index_item);
+
+        std::string readAll();
     };
+
+public:
+    DatasetIndex(std::shared_ptr<IOContext> io_context, std::string dataset_index_name, std::string open_flag);
+
+    FileAppendHandle appendFile(std::string file_name, std::string file_type);
+
+    FileReadHandle openFile(DatasetIndexItem index_item);   // open file for read only
 
 private:
     void load_partition_name_list();

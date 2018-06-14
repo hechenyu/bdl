@@ -2,12 +2,15 @@
 #include <iterator>
 #include <boost/algorithm/string.hpp>
 #include "error.h"
+#include "datafile_index.h"
+#include "datafile_view.h"
+#include "partition_pos_reader.h"
 #include "io_context.h"
 #include "dataset_config.h"
 #include "dataset_util.h"
 #include "dataset_index.h"
 #include "dataset_writer.h"
-#include "dataset_partition_reader.h"
+#include "dataset_reader.h"
 
 #ifndef NDEBUG
 #include <iostream>
@@ -39,6 +42,15 @@ DatasetIndex::FileAppendHandle DatasetIndex::appendFile(string file_name, string
         err_quit("DatasetIndex::appendFile error: invalid open mode");
 
     return FileAppendHandle(dataset_writer_, file_name, file_type);
+}
+
+DatasetIndex::FileReadHandle DatasetIndex::openFile(DatasetIndexItem index_item)
+{
+    if (open_flag_ != OpenFlag::kRead)
+        err_quit("DatasetIndex::openFile error: invalid open mode");
+
+    auto partition_reader = dataset_reader_->get_partition_reader(index_item.partition_path());
+    return FileReadHandle(partition_reader, index_item);
 }
 
 void DatasetIndex::load_indexfile_name_list()
@@ -109,7 +121,7 @@ void DatasetIndex::init_for_append()
 void DatasetIndex::init_for_read()
 {
     load_indexfile_name_list();
-    dataset_reader_ = make_shared<DatasetReader>(io_context_, dataset_name_);
+    dataset_reader_ = make_shared<DatasetReader>(io_context_);
 }
 
 int DatasetIndex::get_max_part_id() const
@@ -145,4 +157,19 @@ void DatasetIndex::FileAppendHandle::writeAll(const std::string &file_data)
 
     dataset_writer_->write(*file_name_, *file_type_, file_data);
     dataset_writer_.reset();
+}
+
+// =================================================================================================
+
+DatasetIndex::FileReadHandle::FileReadHandle(shared_ptr<PartitionPosReader> partition_reader,
+        DatasetIndexItem index_item):
+    partition_reader_(partition_reader), index_item_(index_item)
+{
+}
+
+string DatasetIndex::FileReadHandle::readAll()
+{
+    DatafileIndex index(index_item_.offset(), index_item_.file_size());
+    DatafileView file_view = partition_reader_->read(index);
+    return string(reinterpret_cast<const char *>(file_view.blob_data()), file_view.blob_size());
 }
