@@ -13,3 +13,7 @@ set(DATASET_INDEXFILE_READ_SRC dataset_indexfile_read.cpp)
 add_executable(dataset_indexfile_read ${DATASET_INDEXFILE_READ_SRC})
 target_link_libraries(dataset_indexfile_read ${DEPEND_LIBS})
 
+set(DATASET_READ2_SRC dataset_read2.cpp)
+add_executable(dataset_read2 ${DATASET_READ2_SRC} ${CONFIG_PARSER_SRC})
+target_link_libraries(dataset_read2 ${DEPEND_LIBS} boost_program_options)
+
