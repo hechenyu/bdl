@@ -17,7 +17,7 @@ DatasetIndex::DatasetIndex(shared_ptr<IOContext> io_context, string dataset_inde
 {
     open_flag_ = get_and_check_open_flag(open_flag);
 
-    std::tie(dataset_name_, index_name_) = DatasetUtil::parse_dataset_index_name(dataset_index_name);
+    std::tie(dataset_name_, index_branch_) = DatasetUtil::parse_dataset_index_name(dataset_index_name);
 
     load_partition_name_list();
 

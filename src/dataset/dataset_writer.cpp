@@ -57,11 +57,12 @@ void DatasetWriter::reset_writers()
     auto root_name = io_context_->root_name();
     auto file_system = io_context_->file_system();
 
-    auto partition_path = DatasetUtil::gen_partition_path(root_name, dataset_name_, cur_part_id_);
+    auto partition_name = DatasetUtil::part_id_to_string(cur_part_id_);
+    auto partition_path = DatasetUtil::gen_partition_path(root_name, dataset_name_, partition_name);
     partition_writer_ = make_shared<PartitionWriter>(partition_path,
                         file_system->create_file_writer(), file_system->create_file_reader());
 
-    auto indexfile_path = DatasetUtil::gen_indexfile_path(root_name, dataset_name_, cur_part_id_);
+    auto indexfile_path = DatasetUtil::gen_indexfile_path(root_name, dataset_name_, partition_name);
     indexfile_writer_ = make_shared<IndexfileWriter>(indexfile_path,
                         file_system->create_line_writer());
 }

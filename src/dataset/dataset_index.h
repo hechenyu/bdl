@@ -15,8 +15,9 @@ public:
 private:
     std::shared_ptr<IOContext> io_context_;
     std::string dataset_name_;
-    std::string index_name_;
+    std::string index_branch_;
     std::vector<std::string> partition_name_list_;
+    std::vector<std::string> indexfile_name_list_;
     OpenFlag open_flag_;
     std::shared_ptr<DatasetWriter> dataset_writer_;
 
