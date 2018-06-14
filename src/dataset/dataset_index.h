@@ -4,9 +4,12 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "dataset_config.h"
-#include "io_context.h"
-#include "dataset_writer.h"
+
+#include "dataset_index_item.h"
+
+class IOContext;
+class DatasetWriter;
+class DatasetReader;
 
 class DatasetIndex {
 public:
@@ -20,6 +23,7 @@ private:
     std::vector<std::string> indexfile_name_list_;
     OpenFlag open_flag_;
     std::shared_ptr<DatasetWriter> dataset_writer_;
+    std::shared_ptr<DatasetReader> dataset_reader_;
 
 public:
     DatasetIndex(std::shared_ptr<IOContext> io_context, std::string dataset_index_name, std::string open_flag);
@@ -42,6 +46,7 @@ public:
 
     class FileReadHandle {
     private:
+        DatasetIndexItem index_item_;
 
     public:
     };

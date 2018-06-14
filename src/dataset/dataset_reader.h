@@ -1,5 +1,5 @@
-#ifndef __dataset_partition_reader_h
-#define __dataset_partition_reader_h
+#ifndef __dataset_reader_h
+#define __dataset_reader_h
 
 #include <memory>
 #include <string>

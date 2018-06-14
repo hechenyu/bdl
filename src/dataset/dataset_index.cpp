@@ -2,9 +2,12 @@
 #include <iterator>
 #include <boost/algorithm/string.hpp>
 #include "error.h"
+#include "io_context.h"
 #include "dataset_config.h"
 #include "dataset_util.h"
 #include "dataset_index.h"
+#include "dataset_writer.h"
+#include "dataset_partition_reader.h"
 
 #ifndef NDEBUG
 #include <iostream>
@@ -106,6 +109,7 @@ void DatasetIndex::init_for_append()
 void DatasetIndex::init_for_read()
 {
     load_indexfile_name_list();
+    dataset_reader_ = make_shared<DatasetReader>(io_context_, dataset_name_);
 }
 
 int DatasetIndex::get_max_part_id() const
