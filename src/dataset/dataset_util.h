@@ -10,16 +10,18 @@ public:
             const std::string &dataset_name);
 
     static std::string gen_partition_path(const std::string &root_name,
-            const std::string &dataset_name, int part_id);
+            const std::string &dataset_name, const std::string &partition_name);
 
     static std::string gen_indexfile_path(const std::string &root_name,
-            const std::string &dataset_name, int part_id);
+            const std::string &dataset_name, const std::string &partition_name);
 
     static std::string gen_indexfile_path(const std::string &root_name,
-            const std::string &dataset_name, 
-            const std::string &index_name, int part_id);
+            const std::string &dataset_name, const std::string &partition_name, 
+            const std::string &index_branch);
 
     static std::string part_id_to_string(int part_id);
+
+    static std::string gen_indexfile_suffix(const std::string &index_branch);
 
     static std::tuple<std::string, std::string> parse_dataset_index_name(const std::string &dataset_index_name);
 };

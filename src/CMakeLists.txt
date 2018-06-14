@@ -26,11 +26,13 @@ set(LIBBASE_DATASET_LOADER_SRC
     indexfile/indexfile_item.cpp
     indexfile/indexfile_reader.cpp
     indexfile/indexfile_writer.cpp
-    io_context/io_context.cpp
-    io_context/dataset_index.cpp
-    io_context/dataset_util.cpp
-    io_context/dataset_writer.cpp
-    io_context/dataset_config.cpp
+    dataset/io_context.cpp
+    dataset/dataset_index.cpp
+    dataset/dataset_util.cpp
+    dataset/dataset_writer.cpp
+    dataset/dataset_config.cpp
+    dataset/dataset_indexfile_reader.cpp
+    dataset/dataset_reader.cpp
     )
 
 include_directories(
@@ -42,7 +44,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/section
     ${CMAKE_CURRENT_SOURCE_DIR}/partition
     ${CMAKE_CURRENT_SOURCE_DIR}/indexfile
-    ${CMAKE_CURRENT_SOURCE_DIR}/io_context
+    ${CMAKE_CURRENT_SOURCE_DIR}/dataset
     )
 
 add_library(base_dataset_loader SHARED ${LIBBASE_DATASET_LOADER_SRC})

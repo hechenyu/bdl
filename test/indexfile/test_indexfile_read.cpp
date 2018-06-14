@@ -14,6 +14,10 @@ int main(int argc, char *argv[])
     string filename = "test.index";
     int buf_size = 2048;
 
+    if (argc == 2) {
+        filename = argv[1];
+    }
+
     auto line_reader = make_shared<FileLineReader>(make_shared<PosixFileReader>(), buf_size);
     IndexfileReader reader(filename, line_reader);
 

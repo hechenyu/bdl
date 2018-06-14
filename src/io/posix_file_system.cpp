@@ -17,7 +17,18 @@ vector<string> PosixFileSystem::list_dir_file(const string &dir)
 {
     vector<string> file_list;
     for(auto& p: fs::directory_iterator(dir)) {
-        file_list.push_back(p.path().string());
+        file_list.push_back(p.path().filename().string());
+    }
+    return file_list;
+}
+
+vector<std::string> PosixFileSystem::list_dir_file(const string &dir, function<bool (const string &)> filter)
+{
+    vector<string> file_list;
+    for(auto& p: fs::directory_iterator(dir)) {
+        auto filename = p.path().filename().string();
+        if (filter(filename))
+            file_list.push_back(filename);
     }
     return file_list;
 }

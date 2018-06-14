@@ -14,6 +14,9 @@ public:
     ~IndexfileWriter();
 
     void write(const IndexfileItem &item);
+
+private:
+    void check_item_valid(const IndexfileItem &item);
 };
 
 #endif

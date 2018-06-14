@@ -1,5 +1,5 @@
-#ifndef __index_item_h
-#define __index_item_h
+#ifndef __indexfile_item_h
+#define __indexfile_item_h
 
 #include <string>
 
