@@ -17,3 +17,7 @@ set(DATASET_READ2_SRC dataset_read2.cpp)
 add_executable(dataset_read2 ${DATASET_READ2_SRC} ${CONFIG_PARSER_SRC})
 target_link_libraries(dataset_read2 ${DEPEND_LIBS} boost_program_options)
 
+set(DATASET_APPEND_ITEM_SRC dataset_append_item.cpp)
+add_executable(dataset_append_item ${DATASET_APPEND_ITEM_SRC} ${CONFIG_PARSER_SRC})
+target_link_libraries(dataset_append_item ${DEPEND_LIBS} boost_program_options)
+

@@ -45,6 +45,14 @@ DatasetIndex::FileAppendHandle DatasetIndex::appendFile(string file_name, string
     return FileAppendHandle(dataset_writer_, file_name, file_type);
 }
 
+void DatasetIndex::appendItem(DatasetIndexItem index_item)
+{
+    if (open_flag_ != OpenFlag::kAppend)
+        err_quit("DatasetIndex::appendFile error: invalid open mode");
+
+    dataset_indexfile_writer_->write(index_item);
+}
+
 DatasetIndex::FileReadHandle DatasetIndex::openFile(DatasetIndexItem index_item)
 {
     if (open_flag_ != OpenFlag::kRead)
