@@ -40,6 +40,12 @@ public:
 
     FileAppendHandle appendFile(std::string file_name, std::string file_type);
 
+    class FileReadHandle {
+    private:
+
+    public:
+    };
+
 private:
     void load_partition_name_list();
     void load_indexfile_name_list();
