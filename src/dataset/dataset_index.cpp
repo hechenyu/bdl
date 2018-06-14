@@ -53,6 +53,26 @@ DatasetIndex::FileReadHandle DatasetIndex::openFile(DatasetIndexItem index_item)
     return FileReadHandle(partition_reader, index_item);
 }
 
+vector<DatasetIndexfileReader> DatasetIndex::getIndexFiles()
+{
+    return dataset_indexfile_readers_;
+}
+
+void DatasetIndex::fill_indexfile_readers()
+{
+    dataset_indexfile_readers_.clear();
+
+    auto file_system = io_context_->file_system();
+    auto root_name = io_context_->root_name();
+
+    for (const auto &indexfile_name: indexfile_name_list_) {
+        auto indexfile_path = DatasetUtil::gen_indexfile_path(root_name, dataset_name_, indexfile_name, index_branch_);
+        auto partition_path = DatasetUtil::gen_partition_path(root_name, dataset_name_, indexfile_name);
+        dataset_indexfile_readers_.push_back(
+                DatasetIndexfileReader(file_system, indexfile_path, partition_path));
+    }
+}
+
 void DatasetIndex::load_indexfile_name_list()
 {
     indexfile_name_list_.clear();
@@ -62,12 +82,13 @@ void DatasetIndex::load_indexfile_name_list()
     auto dataset_path = DatasetUtil::gen_dataset_path(root_name, dataset_name_);
 
     file_system->make_dir(dataset_path);
+    string suffix = DatasetUtil::gen_indexfile_suffix(index_branch_);
     auto file_name_list = file_system->list_dir_file(dataset_path, 
-            [](const string &str) { return ends_with(str, DatasetConfig::kIdxFileSuffix); }
+            [&suffix](const string &str) { return ends_with(str, suffix); }
             );
 
     transform(file_name_list.begin(), file_name_list.end(), back_inserter(indexfile_name_list_),
-            [](const string &str) { return str.substr(0, str.size() - DatasetConfig::kIdxFileSuffix.size()); }
+            [&suffix](const string &str) { return str.substr(0, str.size() - suffix.size()); }
             ); 
 
     sort(indexfile_name_list_.begin(), indexfile_name_list_.end());
@@ -120,8 +141,9 @@ void DatasetIndex::init_for_append()
 
 void DatasetIndex::init_for_read()
 {
-    load_indexfile_name_list();
     dataset_reader_ = make_shared<DatasetReader>(io_context_);
+    load_indexfile_name_list();
+    fill_indexfile_readers();
 }
 
 int DatasetIndex::get_max_part_id() const

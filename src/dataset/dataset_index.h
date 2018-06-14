@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "dataset_index_item.h"
+#include "dataset_indexfile_reader.h"
 
 class IOContext;
 class DatasetWriter;
@@ -25,6 +26,7 @@ private:
     OpenFlag open_flag_;
     std::shared_ptr<DatasetWriter> dataset_writer_;
     std::shared_ptr<DatasetReader> dataset_reader_;
+    std::vector<DatasetIndexfileReader> dataset_indexfile_readers_;
 
 public:
     class FileAppendHandle {
@@ -59,9 +61,12 @@ public:
 
     FileReadHandle openFile(DatasetIndexItem index_item);   // open file for read only
 
+    std::vector<DatasetIndexfileReader> getIndexFiles();
+
 private:
-    void load_partition_name_list();
+    void fill_indexfile_readers();
     void load_indexfile_name_list();
+    void load_partition_name_list();
     OpenFlag get_and_check_open_flag(const std::string &open_flag);
     void init_for_append();
     void init_for_read();

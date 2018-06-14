@@ -21,6 +21,8 @@ public:
 
     static std::string part_id_to_string(int part_id);
 
+    static std::string gen_indexfile_suffix(const std::string &index_branch);
+
     static std::tuple<std::string, std::string> parse_dataset_index_name(const std::string &dataset_index_name);
 };
 

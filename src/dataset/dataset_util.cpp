@@ -38,6 +38,14 @@ string DatasetUtil::part_id_to_string(int part_id)
     return os.str();
 }
 
+string DatasetUtil::gen_indexfile_suffix(const string &index_branch)
+{
+    if (index_branch.empty())
+        return DatasetConfig::kIdxFileSuffix;
+
+    return "."+index_branch+DatasetConfig::kIdxFileSuffix;
+}
+
 tuple<string, string> DatasetUtil::parse_dataset_index_name(const string &dataset_index_name)
 {
     auto pos = dataset_index_name.rfind('.');
