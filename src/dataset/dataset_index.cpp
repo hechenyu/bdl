@@ -11,6 +11,7 @@
 #include "dataset_index.h"
 #include "dataset_writer.h"
 #include "dataset_reader.h"
+#include "dataset_indexfile_writer.h"
 
 #ifndef NDEBUG
 #include <iostream>
@@ -137,6 +138,7 @@ void DatasetIndex::init_for_append()
 {
     auto cur_part_id = get_max_part_id();
     dataset_writer_ = make_shared<DatasetWriter>(io_context_, dataset_name_, cur_part_id);
+    dataset_indexfile_writer_ = make_shared<DatasetIndexfileWriter>(io_context_->file_system(), index_branch_); 
 }
 
 void DatasetIndex::init_for_read()
