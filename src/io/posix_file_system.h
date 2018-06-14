@@ -9,6 +9,8 @@ public:
 
     void make_dir(const std::string &path) override;
     std::vector<std::string> list_dir_file(const std::string &dir) override;
+    std::vector<std::string> list_dir_file(const std::string &dir, std::function<bool (const std::string &)> filter) override;
+
     std::shared_ptr<IFileReader> create_file_reader() override;
     std::shared_ptr<IFileWriter> create_file_writer() override;
     std::shared_ptr<ILineReader> create_line_reader() override;

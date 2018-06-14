@@ -6,6 +6,10 @@
 #include "dataset_util.h"
 #include "dataset_index.h"
 
+#ifndef NDEBUG
+#include <iostream>
+#endif
+
 using namespace std;
 using namespace boost::algorithm;
 
@@ -42,10 +46,20 @@ void DatasetIndex::load_partition_name_list()
     auto root_name = io_context_->root_name();
     auto dataset_path = DatasetUtil::gen_dataset_path(root_name, dataset_name_);
     file_system->make_dir(dataset_path);
-    auto file_name_list = file_system->list_dir_file(dataset_path);
+    auto file_name_list = file_system->list_dir_file(dataset_path, 
+            [](const string &str) { return ends_with(str, DatasetConfig::kPartFileSuffix); }
+            );
 
-    copy_if(file_name_list.begin(), file_name_list.end(), back_inserter(partition_name_list_),
-            [](const string &str) { return ends_with(str, DatasetConfig::kPartFileSuffix); }); 
+    transform(file_name_list.begin(), file_name_list.end(), back_inserter(partition_name_list_),
+            [](const string &str) { return str.substr(0, str.size() - DatasetConfig::kPartFileSuffix.size()); }
+            ); 
+
+    sort(partition_name_list_.begin(), partition_name_list_.end());
+
+#ifndef NDEBUG
+    copy(partition_name_list_.begin(), partition_name_list_.end(),
+            ostream_iterator<string>(cout, "\n"));
+#endif
 }
 
 DatasetIndex::OpenFlag DatasetIndex::get_and_check_open_flag(const std::string &open_flag)
