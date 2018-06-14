@@ -9,6 +9,7 @@ public:
     static const int kMaxPartId = 9999;
     static const int kPartIdSetW = 4;
     static const std::string kPartFileSuffix;
+    static const std::string kIdxFileSuffix;
 };
 
 #endif

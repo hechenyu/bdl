@@ -13,13 +13,13 @@ std::string DatasetUtil::gen_dataset_path(const std::string &root_name,
 
 string DatasetUtil::gen_partition_path(const string &root_name, const string &dataset_name, const string &partition_name)
 {
-    return root_name+"/"+dataset_name+"/"+partition_name+".part";
+    return root_name+"/"+dataset_name+"/"+partition_name+DatasetConfig::kPartFileSuffix;
 }
 
 string DatasetUtil::gen_indexfile_path(const string &root_name,
             const string &dataset_name, const string &partition_name)
 {
-    return root_name+"/"+dataset_name+"/"+partition_name+".idx";
+    return root_name+"/"+dataset_name+"/"+partition_name+DatasetConfig::kIdxFileSuffix;
 }
 
 string DatasetUtil::gen_indexfile_path(const string &root_name,
@@ -28,7 +28,7 @@ string DatasetUtil::gen_indexfile_path(const string &root_name,
     if (index_branch.empty())
         return gen_indexfile_path(root_name, dataset_name, partition_name);
 
-    return root_name+"/"+dataset_name+"/"+partition_name+"."+index_branch+".idx";
+    return root_name+"/"+dataset_name+"/"+partition_name+"."+index_branch+DatasetConfig::kIdxFileSuffix;
 }
 
 string DatasetUtil::part_id_to_string(int part_id)

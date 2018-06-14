@@ -38,6 +38,31 @@ DatasetIndex::FileAppendHandle DatasetIndex::appendFile(string file_name, string
     return FileAppendHandle(dataset_writer_, file_name, file_type);
 }
 
+void DatasetIndex::load_indexfile_name_list()
+{
+    indexfile_name_list_.clear();
+
+    auto file_system = io_context_->file_system();
+    auto root_name = io_context_->root_name();
+    auto dataset_path = DatasetUtil::gen_dataset_path(root_name, dataset_name_);
+
+    file_system->make_dir(dataset_path);
+    auto file_name_list = file_system->list_dir_file(dataset_path, 
+            [](const string &str) { return ends_with(str, DatasetConfig::kIdxFileSuffix); }
+            );
+
+    transform(file_name_list.begin(), file_name_list.end(), back_inserter(indexfile_name_list_),
+            [](const string &str) { return str.substr(0, str.size() - DatasetConfig::kIdxFileSuffix.size()); }
+            ); 
+
+    sort(indexfile_name_list_.begin(), indexfile_name_list_.end());
+
+#ifndef NDEBUG
+    copy(indexfile_name_list_.begin(), indexfile_name_list_.end(),
+            ostream_iterator<string>(cout, "\n"));
+#endif
+}
+
 void DatasetIndex::load_partition_name_list()
 {
     partition_name_list_.clear();
@@ -80,6 +105,7 @@ void DatasetIndex::init_for_append()
 
 void DatasetIndex::init_for_read()
 {
+    load_indexfile_name_list();
 }
 
 int DatasetIndex::get_max_part_id() const

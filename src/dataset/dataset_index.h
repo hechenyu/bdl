@@ -42,6 +42,7 @@ public:
 
 private:
     void load_partition_name_list();
+    void load_indexfile_name_list();
     OpenFlag get_and_check_open_flag(const std::string &open_flag);
     void init_for_append();
     void init_for_read();
