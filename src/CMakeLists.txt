@@ -36,6 +36,8 @@ set(LIBBASE_DATASET_LOADER_SRC
     dataset/dataset_indexfile_writer.cpp
     )
 
+set(PY_ST_DATASET_SRC ${LIBBASE_DATASET_LOADER_SRC})
+
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/common
     ${CMAKE_CURRENT_SOURCE_DIR}/io
@@ -52,6 +54,9 @@ add_library(base_dataset_loader SHARED ${LIBBASE_DATASET_LOADER_SRC})
 
 add_library(base_dataset_loader_static STATIC ${LIBBASE_DATASET_LOADER_SRC})
 set_target_properties(base_dataset_loader_static PROPERTIES OUTPUT_NAME "base_dataset_loader")
+
+add_library(st_dataset SHARED ${PY_ST_DATASET_SRC})
+set_target_properties(st_dataset PROPERTIES PREFIX "")
 
 get_target_property(OUTPUT_VALUE base_dataset_loader_static OUTPUT_NAME)
 message(STATUS "This is the base_dataset_loader_static OUTPUT_NAME: " ${OUTPUT_VALUE})
