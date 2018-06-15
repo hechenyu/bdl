@@ -27,7 +27,7 @@ public:
     // write file to partition
     DatafileIndex write(const std::string &file_name, const std::string &file_type,
             const uint8_t *file_data, int file_size, 
-            const DatafileMetadata::AttrMap &attrs = DatafileMetadata::AttrMap{});
+            const DatafileMetadata::AttrMap &attrs = DatafileMetadata::AttrMap());
 };
 
 #endif
