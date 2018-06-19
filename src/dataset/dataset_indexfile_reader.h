@@ -13,6 +13,10 @@ private:
     std::shared_ptr<IFileSystem> file_system_;
     std::shared_ptr<std::string> indexfile_path_;
     std::shared_ptr<std::string> partition_path_;
+    mutable std::shared_ptr<IndexfileReader> indexfile_reader_; 
+    DatasetIndexItem index_item_;
+
+    friend class iterator;
 
 public:
     DatasetIndexfileReader(std::shared_ptr<IFileSystem> file_system, 
@@ -21,38 +25,30 @@ public:
 public:
     struct iterator: public std::iterator<std::input_iterator_tag, DatasetIndexItem, std::ptrdiff_t, 
             const DatasetIndexItem *, const DatasetIndexItem &>  {
-        std::shared_ptr<std::string> partition_path_;
-        std::shared_ptr<IndexfileReader> indexfile_reader_; 
-        DatasetIndexItem index_item_;
+        DatasetIndexfileReader *reader_;
         bool is_eof_ = true;
 
         typedef iterator this_type;
 
         iterator() = default;
-        iterator(std::shared_ptr<std::string> partition_path,
-                std::shared_ptr<IndexfileReader> indexfile_reader):
-            partition_path_(partition_path), indexfile_reader_(indexfile_reader)
+        iterator(DatasetIndexfileReader *reader): reader_(reader) 
         {
             next();
         }
 
         reference operator *() const
         {
-            return index_item_;
+            return reader_->index_item_;
         }
 
         pointer operator ->() const
         {
-            return &index_item_;
+            return &reader_->index_item_;
         }
 
         void next()
         {
-            is_eof_ = !indexfile_reader_->has_next();
-            if (!is_eof_) {
-                index_item_.file_item_ = indexfile_reader_->next();
-                index_item_.partition_path_ = this->partition_path_;
-            }
+            is_eof_ = !reader_->get_next_item();
         }
 
         this_type &operator ++()
@@ -84,14 +80,19 @@ public:
 
     iterator begin() const
     {
-        return iterator(partition_path_, 
-                std::make_shared<IndexfileReader>(*indexfile_path_, file_system_->create_line_reader()));
+        if (!indexfile_reader_) {
+            indexfile_reader_ = std::make_shared<IndexfileReader>(*indexfile_path_, file_system_->create_line_reader());
+        }
+        return iterator(const_cast<DatasetIndexfileReader *>(this));
     }
 
     iterator end() const
     {
         return iterator();
     }
+
+private:
+    bool get_next_item();
 };
 
 #endif

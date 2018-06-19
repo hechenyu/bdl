@@ -28,3 +28,8 @@ shared_ptr<IndexfileItem> IndexfileReader::next()
 {
     return make_shared<IndexfileItem>(item_);
 }
+
+IndexfileItem IndexfileReader::next_move()
+{
+    return std::move(item_);
+}

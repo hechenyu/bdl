@@ -17,4 +17,6 @@ public:
     std::shared_ptr<ILineWriter> create_line_writer() override;
 };
 
+std::shared_ptr<IFileSystem> create_posix_file_system();
+
 #endif
