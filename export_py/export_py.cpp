@@ -1,5 +1,6 @@
 #include <iostream>
 #include <boost/python.hpp>
+#include "io_context.h"
 
 using namespace boost;
 
@@ -11,6 +12,9 @@ void demo()
 BOOST_PYTHON_MODULE(st_dataset)
 {
     python::def("demo", demo);
+
+    python::class_<std::shared_ptr<IOContext>>("IOContextPtr");
+    python::def("create_io_context", &IOContext::create_io_context);
 }
 
 
