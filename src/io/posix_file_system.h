@@ -5,7 +5,7 @@
 
 class PosixFileSystem: public IFileSystem {
 public:
-    static const int LINE_BUF_SIZE;
+    static const int LINE_BUF_SIZE = 1024*1024;
 
     void make_dir(const std::string &path) override;
     std::vector<std::string> list_dir_file(const std::string &dir) override;
@@ -16,7 +16,5 @@ public:
     std::shared_ptr<ILineReader> create_line_reader() override;
     std::shared_ptr<ILineWriter> create_line_writer() override;
 };
-
-const int PosixFileSystem::LINE_BUF_SIZE = 1024*1024;
 
 #endif

@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     string root_name = parser.get_string_variables("root", "/tmp");
     string dataset_index_name = parser.get_string_variables("dataset", "file_set");
 
-    auto io_context = make_shared<IOContext>(root_name, make_shared<PosixFileSystem>());
+    auto io_context = IOContext::create_io_context(root_name);
     DatasetIndex index(io_context, dataset_index_name, "a");
 
     auto file_list = get_file_list(parser.get_string_variables("list_file"));

@@ -14,6 +14,7 @@ set(LIBBASE_DATASET_LOADER_SRC
     io/file_line_writer.cpp
     io/i_file_system.cpp
     io/posix_file_system.cpp
+    io/io_context.cpp
     proto/metadata.pb.cc
     datafile/datafile_metadata.cpp
     datafile/datafile_serializer.cpp
@@ -26,7 +27,6 @@ set(LIBBASE_DATASET_LOADER_SRC
     indexfile/indexfile_item.cpp
     indexfile/indexfile_reader.cpp
     indexfile/indexfile_writer.cpp
-    dataset/io_context.cpp
     dataset/dataset_index.cpp
     dataset/dataset_util.cpp
     dataset/dataset_writer.cpp
@@ -55,8 +55,9 @@ add_library(base_dataset_loader SHARED ${LIBBASE_DATASET_LOADER_SRC})
 add_library(base_dataset_loader_static STATIC ${LIBBASE_DATASET_LOADER_SRC})
 set_target_properties(base_dataset_loader_static PROPERTIES OUTPUT_NAME "base_dataset_loader")
 
-add_library(st_dataset SHARED ${PY_ST_DATASET_SRC})
-set_target_properties(st_dataset PROPERTIES PREFIX "")
+add_library(py_st_dataset SHARED ${PY_ST_DATASET_SRC})
+set_target_properties(py_st_dataset PROPERTIES OUTPUT_NAME "st_dataset")
+set_target_properties(py_st_dataset PROPERTIES PREFIX "")
 
 get_target_property(OUTPUT_VALUE base_dataset_loader_static OUTPUT_NAME)
 message(STATUS "This is the base_dataset_loader_static OUTPUT_NAME: " ${OUTPUT_VALUE})

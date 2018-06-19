@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     string output_dir = parser.get_string_variables("dir", "");
     bool list_flag = parser.has_parsed_option("list");
 
-    auto io_context = make_shared<IOContext>(root_name, make_shared<PosixFileSystem>());
+    auto io_context = IOContext::create_io_context(root_name);
     DatasetIndex index(io_context, dataset_index_name, "r");
 
     if (!output_dir.empty())
