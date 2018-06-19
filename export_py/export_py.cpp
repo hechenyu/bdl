@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include <boost/python.hpp>
 #include "io_context.h"
 

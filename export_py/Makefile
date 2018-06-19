@@ -2,9 +2,9 @@
 RM = rm -f
 CREATE_SO = g++ -shared
 CXX = g++
-CXXFLAGS = -fPIC -Wall -g -DNDEBUG 
-INCLUDES = -I../src/io -I/usr/include/python3.6m 
-LDFLAGS = -lbase_dataset_loader -lprotobuf-lite -lboost_filesystem -lboost_system -lboost_python3 -lpython3.6m
+CXXFLAGS = -fPIC -Wall -g -DNDEBUG -std=c++11
+INCLUDES = -I../src/io -I/usr/include/python3.5m 
+LDFLAGS = -lbase_dataset_loader -lprotobuf-lite -lboost_filesystem -lboost_system -lboost_python-py35 -lpython3.5m
 LDPATH = -L../lib
 VPATH = 
 
