@@ -16,6 +16,7 @@ public:
 
     bool has_next();
     std::shared_ptr<IndexfileItem> next();
+    IndexfileItem next_move();
 };
 
 #endif
