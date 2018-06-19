@@ -11,7 +11,9 @@ private:
     std::shared_ptr<IFileSystem> file_system_;
 
 public:
-    IOContext(std::string root_name, std::shared_ptr<IFileSystem> file_system);
+    IOContext(const std::string &root_name, std::shared_ptr<IFileSystem> file_system);
+
+    static std::shared_ptr<IOContext> create_io_context(std::string root_name);
 
     const std::string &root_name() const;
     std::shared_ptr<IFileSystem> file_system();

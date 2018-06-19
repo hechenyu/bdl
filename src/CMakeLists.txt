@@ -14,6 +14,7 @@ set(LIBBASE_DATASET_LOADER_SRC
     io/file_line_writer.cpp
     io/i_file_system.cpp
     io/posix_file_system.cpp
+    io/io_context.cpp
     proto/metadata.pb.cc
     datafile/datafile_metadata.cpp
     datafile/datafile_serializer.cpp
@@ -26,7 +27,6 @@ set(LIBBASE_DATASET_LOADER_SRC
     indexfile/indexfile_item.cpp
     indexfile/indexfile_reader.cpp
     indexfile/indexfile_writer.cpp
-    dataset/io_context.cpp
     dataset/dataset_index.cpp
     dataset/dataset_util.cpp
     dataset/dataset_writer.cpp

@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     string out_dataset_index_name = parser.get_string_variables("out_dataset", "file_set.ABC");
     bool list_flag = parser.has_parsed_option("list");
 
-    auto io_context = make_shared<IOContext>(root_name, make_shared<PosixFileSystem>());
+    auto io_context = IOContext::create_io_context(root_name);
     DatasetIndex in_index(io_context, in_dataset_index_name, "r");
     DatasetIndex out_index(io_context, out_dataset_index_name, "a");
 
