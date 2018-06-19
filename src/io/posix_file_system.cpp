@@ -56,3 +56,8 @@ shared_ptr<ILineWriter> PosixFileSystem::create_line_writer()
     const int buf_size = LINE_BUF_SIZE;
     return make_shared<FileLineWriter>(file_writer, buf_size);
 }
+
+shared_ptr<IFileSystem> create_posix_file_system()
+{
+    return make_shared<PosixFileSystem>();
+}

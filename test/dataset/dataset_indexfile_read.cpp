@@ -19,7 +19,10 @@ int main(int argc, char *argv[])
     auto file_system = make_shared<PosixFileSystem>();
     DatasetIndexfileReader reader(file_system, filename, partition_path);
 
-    for (auto item: reader) {
+    auto iter = reader.begin();
+    auto end = reader.end();
+    while (iter != end) {
+        auto &item = *iter++;
         cout << item << "\n";
     }
 
