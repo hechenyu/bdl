@@ -54,7 +54,7 @@ public:
         FileReadHandle(std::shared_ptr<PartitionPosReader> partition_reader, 
                 DatasetIndexItem index_item);
 
-        std::string readAll();
+        std::vector<uint8_t> readAll();
     };
 
     struct iterator: public std::iterator<std::input_iterator_tag, DatasetIndexItem, std::ptrdiff_t, 
@@ -102,6 +102,10 @@ public:
                     break;
                 ++file_;
             }
+
+            if (file_ == end_) {
+                item_ = DatasetIndexfileReader::iterator();
+            }
         }
 
         this_type &operator ++()
@@ -114,7 +118,7 @@ public:
         {
             this_type tmp(*this);
             next();
-            return *this;
+            return tmp;
         }
 
         bool operator ==(const this_type &other) const

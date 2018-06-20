@@ -199,9 +199,9 @@ DatasetIndex::FileReadHandle::FileReadHandle(shared_ptr<PartitionPosReader> part
 {
 }
 
-string DatasetIndex::FileReadHandle::readAll()
+vector<uint8_t> DatasetIndex::FileReadHandle::readAll()
 {
     DatafileIndex index(index_item_.offset(), index_item_.file_size());
     DatafileView file_view = partition_reader_->read(index);
-    return string(reinterpret_cast<const char *>(file_view.blob_data()), file_view.blob_size());
+    return vector<uint8_t>(file_view.blob_data(), file_view.blob_data()+file_view.blob_size());
 }

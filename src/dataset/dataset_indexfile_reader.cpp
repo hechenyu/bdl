@@ -9,12 +9,16 @@ DatasetIndexfileReader::DatasetIndexfileReader(shared_ptr<IFileSystem> file_syst
     partition_path_ = make_shared<string>(partition_path);
 }
 
-bool DatasetIndexfileReader::get_next_item()
+void DatasetIndexfileReader::load_indexfile() const
 {
-    bool ret = indexfile_reader_->has_next();
-    if (ret) {
-        index_item_.file_item_ = indexfile_reader_->next();
-        index_item_.partition_path_ = this->partition_path_;
+    index_item_list_.clear();
+
+    IndexfileReader indexfile_reader(*indexfile_path_, file_system_->create_line_reader());
+    DatasetIndexItem index_item;
+    while (indexfile_reader.has_next()) {
+        index_item.file_item_ = indexfile_reader.next();
+        index_item.partition_path_ = this->partition_path_;
+        index_item_list_.push_back(index_item);
     }
-    return ret;
 }
+
