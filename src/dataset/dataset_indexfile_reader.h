@@ -13,8 +13,8 @@ private:
     std::shared_ptr<IFileSystem> file_system_;
     std::shared_ptr<std::string> indexfile_path_;
     std::shared_ptr<std::string> partition_path_;
-    mutable std::shared_ptr<IndexfileReader> indexfile_reader_; 
-    std::vector<DatasetIndexItem> index_item_list_; 
+    mutable std::vector<DatasetIndexItem> index_item_list_; 
+    mutable bool is_loaded_ = false;
 
     friend class iterator;
 
@@ -23,77 +23,28 @@ public:
             const std::string &indexfile_path, const std::string &partition_path);
 
 public:
-    struct iterator: public std::iterator<std::input_iterator_tag, DatasetIndexItem, std::ptrdiff_t, 
-            const DatasetIndexItem *, const DatasetIndexItem &>  {
-        DatasetIndexfileReader *reader_;
-        bool is_eof_ = true;
-        int idx_ = -1;
-
-        typedef iterator this_type;
-
-        iterator() = default;
-        iterator(DatasetIndexfileReader *reader): reader_(reader) 
-        {
-            next();
-        }
-
-        reference operator *() const
-        {
-            return reader_->index_item_list_[idx_];
-        }
-
-        pointer operator ->() const
-        {
-            return &reader_->index_item_list_[idx_];
-        }
-
-        void next()
-        {
-            is_eof_ = !reader_->get_next_item(idx_);
-        }
-
-        this_type &operator ++()
-        {
-            next();
-            return *this;
-        }
-
-        this_type operator ++(int)
-        {
-            this_type tmp(*this);
-            next();
-            return tmp;
-        }
-
-        bool operator ==(const this_type &other) const
-        {
-            if (this->is_eof_ && other.is_eof_)
-                return true;
-            else
-                return false;
-        }
-
-        bool operator !=(const this_type &other) const
-        {
-            return !(*this == other);
-        }
-    };
+    typedef std::vector<DatasetIndexItem>::const_iterator iterator;
 
     iterator begin() const
     {
-        if (!indexfile_reader_) {
-            indexfile_reader_ = std::make_shared<IndexfileReader>(*indexfile_path_, file_system_->create_line_reader());
+        if (!is_loaded_) {
+            load_indexfile();
+            is_loaded_ = true;
         }
-        return iterator(const_cast<DatasetIndexfileReader *>(this));
+        return index_item_list_.begin();
     }
 
     iterator end() const
     {
-        return iterator();
+        if (!is_loaded_) {
+            load_indexfile();
+            is_loaded_ = true;
+        }
+        return index_item_list_.end();
     }
 
 private:
-    bool get_next_item(int &idx);
+    void load_indexfile() const;
 };
 
 #endif
