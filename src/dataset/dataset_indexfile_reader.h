@@ -14,7 +14,7 @@ private:
     std::shared_ptr<std::string> indexfile_path_;
     std::shared_ptr<std::string> partition_path_;
     mutable std::shared_ptr<IndexfileReader> indexfile_reader_; 
-    DatasetIndexItem index_item_;
+    std::vector<DatasetIndexItem> index_item_list_; 
 
     friend class iterator;
 
@@ -27,6 +27,7 @@ public:
             const DatasetIndexItem *, const DatasetIndexItem &>  {
         DatasetIndexfileReader *reader_;
         bool is_eof_ = true;
+        int idx_ = -1;
 
         typedef iterator this_type;
 
@@ -38,17 +39,17 @@ public:
 
         reference operator *() const
         {
-            return reader_->index_item_;
+            return reader_->index_item_list_[idx_];
         }
 
         pointer operator ->() const
         {
-            return &reader_->index_item_;
+            return &reader_->index_item_list_[idx_];
         }
 
         void next()
         {
-            is_eof_ = !reader_->get_next_item();
+            is_eof_ = !reader_->get_next_item(idx_);
         }
 
         this_type &operator ++()
@@ -61,7 +62,7 @@ public:
         {
             this_type tmp(*this);
             next();
-            return *this;
+            return tmp;
         }
 
         bool operator ==(const this_type &other) const
@@ -92,7 +93,7 @@ public:
     }
 
 private:
-    bool get_next_item();
+    bool get_next_item(int &idx);
 };
 
 #endif

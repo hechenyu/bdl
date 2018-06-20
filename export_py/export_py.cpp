@@ -37,7 +37,7 @@ BOOST_PYTHON_MODULE(st_dataset)
 
     class_<DatasetIndex>("Index", init<std::shared_ptr<IOContext>, std::string, std::string>())
         .def("__iter__", iterator<DatasetIndex>())
-        .def("IndexFiles", &DatasetIndex::getIndexFiles)
+        .def_readonly("IndexFiles", &DatasetIndex::getIndexFiles)
         ;
 }
 
