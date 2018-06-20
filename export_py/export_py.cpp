@@ -44,10 +44,16 @@ BOOST_PYTHON_MODULE(st_dataset)
         .def("readAll", &DatasetIndex::FileReadHandle::readAll)
         ;
 
+    class_<DatasetIndex::FileAppendHandle>("FileAppendHandle", no_init)
+       .def("writeAll", &DatasetIndex::FileAppendHandle::writeAll)
+       ;
+
     class_<DatasetIndex>("Index", init<std::shared_ptr<IOContext>, std::string, std::string>())
         .def("__iter__", iterator<DatasetIndex>())
         .def_readonly("IndexFiles", &DatasetIndex::getIndexFiles)
         .def("open", &DatasetIndex::openFile)
+        .def("AppendItem", &DatasetIndex::appendItem)
+        .def("Append", &DatasetIndex::appendFile)
         ;
 }
 

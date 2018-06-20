@@ -3,6 +3,7 @@
 import st_dataset
 context = st_dataset.create_io_context("/tmp")
 index = st_dataset.Index(context, "file_set", 'r')
+new_index = st_dataset.Index(context, "file_set.new", 'a')
 
 for e in index:
     print("key/virtual file path", e.file_path)
@@ -10,8 +11,7 @@ for e in index:
     print("offset", e.offset)
     print("file size", e.file_size)
 
-    f = index.open(e)
-    all_content = f.readAll()
-    print(bytes(all_content))
-#    print(bytearray(all_content))
+    if e.file_size > 1024:
+        new_index.AppendItem(e)
+
 
