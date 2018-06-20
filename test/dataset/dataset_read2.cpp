@@ -1,21 +1,15 @@
 #include <memory>
 #include <iostream>
-#include <fstream>
 #include "boost/filesystem.hpp"
 #include "config_parser.h"
 #include "posix_file_system.h"
 #include "io_context.h"
 #include "dataset_index.h"
 #include "print_dataset_index_item.h"
+#include "write_file.h"
 
 using namespace std;
 namespace fs = boost::filesystem;
-
-void write_file(const string &datafile_name, const string &data)
-{
-    ofstream ofile(datafile_name);
-    ofile.write(data.data(), data.size());
-}
 
 int main(int argc, char *argv[])
 {
