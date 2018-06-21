@@ -9,5 +9,5 @@ cd $cmd_path
 tar xzvf boost_1_67_0.tar.gz
 cd boost_1_67_0
 
-./bootstrap.sh --with-toolset=gcc link=static runtime-link=static threading=multi stage --with-python=python3
-./b2 -j4 cflags=-fPIC cxxflags=-fPIC
+./bootstrap.sh --with-toolset=gcc --with-libraries=all --with-python=python3
+./b2 -j4 toolset=gcc cflags=-fPIC cxxflags=-fPIC link=static runtime-link=static threading=multi stage
