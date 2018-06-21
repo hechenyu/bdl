@@ -84,6 +84,11 @@ void DatasetIndex::fill_indexfile_readers()
 
 void DatasetIndex::load_indexfile_name_list()
 {
+    if (index_branch_.empty()) {
+        indexfile_name_list_ = partition_name_list_;
+        return;
+    }
+
     indexfile_name_list_.clear();
 
     auto file_system = io_context_->file_system();
