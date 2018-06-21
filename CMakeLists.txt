@@ -2,7 +2,7 @@ project(BASE_DATASET_LOADER)
 cmake_minimum_required(VERSION 3.1)
 
 set (CMAKE_CXX_STANDARD 11)
-add_definitions("-Wall -g")
+add_definitions("-Wall -g -fPIC")
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
