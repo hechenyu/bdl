@@ -13,4 +13,5 @@ for idx_file in index.IndexFiles:
 
         f = index.open(e)
         all_content = f.readAll()
-        print(bytearray(all_content))
+        print(bytes(all_content))
+#        print(bytearray(all_content))
