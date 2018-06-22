@@ -2,6 +2,7 @@
 
 set(LIBBASE_DATASET_LOADER_UT_SRC 
     main/main.cpp
+    datafile/datafile_test.cpp
     )
 
 include_directories(
@@ -14,5 +15,9 @@ include_directories(
     ../src/dataset
     )
 
+link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../lib)
+MESSAGE(STATUS "lib" ${CMAKE_CURRENT_SOURCE_DIR}/../lib)
+
 add_executable(ut_main ${LIBBASE_DATASET_LOADER_UT_SRC})
-target_link_libraries(ut_main gtest)
+target_link_libraries(ut_main base_dataset_loader protobuf-lite boost_filesystem boost_system gtest)
+
