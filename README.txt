@@ -21,6 +21,7 @@
     $ cd export_py
     $ make
 
-6) 使用st_dataset.so, 将st_dataset.so放到python的sys.path搜索路径下,
-   将lib下so都copy到LD_LIBRARY_PATH或系统lib路径下, 然后通过export_py下的python脚本测试,
-   python版本为python3
+6) st_dataset.so依赖libpython, 确保系统安装python-dev包, 有可能需要修改export_py/Makefile, 以指定正确的python头文件和lib路径
+	$ sudo apt-get install python-dev # ubuntu
+
+7) 使用st_dataset.so, 请使用python3
