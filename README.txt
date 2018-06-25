@@ -14,7 +14,6 @@
     b) 测试程序在build/test目录下
 
 4) 项目工程需要依赖boost库, 确保系统安装boost
-    $ sudo apt-get install libboost-all-dev # ubuntu
     $ sudo pacman -S boost # arch
 
 5) python封装lib在export_py目录下, 确保先执行build.sh, 然后编译st_dataset.so
@@ -25,3 +24,14 @@
 	$ sudo apt-get install python-dev # ubuntu
 
 7) 使用st_dataset.so, 请使用python3
+
+8) 构建gtest, 工程顶级目录下, 执行./build_ut.sh, 需要依赖gtest, gtest安装:
+	$ sudo apt-get install libgtest-dev 
+	$ cd /usr/src/gtest  该目录下，有一个源码文件夹,一个cmake文件夹和一个cmake的配置文件(CMakeLists.txt)
+	$ sudo mkdir build
+	$ cd build
+	$ sudo cmake ..
+	$ sudo make
+	$ sudo cp libgtest*.a /usr/local/lib
+	$ cd ..
+	$ sudo rm -rf ./build
