@@ -6,12 +6,12 @@
 #include <vector>
 #include <iterator>
 
+#include "i_partition_pos_reader_factory.h"
 #include "dataset_index_item.h"
 #include "dataset_indexfile_reader.h"
 
 class IOContext;
 class DatasetWriter;
-class DatasetReader;
 class DatasetIndexfileWriter;
 class PartitionPosReader;
 
@@ -27,7 +27,7 @@ private:
     std::vector<std::string> indexfile_name_list_;
     OpenFlag open_flag_;
     std::shared_ptr<DatasetWriter> dataset_writer_;
-    std::shared_ptr<DatasetReader> dataset_reader_;
+    std::shared_ptr<IPartitionPosReaderFactory> partition_pos_reader_factory_;
     std::vector<DatasetIndexfileReader> dataset_indexfile_readers_;
     std::shared_ptr<DatasetIndexfileWriter> dataset_indexfile_writer_;
 
