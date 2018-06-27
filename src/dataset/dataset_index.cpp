@@ -10,8 +10,9 @@
 #include "dataset_util.h"
 #include "dataset_index.h"
 #include "dataset_writer.h"
-#include "dataset_reader.h"
 #include "dataset_indexfile_writer.h"
+#include "partition_pos_reader_factory.h"
+#include "partition_pos_reader_pool.h"
 
 #ifndef NDEBUG
 #include <iostream>
@@ -58,7 +59,7 @@ DatasetIndex::FileReadHandle DatasetIndex::openFile(DatasetIndexItem index_item)
     if (open_flag_ != OpenFlag::kRead)
         err_quit("DatasetIndex::openFile error: invalid open mode");
 
-    auto partition_reader = dataset_reader_->get_partition_reader(index_item.partition_path());
+    auto partition_reader = partition_pos_reader_factory_->get_partition_reader(index_item.partition_path());
     return FileReadHandle(partition_reader, index_item);
 }
 
@@ -156,7 +157,11 @@ void DatasetIndex::init_for_append()
 
 void DatasetIndex::init_for_read()
 {
-    dataset_reader_ = make_shared<DatasetReader>(io_context_);
+#ifdef USE_PARTITION_POS_READER_POOL
+    partition_pos_reader_factory_ = make_shared<PartitionPosReaderPool>(io_context_);
+#else
+    partition_pos_reader_factory_ = make_shared<PartitionPosReaderFactory>(io_context_);
+#endif
     load_indexfile_name_list();
     fill_indexfile_readers();
 }

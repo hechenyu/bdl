@@ -32,8 +32,10 @@ set(LIBBASE_DATASET_LOADER_SRC
     dataset/dataset_writer.cpp
     dataset/dataset_config.cpp
     dataset/dataset_indexfile_reader.cpp
-    dataset/dataset_reader.cpp
     dataset/dataset_indexfile_writer.cpp
+    dataset/i_partition_pos_reader_factory.cpp
+    dataset/partition_pos_reader_factory.cpp
+    dataset/partition_pos_reader_pool.cpp
     )
 
 include_directories(

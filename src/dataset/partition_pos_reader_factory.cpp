@@ -1,15 +1,15 @@
-#include "dataset_reader.h"
+#include "partition_pos_reader_factory.h"
 #include "dataset_util.h"
 #include "io_context.h"
 #include "partition_pos_reader.h"
 
 using namespace std;
 
-DatasetReader::DatasetReader(shared_ptr<IOContext> io_context): io_context_(io_context)
+PartitionPosReaderFactory::PartitionPosReaderFactory(shared_ptr<IOContext> io_context): io_context_(io_context)
 {
 }
 
-shared_ptr<PartitionPosReader> DatasetReader::get_partition_reader(const string &partition_path)
+shared_ptr<PartitionPosReader> PartitionPosReaderFactory::get_partition_reader(const string &partition_path)
 {
     if (partition_path == cached_partition_path_)
         return cached_partition_reader_;
