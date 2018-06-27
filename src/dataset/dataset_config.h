@@ -10,6 +10,8 @@ public:
     static const int kPartIdSetW = 4;
     static const std::string kPartFileSuffix;
     static const std::string kIdxFileSuffix;
+
+    static std::string printable_info();
 };
 
 #endif

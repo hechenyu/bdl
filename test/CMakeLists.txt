@@ -10,6 +10,7 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/src/dataset
     )
 
+add_subdirectory(main)
 add_subdirectory(io)
 add_subdirectory(datafile)
 add_subdirectory(section)
