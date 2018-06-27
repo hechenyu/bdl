@@ -29,12 +29,13 @@ int main(int argc, char *argv[])
 {
     ConfigParser parser(argv[0]);
     parser.add_option("help,h")
-          .add_option("list,t", "list datafile in partitions")
+          .add_option("verbose,v")
           .add_string_option("seed", "shuffle seed")
           .add_string_option("conf,f", "configure file")
           .add_string_option("root", "root of io_context")
           .add_string_option("dataset", "dataset index name")
           .add_string_option("dir,d", "the dir of statistics file to save result")
+          .add_string_option("label", "out file label")
           ;
 
     parser.parse_command_line(argc, argv);
@@ -55,7 +56,7 @@ int main(int argc, char *argv[])
 
     string root_name = parser.get_string_variables("root", "/tmp");
     string dataset_index_name = parser.get_string_variables("dataset", "file_set");
-    bool list_flag = parser.has_parsed_option("list");
+    bool list_flag = parser.has_parsed_option("verbose");
 
     // ===================== 读取Dataset Index Item ============================
     auto io_context = IOContext::create_io_context(root_name);
@@ -69,9 +70,9 @@ int main(int argc, char *argv[])
         index_item_list.push_back(item);
     }
 
-    long long seed = system_clock::now().time_since_epoch().count();
+    long seed = system_clock::to_time_t(system_clock::now());
     if (parser.has_parsed_option("seed")) {
-        seed = stoll(parser.get_string_variables("seed"));
+        seed = stol(parser.get_string_variables("seed"));
     }
     cout << "seed: " << seed << endl;
 
@@ -110,10 +111,14 @@ int main(int argc, char *argv[])
         out_file_name += output_dir + "/";
     out_file_name += basename(argv[0]);
     out_file_name += ".";
+    if (parser.has_parsed_option("label")) {
+        out_file_name += parser.get_string_variables("label");
+        out_file_name += ".";
+    } 
     out_file_name += utc_to_string(system_clock::now());
 
-    output_detail(index_item_list, open_time_list, read_time_list, out_file_name+".csv");
-    output_summary(open_time_list, read_time_list, out_file_name+".sum");
+    output_detail(index_item_list, open_time_list, read_time_list, out_file_name+".detail.csv");
+    output_summary(open_time_list, read_time_list, out_file_name+".summary.json");
 
     return 0;
 }

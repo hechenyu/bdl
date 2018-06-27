@@ -31,19 +31,15 @@ int main(int argc, char *argv[])
 {
     ConfigParser parser(argv[0]);
     parser.add_option("help,h")
-          .add_option("list,t", "list datafile in partitions")
+          .add_option("verbose,v")
           .add_string_option("seed", "shuffle seed")
-          .add_string_option("conf,f", "configure file")
+          .add_string_option("conf", "configure file")
           .add_string_option("list_file", "list file of file to read")
-          .add_string_option("dir,d", "the dir of statistics file to save result")
+          .add_string_option("dir", "the dir of statistics file to save result")
+          .add_string_option("label", "out file label")
           ;
 
     parser.parse_command_line(argc, argv);
-
-    if (parser.has_parsed_option("help") || !parser.has_parsed_option("list_file")) {
-        parser.print_options_description(cout);
-        exit(1);
-    }
 
     if (parser.has_parsed_option("conf")) {
         auto conf_file = parser.get_string_variables("conf");
@@ -54,18 +50,23 @@ int main(int argc, char *argv[])
         parser.parse_config_file(conf_file);
     }
 
+    if (parser.has_parsed_option("help") || !parser.has_parsed_option("list_file")) {
+        parser.print_options_description(cout);
+        exit(1);
+    }
+
     // ===================== 读取file list ============================
     auto file_list = get_file_list(parser.get_string_variables("list_file"));
-    bool list_flag = parser.has_parsed_option("list");
+    bool list_flag = parser.has_parsed_option("verbose");
     if (list_flag) {
         for (auto &file_name: file_list) {
             cout << file_name << "\n";
         }
     }
 
-    long long seed = system_clock::now().time_since_epoch().count();
+    long seed = system_clock::to_time_t(system_clock::now());
     if (parser.has_parsed_option("seed")) {
-        seed = stoll(parser.get_string_variables("seed"));
+        seed = stol(parser.get_string_variables("seed"));
     }
     cout << "seed: " << seed << endl;
 
@@ -112,10 +113,14 @@ int main(int argc, char *argv[])
         out_file_name += output_dir + "/";
     out_file_name += basename(argv[0]);
     out_file_name += ".";
+    if (parser.has_parsed_option("label")) {
+        out_file_name += parser.get_string_variables("label");
+        out_file_name += ".";
+    } 
     out_file_name += utc_to_string(system_clock::now());
 
-    output_detail(file_list, file_size_list, open_time_list, read_time_list, out_file_name+".csv");
-    output_summary(open_time_list, read_time_list, out_file_name+".sum");
+    output_detail(file_list, file_size_list, open_time_list, read_time_list, out_file_name+".detail.csv");
+    output_summary(open_time_list, read_time_list, out_file_name+".summary.json");
 
     return 0;
 }
