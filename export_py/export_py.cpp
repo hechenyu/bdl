@@ -5,6 +5,7 @@
 #include <vector>
 #include <boost/python.hpp>
 #include "io_context.h"
+#include "dataset_config.h"
 #include "dataset_index.h"
 #include "dataset_index_item.h"
 
@@ -13,6 +14,7 @@ using namespace boost::python;
 void demo()
 {
     std::cout << "hello st_dataset!" << std::endl;
+    std::cout << "dataset_config: " << DatasetConfig::printable_info() << std::endl;
 }
 
 BOOST_PYTHON_MODULE(st_dataset)
