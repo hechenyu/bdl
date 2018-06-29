@@ -7,6 +7,7 @@
 class StdcFileReader: public IFileReader {
 private:
     FILE *fp_ = nullptr;
+    char *buffer_;
 
 public:
     StdcFileReader(); 

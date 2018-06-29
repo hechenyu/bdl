@@ -3,14 +3,20 @@
 #include "wrapposix.h"
 #include "wrapstdio.h"
 
+#ifndef STDC_FILE_READER_BUFFER_SIZE
+#define STDC_FILE_READER_BUFFER_SIZE BUFSIZ
+#endif
+
 StdcFileReader::StdcFileReader()
 {
+    buffer_ = new char[STDC_FILE_READER_BUFFER_SIZE];
 }
 
 StdcFileReader::~StdcFileReader()
 {
     if (is_open())
         close();
+    delete [] buffer_;
 }
 
 void StdcFileReader::open(const char *filepath)
@@ -20,6 +26,7 @@ void StdcFileReader::open(const char *filepath)
     }
 
     fp_ = Fopen(filepath, "r");
+    setvbuf(fp_, buffer_, _IOFBF, STDC_FILE_READER_BUFFER_SIZE);
 }
 
 bool StdcFileReader::is_open()
