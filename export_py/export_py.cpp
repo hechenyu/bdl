@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <boost/python.hpp>
+#include "io_config.h"
 #include "io_context.h"
 #include "dataset_config.h"
 #include "dataset_index.h"
@@ -15,6 +16,7 @@ void demo()
 {
     std::cout << "hello st_dataset!" << std::endl;
     std::cout << "dataset_config: " << DatasetConfig::printable_info() << std::endl;
+    std::cout << "STDC_FILE_READER_BUFFER_SIZE: " << STDC_FILE_READER_BUFFER_SIZE << std::endl;
 }
 
 std::shared_ptr<IOContext> (*create_io_context1) (std::string) = IOContext::create_io_context;

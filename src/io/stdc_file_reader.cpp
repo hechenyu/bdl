@@ -2,10 +2,7 @@
 #include "error.h"
 #include "wrapposix.h"
 #include "wrapstdio.h"
-
-#ifndef STDC_FILE_READER_BUFFER_SIZE
-#define STDC_FILE_READER_BUFFER_SIZE BUFSIZ
-#endif
+#include "io_config.h"
 
 StdcFileReader::StdcFileReader()
 {
