@@ -21,16 +21,16 @@ clean:
 %.o:%.cpp
 	$(CXX) -o $@ -c $< $(CXXFLAGS) $(INCLUDE)
 
-hole: hole.o wrapposix.o error.o
+hole: hole.o wrapstdio.o error.o
 	$(CXX) -o $@ $^ $(LDFLAGS) $(LDPATH)
 
-seek: seek.o wrapposix.o error.o
+seek: seek.o wrapstdio.o error.o
 	$(CXX) -o $@ $^ $(LDFLAGS) $(LDPATH)
 
-mycat: mycat.o wrapposix.o error.o
+mycat: mycat.o wrapstdio.o error.o
 	$(CXX) -o $@ $^ $(LDFLAGS) $(LDPATH)
 
-mywrite: mywrite.o wrapposix.o error.o
+mywrite: mywrite.o wrapstdio.o error.o
 	$(CXX) -o $@ $^ $(LDFLAGS) $(LDPATH)
 
 

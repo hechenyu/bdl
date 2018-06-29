@@ -1,0 +1,24 @@
+#ifndef	__unp_wrapstdio_h
+#define	__unp_wrapstdio_h
+
+#include <stdio.h>
+#include "error.h"
+
+			/* prototypes for our stdio wrapper functions: see {Sec errors} */
+void	 Fclose(FILE *);
+FILE	*Fdopen(int, const char *);
+char	*Fgets(char *, int, FILE *);
+FILE	*Fopen(const char *, const char *);
+void	 Fputs(const char *, FILE *);
+size_t   Fread(void *, size_t, size_t, FILE *);
+size_t   Fread2(void *, size_t, FILE *);
+void     Fwrite(const void *, size_t, size_t, FILE *);
+void     Fwrite2(const void *, size_t, FILE *);
+void     Fseek(FILE *, long int, int);
+long     Ftell(FILE *fp);
+
+
+FILE    *Popen(const char *, const char *);
+int      Pclose(FILE *);
+
+#endif
