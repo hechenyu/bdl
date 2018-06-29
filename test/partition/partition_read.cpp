@@ -40,6 +40,7 @@ int main(int argc, char *argv[])
     if (!output_dir.empty())
         fs::create_directories(output_dir);
 
+    long offset = 0;
     while (partition_reader.has_next()) {
         auto datafile = partition_reader.next();
         auto metadata = datafile.metadata();
@@ -47,7 +48,13 @@ int main(int argc, char *argv[])
 
         if (list_flag) {
             cout << datafile_name << "\n";
+            cout << "CRC: " << datafile.CRC() << "\n";
+            cout << "total_size: " << datafile.total_size() << "\n";
+            cout << "blob_size: " << datafile.blob_size() << "\n";
+            cout << "metadata_size: " << datafile.metadata_size() << "\n";
+            cout << "offset: " << offset << "\n";
         }
+        offset += datafile.total_size();
 
         if (!output_dir.empty())
             datafile_name = output_dir+"/"+datafile_name;

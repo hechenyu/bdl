@@ -17,12 +17,20 @@ void demo()
     std::cout << "dataset_config: " << DatasetConfig::printable_info() << std::endl;
 }
 
+std::shared_ptr<IOContext> (*create_io_context1) (std::string) = IOContext::create_io_context;
+std::shared_ptr<IOContext> (*create_io_context2) (std::string, const IOContext::Configure &) = IOContext::create_io_context;
+
 BOOST_PYTHON_MODULE(st_dataset)
 {
     def("demo", demo);
 
+    class_<IOContext::Configure>("IOConfig")
+        .def_readwrite("read_buffered", &IOContext::Configure::read_buffered)
+        ;
+
     class_<std::shared_ptr<IOContext>>("IOContextPtr");
-    def("create_io_context", &IOContext::create_io_context);
+    def("create_io_context", create_io_context1);
+    def("create_io_context", create_io_context2);
 
     class_<DatasetIndexItem>("IndexItem", no_init)
         .def_readonly("file_path", &DatasetIndexItem::file_path)

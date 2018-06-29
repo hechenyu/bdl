@@ -3,6 +3,7 @@
 set(LIBBASE_DATASET_LOADER_SRC 
     common/error.cpp
     common/wrapposix.cpp
+    common/wrapstdio.cpp
     common/calculate_crc32.cpp
     io/i_file_writer.cpp
     io/posix_file_writer.cpp
@@ -15,6 +16,8 @@ set(LIBBASE_DATASET_LOADER_SRC
     io/i_file_system.cpp
     io/posix_file_system.cpp
     io/io_context.cpp
+    io/stdc_file_reader.cpp
+    io/posix_file_system_rbuf.cpp
     proto/metadata.pb.cc
     datafile/datafile_metadata.cpp
     datafile/datafile_serializer.cpp

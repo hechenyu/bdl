@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
     ConfigParser parser(argv[0]);
     parser.add_option("help,h")
           .add_option("verbose,v")
+          .add_option("readbuf")
           .add_string_option("seed", "shuffle seed")
           .add_string_option("conf,f", "configure file")
           .add_string_option("root", "root of io_context")
@@ -58,8 +59,15 @@ int main(int argc, char *argv[])
     string dataset_index_name = parser.get_string_variables("dataset", "file_set");
     bool list_flag = parser.has_parsed_option("verbose");
 
+    IOContext::Configure io_conf;
+    if (parser.has_parsed_option("readbuf")) {
+        io_conf.read_buffered = true;
+    } else {
+        io_conf.read_buffered = false;
+    }
+
     // ===================== 读取Dataset Index Item ============================
-    auto io_context = IOContext::create_io_context(root_name);
+    auto io_context = IOContext::create_io_context(root_name, io_conf);
     DatasetIndex index(io_context, dataset_index_name, "r");
 
     vector<DatasetIndexItem> index_item_list; 
