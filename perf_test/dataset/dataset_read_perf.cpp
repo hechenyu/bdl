@@ -21,10 +21,6 @@ using namespace std;
 using namespace std::chrono;
 namespace fs = boost::filesystem;
 
-void output_detail(const vector<DatasetIndexItem> &index_item_list,
-        const vector<ChronoTimer> &open_time_list, const vector<ChronoTimer> &read_time_list,
-        const string &out_file_name);
-
 int main(int argc, char *argv[])
 {
     ConfigParser parser(argv[0]);
@@ -125,16 +121,6 @@ int main(int argc, char *argv[])
     } 
     out_file_name += utc_to_string(system_clock::now());
 
-    output_detail(index_item_list, open_time_list, read_time_list, out_file_name+".detail.csv");
-    output_summary(open_time_list, read_time_list, out_file_name+".summary.json");
-
-    return 0;
-}
-
-void output_detail(const vector<DatasetIndexItem> &index_item_list,
-        const vector<ChronoTimer> &open_time_list, const vector<ChronoTimer> &read_time_list,
-        const string &out_file_name)
-{
 	vector<string> file_list;
 	vector<long> file_size_list;
 
@@ -143,6 +129,9 @@ void output_detail(const vector<DatasetIndexItem> &index_item_list,
 		file_size_list.push_back(item.file_size());
 	}
 
-	output_detail(file_list, file_size_list, open_time_list, read_time_list, out_file_name);
+    output_detail(file_list, file_size_list, open_time_list, read_time_list, out_file_name+".detail.csv");
+    output_summary(file_size_list, open_time_list, read_time_list, out_file_name+".summary.json");
+
+    return 0;
 }
 

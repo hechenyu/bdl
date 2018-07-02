@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
     out_file_name += utc_to_string(system_clock::now());
 
     output_detail(file_list, file_size_list, open_time_list, read_time_list, out_file_name+".detail.csv");
-    output_summary(open_time_list, read_time_list, out_file_name+".summary.json");
+    output_summary(file_size_list, open_time_list, read_time_list, out_file_name+".summary.json");
 
     return 0;
 }

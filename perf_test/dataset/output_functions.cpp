@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <numeric>
 #include "output_functions.h"
 #include "boost/format.hpp"
 #include "chrono_timer_util.h"
@@ -10,7 +11,12 @@
 using namespace std;
 using namespace std::chrono;
 
-void output_summary(
+uint64_t total_file_size(const std::vector<long> &file_size_list)
+{
+    return accumulate(file_size_list.begin(), file_size_list.end(), uint64_t(0));
+}
+
+void output_summary(const std::vector<long> &file_size_list,
         const vector<ChronoTimer> &open_time_list, const vector<ChronoTimer> &read_time_list,
         const string &out_file_name)
 {
@@ -24,9 +30,12 @@ void output_summary(
     double open_time = duration_to_microseconds(sum(open_time_list));
     double read_time = duration_to_microseconds(sum(read_time_list));
     double total_time = open_time + read_time;
+    auto total_size = total_file_size(file_size_list);
+    auto io_rate = total_size / total_time;
 
-    boost::format fmt("{\"open_time microseconds\": %f, \"read_time microseconds\": %f, \"total_time microseconds\": %f }");
-    ofile << fmt % open_time % read_time % total_time << '\n';
+    const std::string fmt_str = R"({"open_time usec:": %f, "read_time usec": %f, "total_time usec": %f, "io_rate MB/s": %f, "file_number" : %d})";
+    boost::format fmt(fmt_str);
+    ofile << fmt % open_time % read_time % total_time % io_rate % file_size_list.size() << '\n';
 }
 
 void output_detail(const vector<string> &file_list, const vector<long> &file_size_list,
