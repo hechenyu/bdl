@@ -83,7 +83,6 @@ int main(int argc, char *argv[])
     ChronoTimer open_timer;
     ChronoTimer read_timer;
 
-    vector<uint8_t> buffer;
     vector<long> file_size_list;
     for (auto &file_name : file_list) {
         PosixFileReader reader;
@@ -92,13 +91,13 @@ int main(int argc, char *argv[])
         open_timer.stop();
         open_time_list.push_back(open_timer);
 
-        long file_size = reader.file_size();
-        buffer.resize(file_size);
-        file_size_list.push_back(file_size);
-
         read_timer.start();
+        long file_size = reader.file_size();
+        vector<uint8_t> buffer;
+        buffer.resize(file_size);
         reader.readn(buffer.data(), buffer.size());
         read_timer.stop();
+        file_size_list.push_back(file_size);
         read_time_list.push_back(read_timer);
         (void) buffer;
     }

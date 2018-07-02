@@ -65,3 +65,21 @@ void output_detail(const vector<string> &file_list, const vector<long> &file_siz
     }
 
 }
+
+void output_summary(const ChronoTimer &timer, int file_number, uint64_t total_size, const std::string &out_file_name)
+{
+    ofstream ofile;
+    ofile.open(out_file_name);
+    if (!ofile) {
+        cout << "open output file fail: " << out_file_name << endl;
+        exit(1);
+    }
+
+    double total_time = duration_to_microseconds(timer.elapsed());
+    auto io_rate = total_size / total_time;
+    auto iops = file_number / total_time * 1000 * 1000;
+
+    const std::string fmt_str = R"({"total_time usec": %f, "io_rate MB/s": %f, "iops file/s": %f})";
+    boost::format fmt(fmt_str);
+    ofile << fmt % total_time % io_rate % iops << '\n';
+}
