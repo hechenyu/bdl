@@ -1,4 +1,4 @@
-set(UTIL_SRC ../util/config_parser.cpp ../util/utc_to_string.cpp ../util/get_file_list.cpp output_summary.cpp)
+set(UTIL_SRC ../util/config_parser.cpp ../util/utc_to_string.cpp ../util/get_file_list.cpp output_functions.cpp)
 include_directories(../util)
 
 set(DATASET_READ_SRC dataset_read_perf.cpp)

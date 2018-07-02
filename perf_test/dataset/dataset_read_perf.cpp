@@ -15,7 +15,7 @@
 #include "chrono_timer_util.h"
 #include "chrono_util.h"
 #include "utc_to_string.h"
-#include "output_summary.h"
+#include "output_functions.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -135,29 +135,14 @@ void output_detail(const vector<DatasetIndexItem> &index_item_list,
         const vector<ChronoTimer> &open_time_list, const vector<ChronoTimer> &read_time_list,
         const string &out_file_name)
 {
-    ofstream ofile;
-    ofile.open(out_file_name);
-    if (!ofile) {
-        cout << "open output file fail: " << out_file_name << endl;
-        exit(1);
-    }
+	vector<string> file_list;
+	vector<long> file_size_list;
 
-    ofile << "part path, offset, file size, open microsecs, read microsecs, file path\n";
-    ofile << fixed;
+	for (auto &item : index_item_list) {
+		file_list.push_back(item.file_path());
+		file_size_list.push_back(item.file_size());
+	}
 
-    assert(index_item_list.size() == open_time_list.size());
-    assert(index_item_list.size() == read_time_list.size());
-
-    int n = index_item_list.size();
-    for (int i = 0; i < n; i++) {
-        auto &item = index_item_list[i];
-        ofile << item.partition_path() << ","
-            << item.offset() << ","
-            << item.file_size() << ","
-            << duration_to_microseconds(open_time_list[i].elapsed()) << ","
-            << duration_to_microseconds(read_time_list[i].elapsed()) << ","
-            << item.file_path() << "\n";
-    }
-
+	output_detail(file_list, file_size_list, open_time_list, read_time_list, out_file_name);
 }
 
