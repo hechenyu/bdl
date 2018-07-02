@@ -5,7 +5,7 @@ set(DATASET_READ_SRC dataset_read_perf.cpp)
 add_executable(dataset_read_perf ${DATASET_READ_SRC} ${UTIL_SRC})
 target_link_libraries(dataset_read_perf ${DEPEND_LIBS} boost_program_options)
 
-set(DATASET_READ_RT_SRC dataset_read_perf_rt.cpp)
+set(DATASET_READ_RT_SRC dataset_read_perf_rt.cpp perf_printer.cpp)
 add_executable(dataset_read_perf_rt ${DATASET_READ_RT_SRC} ${UTIL_SRC})
 target_link_libraries(dataset_read_perf_rt ${DEPEND_LIBS} boost_program_options)
 

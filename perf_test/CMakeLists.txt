@@ -1,6 +1,6 @@
 set (CMAKE_CXX_STANDARD 11)
 
-set (DEPEND_LIBS base_dataset_loader protobuf-lite boost_filesystem boost_system)
+set (DEPEND_LIBS base_dataset_loader protobuf-lite boost_filesystem boost_system pthread)
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../lib)
 
 set(TOP_LEVEL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)

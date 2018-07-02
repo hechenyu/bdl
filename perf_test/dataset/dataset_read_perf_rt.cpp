@@ -5,6 +5,8 @@
 #include <random>
 #include <fstream>
 #include <iomanip>
+#include <atomic>
+#include <thread>
 #include "boost/filesystem.hpp"
 #include "boost/format.hpp"
 #include "config_parser.h"
@@ -16,6 +18,7 @@
 #include "chrono_util.h"
 #include "utc_to_string.h"
 #include "output_functions.h"
+#include "perf_printer.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -24,6 +27,11 @@ namespace fs = boost::filesystem;
 atomic<int> g_file_number_readed;
 atomic<uint64_t> g_file_size_readed;
 
+void io_context_run(boost::asio::io_context *io)
+{
+    io->run();
+}
+
 int main(int argc, char *argv[])
 {
     ConfigParser parser(argv[0]);
@@ -31,6 +39,7 @@ int main(int argc, char *argv[])
           .add_option("verbose,v")
           .add_option("readbuf")
           .add_int_option("loop_times", "loop times to read")
+          .add_int_option("interval_sec", "interval(seconds) of output")
           .add_string_option("seed", "shuffle seed")
           .add_string_option("conf,f", "configure file")
           .add_string_option("root", "root of io_context")
@@ -93,18 +102,26 @@ int main(int argc, char *argv[])
         fs::create_directories(output_dir);
 
     int loop_times = parser.get_int_variables("loop_times", 1);
+    int interval_sec = parser.get_int_variables("interval_sec", 1); 
+
+    atomic<bool> stop_flag(false);
+    boost::asio::io_context io;
+    PerfPrinter printer(io, interval_sec, &stop_flag);
+
+    thread th_pr(io_context_run, &io);
     
     for (int i = 0; i < loop_times; i++) {
-        ChronoTimer timer;
-        timer.start();
+//        ChronoTimer timer;
+//        timer.start();
         for (auto item: index_item_list) {
             auto datafile = index.openFile(item);
             auto data = datafile.readAll();
             g_file_number_readed.fetch_add(1);
             g_file_size_readed.fetch_add(data.size());
         }
-        timer.stop();
+//        timer.stop();
 
+#if 0
         // ===================== 将结果保存到文件中 ============================
         string out_file_name;
         if (!output_dir.empty())
@@ -118,8 +135,8 @@ int main(int argc, char *argv[])
         out_file_name += utc_to_string(system_clock::now());
 
         output_summary(timer, g_file_number_readed, g_file_size_readed, out_file_name+".summary.json");
+#endif
     }
 
     return 0;
 }
-
