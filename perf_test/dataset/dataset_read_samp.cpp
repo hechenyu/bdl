@@ -101,33 +101,30 @@ int main(int argc, char *argv[])
     if (!output_dir.empty())
         fs::create_directories(output_dir);
 
+    string label = parser.get_string_variables("label", basename(argv[0]));
+    string out_file_name = make_file_prefix(output_dir, label);
+    out_file_name += ".samp";
+    ofstream ofile(out_file_name);
+    if (!ofile) {
+        cout << "open output file fail: " << out_file_name << endl;
+        exit(1);
+    }
+
     int loop_times = parser.get_int_variables("loop_times", 1);
     int interval_sec = parser.get_int_variables("interval_sec", 1); 
 
     boost::asio::io_context io;
-    SampPrinter printer(io, interval_sec, &g_file_number_readed, &g_file_size_readed, cout);
+    SampPrinter printer(io, interval_sec, &g_file_number_readed, &g_file_size_readed, ofile);
 
     thread th_pr(io_context_run, &io);
     
     for (int i = 0; i < loop_times; i++) {
-//        ChronoTimer timer;
-//        timer.start();
         for (auto item: index_item_list) {
             auto datafile = index.openFile(item);
             auto data = datafile.readAll();
             g_file_number_readed.fetch_add(1);
             g_file_size_readed.fetch_add(data.size());
         }
-//        timer.stop();
-
-#if 0
-        // ===================== 将结果保存到文件中 ============================
-        string label = parser.get_string_variables("label", basename(argv[0]));
-        string out_file_name = make_file_prefix(output_dir, label);
-
-
-        output_summary(timer, g_file_number_readed, g_file_size_readed, out_file_name+".json");
-#endif
     }
 
     printer.stop();
