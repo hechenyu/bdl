@@ -17,3 +17,7 @@ set(DATASET_SAMP_SRC dataset_read_samp.cpp samp_printer.cpp)
 add_executable(dataset_read_samp ${DATASET_SAMP_SRC} ${UTIL_SRC})
 target_link_libraries(dataset_read_samp ${DEPEND_LIBS} boost_program_options)
 
+set(STANDARD_SAMP_SRC standard_read_samp.cpp samp_printer.cpp)
+add_executable(standard_read_samp ${STANDARD_SAMP_SRC} ${UTIL_SRC})
+target_link_libraries(standard_read_samp ${DEPEND_LIBS} boost_program_options)
+
