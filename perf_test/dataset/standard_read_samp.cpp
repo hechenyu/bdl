@@ -5,6 +5,8 @@
 #include <random>
 #include <fstream>
 #include <iomanip>
+#include <atomic>
+#include <thread>
 #include "boost/filesystem.hpp"
 #include "boost/format.hpp"
 #include "config_parser.h"
@@ -16,16 +18,27 @@
 #include "chrono_util.h"
 #include "utc_to_string.h"
 #include "output_functions.h"
+#include "samp_printer.h"
 
 using namespace std;
 using namespace std::chrono;
 namespace fs = boost::filesystem;
+
+atomic<int> g_file_number_readed;
+atomic<uint64_t> g_file_size_readed;
+
+void io_context_run(boost::asio::io_context *io)
+{
+    io->run();
+}
 
 int main(int argc, char *argv[])
 {
     ConfigParser parser(argv[0]);
     parser.add_option("help,h")
           .add_option("verbose,v")
+          .add_int_option("loop_times", "loop times to read")
+          .add_int_option("interval_sec", "interval(seconds) of output")
           .add_string_option("seed", "shuffle seed")
           .add_string_option("conf", "configure file")
           .add_string_option("list_file", "list file of file to read")
@@ -72,40 +85,38 @@ int main(int argc, char *argv[])
     if (!output_dir.empty())
         fs::create_directories(output_dir);
 
-    // ===================== 统计文件打开和读取时间 ============================
-    vector<ChronoTimer> open_time_list;
-    open_time_list.reserve(file_list.size());
-    vector<ChronoTimer> read_time_list;
-    read_time_list.reserve(file_list.size());
-
-    ChronoTimer open_timer;
-    ChronoTimer read_timer;
-
-    vector<long> file_size_list;
-    for (auto &file_name : file_list) {
-        PosixFileReader reader;
-        open_timer.start();
-        reader.open(file_name.c_str());
-        open_timer.stop();
-        open_time_list.push_back(open_timer);
-
-        read_timer.start();
-        long file_size = reader.file_size();
-        vector<uint8_t> buffer;
-        buffer.resize(file_size);
-        reader.readn(buffer.data(), buffer.size());
-        read_timer.stop();
-        file_size_list.push_back(file_size);
-        read_time_list.push_back(read_timer);
-        (void) buffer;
-    }
-
-    // ===================== 将结果保存到文件中 ============================
     string label = parser.get_string_variables("label", basename(argv[0]));
     string out_file_name = make_file_prefix(output_dir, label);
+    out_file_name += ".samp";
+    ofstream ofile(out_file_name);
+    if (!ofile) {
+        cout << "open output file fail: " << out_file_name << endl;
+        exit(1);
+    }
 
-    output_detail(file_list, file_size_list, open_time_list, read_time_list, out_file_name+".csv");
-    output_summary(file_size_list, open_time_list, read_time_list, out_file_name+".json", label);
+    int loop_times = parser.get_int_variables("loop_times", 1);
+    int interval_sec = parser.get_int_variables("interval_sec", 1); 
+
+    boost::asio::io_context io;
+    SampPrinter printer(io, interval_sec, &g_file_number_readed, &g_file_size_readed, ofile);
+
+    thread th_pr(io_context_run, &io);
+
+    for (int i = 0; i < loop_times; i++) {
+        for (auto &file_name : file_list) {
+            PosixFileReader reader;
+            reader.open(file_name.c_str());
+            long file_size = reader.file_size();
+            vector<uint8_t> buffer;
+            buffer.resize(file_size);
+            reader.readn(buffer.data(), buffer.size());
+            g_file_number_readed.fetch_add(1);
+            g_file_size_readed.fetch_add(file_size);
+        }
+    }
+
+    printer.stop();
+    th_pr.join();
 
     return 0;
 }

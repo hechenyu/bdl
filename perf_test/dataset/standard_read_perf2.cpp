@@ -9,8 +9,6 @@
 #include "boost/format.hpp"
 #include "config_parser.h"
 #include "posix_file_system.h"
-#include "io_context.h"
-#include "dataset_index.h"
 #include "get_file_list.h"
 #include "posix_file_reader.h"
 #include "chrono_timer.h"
