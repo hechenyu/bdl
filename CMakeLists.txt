@@ -6,6 +6,14 @@ add_definitions("-Wall -g -fPIC -DUSE_PARTITION_POS_READER_POOL -DSTDC_FILE_READ
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
+if(DEFINED ENV{BOOST_INCLUDE_DIR}) 
+	include_directories($ENV{BOOST_INCLUDE_DIR}) 
+endif()
+
+if(DEFINED ENV{BOOST_LIB_DIR}) 
+	link_directories($ENV{BOOST_LIB_DIR})
+endif()
+
 #set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 add_subdirectory(thirdparty)
 add_subdirectory(src)

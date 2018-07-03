@@ -5,6 +5,14 @@ link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../lib)
 
 set(TOP_LEVEL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
+if(DEFINED ENV{BOOST_INCLUDE_DIR}) 
+	include_directories($ENV{BOOST_INCLUDE_DIR}) 
+endif()
+
+if(DEFINED ENV{BOOST_LIB_DIR}) 
+	link_directories($ENV{BOOST_LIB_DIR})
+endif()
+
 include_directories(
     ${TOP_LEVEL_DIR}/src/common
     ${TOP_LEVEL_DIR}/src/io
