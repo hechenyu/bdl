@@ -18,7 +18,7 @@
 #include "chrono_util.h"
 #include "utc_to_string.h"
 #include "output_functions.h"
-#include "perf_printer.h"
+#include "samp_printer.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -104,9 +104,8 @@ int main(int argc, char *argv[])
     int loop_times = parser.get_int_variables("loop_times", 1);
     int interval_sec = parser.get_int_variables("interval_sec", 1); 
 
-    atomic<bool> stop_flag(false);
     boost::asio::io_context io;
-    PerfPrinter printer(io, interval_sec, &stop_flag);
+    SampPrinter printer(io, interval_sec, &g_file_number_readed, &g_file_size_readed, cout);
 
     thread th_pr(io_context_run, &io);
     
@@ -130,6 +129,9 @@ int main(int argc, char *argv[])
         output_summary(timer, g_file_number_readed, g_file_size_readed, out_file_name+".json");
 #endif
     }
+
+    printer.stop();
+    th_pr.join();
 
     return 0;
 }
