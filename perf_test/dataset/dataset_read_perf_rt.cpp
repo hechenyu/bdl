@@ -5,6 +5,8 @@
 #include <random>
 #include <fstream>
 #include <iomanip>
+#include <atomic>
+#include <thread>
 #include "boost/filesystem.hpp"
 #include "boost/format.hpp"
 #include "config_parser.h"
@@ -14,11 +16,21 @@
 #include "chrono_timer.h"
 #include "chrono_timer_util.h"
 #include "chrono_util.h"
+#include "utc_to_string.h"
 #include "output_functions.h"
+#include "perf_printer.h"
 
 using namespace std;
 using namespace std::chrono;
 namespace fs = boost::filesystem;
+
+atomic<int> g_file_number_readed;
+atomic<uint64_t> g_file_size_readed;
+
+void io_context_run(boost::asio::io_context *io)
+{
+    io->run();
+}
 
 int main(int argc, char *argv[])
 {
@@ -26,6 +38,8 @@ int main(int argc, char *argv[])
     parser.add_option("help,h")
           .add_option("verbose,v")
           .add_option("readbuf")
+          .add_int_option("loop_times", "loop times to read")
+          .add_int_option("interval_sec", "interval(seconds) of output")
           .add_string_option("seed", "shuffle seed")
           .add_string_option("conf,f", "configure file")
           .add_string_option("root", "root of io_context")
@@ -56,10 +70,8 @@ int main(int argc, char *argv[])
 
     IOContext::Configure io_conf;
     if (parser.has_parsed_option("readbuf")) {
-        cout << "readbuf is on\n";
         io_conf.read_buffered = true;
     } else {
-        cout << "readbuf is off\n";
         io_conf.read_buffered = false;
     }
 
@@ -89,42 +101,35 @@ int main(int argc, char *argv[])
     if (!output_dir.empty())
         fs::create_directories(output_dir);
 
-    // ===================== 统计文件打开和读取时间 ============================
-    vector<ChronoTimer> open_time_list;
-    open_time_list.reserve(index_item_list.size());
-    vector<ChronoTimer> read_time_list;
-    read_time_list.reserve(index_item_list.size());
+    int loop_times = parser.get_int_variables("loop_times", 1);
+    int interval_sec = parser.get_int_variables("interval_sec", 1); 
 
-    ChronoTimer open_timer;
-    ChronoTimer read_timer;
-    for (auto item: index_item_list) {
-        open_timer.start();
-        auto datafile = index.openFile(item);
-        open_timer.stop();
-        open_time_list.push_back(open_timer);
+    atomic<bool> stop_flag(false);
+    boost::asio::io_context io;
+    PerfPrinter printer(io, interval_sec, &stop_flag);
 
-        read_timer.start();
-        auto data = datafile.readAll();
-        read_timer.stop();
-        read_time_list.push_back(read_timer);
-        (void) data;
+    thread th_pr(io_context_run, &io);
+    
+    for (int i = 0; i < loop_times; i++) {
+//        ChronoTimer timer;
+//        timer.start();
+        for (auto item: index_item_list) {
+            auto datafile = index.openFile(item);
+            auto data = datafile.readAll();
+            g_file_number_readed.fetch_add(1);
+            g_file_size_readed.fetch_add(data.size());
+        }
+//        timer.stop();
+
+#if 0
+        // ===================== 将结果保存到文件中 ============================
+        string label = parser.get_string_variables("label", basename(argv[0]));
+        string out_file_name = make_file_prefix(output_dir, label);
+
+
+        output_summary(timer, g_file_number_readed, g_file_size_readed, out_file_name+".json");
+#endif
     }
-
-    // ===================== 将结果保存到文件中 ============================
-    string label = parser.get_string_variables("label", basename(argv[0]));
-    string out_file_name = make_file_prefix(output_dir, label);
-
-	vector<string> file_list;
-	vector<long> file_size_list;
-
-	for (auto &item : index_item_list) {
-		file_list.push_back(item.file_path());
-		file_size_list.push_back(item.file_size());
-	}
-
-    output_detail(file_list, file_size_list, open_time_list, read_time_list, out_file_name+".csv");
-    output_summary(file_size_list, open_time_list, read_time_list, out_file_name+".json", label);
 
     return 0;
 }
-

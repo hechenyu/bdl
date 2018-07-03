@@ -83,7 +83,6 @@ int main(int argc, char *argv[])
     ChronoTimer open_timer;
     ChronoTimer read_timer;
 
-    vector<uint8_t> buffer;
     vector<long> file_size_list;
     for (auto &file_name : file_list) {
         PosixFileReader reader;
@@ -92,31 +91,23 @@ int main(int argc, char *argv[])
         open_timer.stop();
         open_time_list.push_back(open_timer);
 
-        long file_size = reader.file_size();
-        buffer.resize(file_size);
-        file_size_list.push_back(file_size);
-
         read_timer.start();
+        long file_size = reader.file_size();
+        vector<uint8_t> buffer;
+        buffer.resize(file_size);
         reader.readn(buffer.data(), buffer.size());
         read_timer.stop();
+        file_size_list.push_back(file_size);
         read_time_list.push_back(read_timer);
         (void) buffer;
     }
 
     // ===================== 将结果保存到文件中 ============================
-    string out_file_name;
-    if (!output_dir.empty())
-        out_file_name += output_dir + "/";
-    out_file_name += basename(argv[0]);
-    out_file_name += ".";
-    if (parser.has_parsed_option("label")) {
-        out_file_name += parser.get_string_variables("label");
-        out_file_name += ".";
-    } 
-    out_file_name += utc_to_string(system_clock::now());
+    string label = parser.get_string_variables("label", basename(argv[0]));
+    string out_file_name = make_file_prefix(output_dir, label);
 
-    output_detail(file_list, file_size_list, open_time_list, read_time_list, out_file_name+".detail.csv");
-    output_summary(file_size_list, open_time_list, read_time_list, out_file_name+".summary.json");
+    output_detail(file_list, file_size_list, open_time_list, read_time_list, out_file_name+".csv");
+    output_summary(file_size_list, open_time_list, read_time_list, out_file_name+".json", label);
 
     return 0;
 }
