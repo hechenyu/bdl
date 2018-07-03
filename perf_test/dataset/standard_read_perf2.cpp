@@ -104,19 +104,11 @@ int main(int argc, char *argv[])
     }
 
     // ===================== 将结果保存到文件中 ============================
-    string out_file_name;
-    if (!output_dir.empty())
-        out_file_name += output_dir + "/";
-    out_file_name += basename(argv[0]);
-    out_file_name += ".";
-    if (parser.has_parsed_option("label")) {
-        out_file_name += parser.get_string_variables("label");
-        out_file_name += ".";
-    } 
-    out_file_name += utc_to_string(system_clock::now());
+    string label = parser.get_string_variables("label", basename(argv[0]));
+    string out_file_name = make_file_prefix(output_dir, label);
 
-    output_detail(file_list, file_size_list, open_time_list, read_time_list, out_file_name+".detail.csv");
-    output_summary(file_size_list, open_time_list, read_time_list, out_file_name+".summary.json");
+    output_detail(file_list, file_size_list, open_time_list, read_time_list, out_file_name+".csv");
+    output_summary(file_size_list, open_time_list, read_time_list, out_file_name+".json", label);
 
     return 0;
 }

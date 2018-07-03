@@ -11,6 +11,18 @@
 using namespace std;
 using namespace std::chrono;
 
+string make_file_prefix(const string &dir, const string &title)
+{
+    string out_file_name;
+    if (!dir.empty())
+        out_file_name += dir + "/";
+    out_file_name += title;
+    out_file_name += ".";
+    out_file_name += utc_to_string(system_clock::now());
+
+    return out_file_name;
+}
+
 uint64_t total_file_size(const std::vector<long> &file_size_list)
 {
     return accumulate(file_size_list.begin(), file_size_list.end(), uint64_t(0));
@@ -18,7 +30,7 @@ uint64_t total_file_size(const std::vector<long> &file_size_list)
 
 void output_summary(const std::vector<long> &file_size_list,
         const vector<ChronoTimer> &open_time_list, const vector<ChronoTimer> &read_time_list,
-        const string &out_file_name)
+        const string &out_file_name, const string &label)
 {
     ofstream ofile;
     ofile.open(out_file_name);
@@ -33,9 +45,9 @@ void output_summary(const std::vector<long> &file_size_list,
     auto total_size = total_file_size(file_size_list);
     auto io_rate = total_size / total_time;
 
-    const std::string fmt_str = R"({"open_time usec:": %f, "read_time usec": %f, "total_time usec": %f, "io_rate MB/s": %f, "file_number" : %d})";
+    const std::string fmt_str = R"({"label": %s, "open_time usec:": %f, "read_time usec": %f, "total_time usec": %f, "io_rate MB/s": %f, "file_number" : %d})";
     boost::format fmt(fmt_str);
-    ofile << fmt % open_time % read_time % total_time % io_rate % file_size_list.size() << '\n';
+    ofile << fmt % label % open_time % read_time % total_time % io_rate % file_size_list.size() << '\n';
 }
 
 void output_detail(const vector<string> &file_list, const vector<long> &file_size_list,
