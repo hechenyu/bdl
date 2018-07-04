@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
           .add_string_option("conf", "configure file")
           .add_string_option("root", "root of io_context")
           .add_string_option("dataset", "dataset index name")
-          .add_string_option("dir,d", "the dir of statistics file to save result")
+          .add_string_option("dir", "the dir of statistics file to save result")
           .add_string_option("label", "out file label")
           ;
 
