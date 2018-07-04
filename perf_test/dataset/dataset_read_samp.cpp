@@ -41,10 +41,10 @@ int main(int argc, char *argv[])
           .add_int_option("loop_times", "loop times to read")
           .add_int_option("interval_sec", "interval(seconds) of output")
           .add_string_option("seed", "shuffle seed")
-          .add_string_option("conf,f", "configure file")
+          .add_string_option("conf", "configure file")
           .add_string_option("root", "root of io_context")
           .add_string_option("dataset", "dataset index name")
-          .add_string_option("dir,d", "the dir of statistics file to save result")
+          .add_string_option("dir", "the dir of statistics file to save result")
           .add_string_option("label", "out file label")
           ;
 

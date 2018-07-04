@@ -23,7 +23,7 @@ void SampPrinter::print()
 
     const std::string fmt_str = R"({"now": %s, "io_rate MB/s": %.2f, "iops file/s": %d})";
     boost::format fmt(fmt_str);
-    out_ << fmt % utc_to_string(std::chrono::system_clock::now()) % io_rate % iops << '\n';
+    out_ << fmt % utc_to_string(std::chrono::system_clock::now()) % io_rate % iops << std::endl;
 
     last_file_number_readed_ = curr_file_number_readed_;
     last_file_size_readed_ = curr_file_size_readed_;
