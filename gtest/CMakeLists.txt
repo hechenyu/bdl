@@ -3,6 +3,7 @@
 set(LIBBASE_DATASET_LOADER_UT_SRC 
     main/main.cpp
     datafile/datafile_test.cpp
+    dataset/dataset_test.cpp
     )
 
 include_directories(

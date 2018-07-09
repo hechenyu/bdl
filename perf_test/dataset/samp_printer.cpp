@@ -1,7 +1,6 @@
 #include <chrono>
 #include "boost/format.hpp"
 #include "samp_printer.h"
-#include "utc_to_string.h"
 
 void SampPrinter::stop()
 {
@@ -21,9 +20,9 @@ void SampPrinter::print()
     int iops = (curr_file_number_readed_ - last_file_number_readed_) / interval_sec_;
     double io_rate = (double) (curr_file_size_readed_ - last_file_size_readed_) / interval_sec_ / 1000000;
 
-    const std::string fmt_str = R"({"now": %s, "io_rate MB/s": %.2f, "iops file/s": %d})";
+    const std::string fmt_str = R"({"now": %d, "io_rate MB/s": %.2f, "iops file/s": %d})";
     boost::format fmt(fmt_str);
-    out_ << fmt % utc_to_string(std::chrono::system_clock::now()) % io_rate % iops << std::endl;
+    out_ << fmt % std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()) % io_rate % iops << std::endl;
 
     last_file_number_readed_ = curr_file_number_readed_;
     last_file_size_readed_ = curr_file_size_readed_;

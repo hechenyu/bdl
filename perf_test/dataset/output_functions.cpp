@@ -45,7 +45,7 @@ void output_summary(const std::vector<long> &file_size_list,
     auto total_size = total_file_size(file_size_list);
     auto io_rate = total_size / total_time;
 
-    const std::string fmt_str = R"({"label": %s, "open_time usec:": %.2f, "read_time usec": %.2f, "total_time usec": %.2f, "io_rate MB/s": %.2f, "file_number" : %d})";
+    const std::string fmt_str = R"({"label": "%s", "open_time usec:": %.2f, "read_time usec": %.2f, "total_time usec": %.2f, "io_rate MB/s": %.2f, "file_number" : %d})";
     boost::format fmt(fmt_str);
     ofile << fmt % label % open_time % read_time % total_time % io_rate % file_size_list.size() << '\n';
 }
