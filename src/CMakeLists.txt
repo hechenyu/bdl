@@ -39,6 +39,8 @@ set(LIBBASE_DATASET_LOADER_SRC
     dataset/i_partition_pos_reader_factory.cpp
     dataset/partition_pos_reader_factory.cpp
     dataset/partition_pos_reader_pool.cpp
+    dataset/dataset_index_item.cpp
+    json11/json11.cpp
     )
 
 include_directories(
@@ -51,6 +53,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/partition
     ${CMAKE_CURRENT_SOURCE_DIR}/indexfile
     ${CMAKE_CURRENT_SOURCE_DIR}/dataset
+    ${CMAKE_CURRENT_SOURCE_DIR}/json11
     )
 
 add_library(base_dataset_loader STATIC ${LIBBASE_DATASET_LOADER_SRC})
