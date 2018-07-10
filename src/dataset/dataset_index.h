@@ -9,6 +9,7 @@
 #include "i_partition_pos_reader_factory.h"
 #include "dataset_index_item.h"
 #include "dataset_indexfile_reader.h"
+#include "dataset_file_read_handle.h"
 
 class IOContext;
 class DatasetWriter;
@@ -45,17 +46,7 @@ public:
         void writeAll(const std::string &file_data);
     };
 
-    class FileReadHandle {
-    private:
-        std::shared_ptr<PartitionPosReader> partition_reader_;
-        DatasetIndexItem index_item_;
-
-    public:
-        FileReadHandle(std::shared_ptr<PartitionPosReader> partition_reader, 
-                DatasetIndexItem index_item);
-
-        std::vector<uint8_t> readAll();
-    };
+    typedef DatasetFileReadHandle FileReadHandle;
 
     struct iterator: public std::iterator<std::input_iterator_tag, DatasetIndexItem, std::ptrdiff_t, 
             const DatasetIndexItem *, const DatasetIndexItem &>  {

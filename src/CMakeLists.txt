@@ -40,6 +40,7 @@ set(LIBBASE_DATASET_LOADER_SRC
     dataset/partition_pos_reader_factory.cpp
     dataset/partition_pos_reader_pool.cpp
     dataset/dataset_index_item.cpp
+    dataset/dataset_file_read_handle.cpp
     json11/json11.cpp
     )
 
