@@ -3,6 +3,7 @@
 import st_dataset
 context = st_dataset.create_io_context("/tmp")
 index = st_dataset.Index(context, "file_set", 'r')
+direct_reader = st_dataset.DirectReader(context);
 
 for e in index:
     print("key/virtual file path", e.file_path)
@@ -12,8 +13,7 @@ for e in index:
     s = e.to_string()
     print("serialized data:", s)
 
-    item = st_dataset.IndexItem(s)
-    f = index.open(item)
+    f = direct_reader.open(s)
     all_content = f.readAll()
     print(bytes(all_content))
 #    print(bytearray(all_content))

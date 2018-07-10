@@ -23,6 +23,7 @@ public:
     DatasetDirectReader(std::shared_ptr<IOContext> io_context);
 
     FileReadHandle openFile(DatasetIndexItem index_item);   // open file for read only
+    FileReadHandle openFile(std::string serialized_item);
 };
 
 #endif

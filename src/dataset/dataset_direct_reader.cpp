@@ -19,3 +19,7 @@ DatasetDirectReader::FileReadHandle DatasetDirectReader::openFile(DatasetIndexIt
     return FileReadHandle(partition_reader, index_item);
 }
 
+DatasetDirectReader::FileReadHandle DatasetDirectReader::openFile(std::string serialized_item)
+{
+    return openFile(DatasetIndexItem(serialized_item)); 
+}

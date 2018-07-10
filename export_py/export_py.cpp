@@ -9,6 +9,7 @@
 #include "dataset_config.h"
 #include "dataset_index.h"
 #include "dataset_index_item.h"
+#include "dataset_direct_reader.h"
 
 using namespace boost::python;
 
@@ -22,6 +23,12 @@ void demo()
 std::shared_ptr<IOContext> (*create_io_context1) (std::string) = IOContext::create_io_context;
 std::shared_ptr<IOContext> (*create_io_context2) (std::string, const IOContext::Configure &) = IOContext::create_io_context;
 
+DatasetDirectReader::FileReadHandle 
+(DatasetDirectReader::*DatasetDirectReader_openFile1)(DatasetIndexItem index_item) = &DatasetDirectReader::openFile; 
+
+DatasetDirectReader::FileReadHandle 
+(DatasetDirectReader::*DatasetDirectReader_openFile2)(std::string serialized_item) = &DatasetDirectReader::openFile; 
+
 BOOST_PYTHON_MODULE(st_dataset)
 {
     def("demo", demo);
@@ -34,7 +41,7 @@ BOOST_PYTHON_MODULE(st_dataset)
     def("create_io_context", create_io_context1);
     def("create_io_context", create_io_context2);
 
-    class_<DatasetIndexItem>("IndexItem", init<std::string>())
+    class_<DatasetIndexItem>("IndexItem", no_init)
         .def_readonly("file_path", &DatasetIndexItem::file_path)
         .def_readonly("offset", &DatasetIndexItem::offset)
         .def_readonly("file_size", &DatasetIndexItem::file_size)
@@ -53,8 +60,8 @@ BOOST_PYTHON_MODULE(st_dataset)
     class_<std::vector<uint8_t>>("ByteArray")
         .def("__iter__", iterator<std::vector<uint8_t>>());
 
-    class_<DatasetIndex::FileReadHandle>("FileReadHandle", no_init)
-        .def("readAll", &DatasetIndex::FileReadHandle::readAll)
+    class_<DatasetFileReadHandle>("FileReadHandle", no_init)
+        .def("readAll", &DatasetFileReadHandle::readAll)
         ;
 
     class_<DatasetIndex::FileAppendHandle>("FileAppendHandle", no_init)
@@ -67,6 +74,11 @@ BOOST_PYTHON_MODULE(st_dataset)
         .def("open", &DatasetIndex::openFile)
         .def("AppendItem", &DatasetIndex::appendItem)
         .def("Append", &DatasetIndex::appendFile)
+        ;
+
+    class_<DatasetDirectReader>("DirectReader", init<std::shared_ptr<IOContext>>())
+        .def("open", DatasetDirectReader_openFile1)
+        .def("open", DatasetDirectReader_openFile2)
         ;
 }
 
