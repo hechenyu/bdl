@@ -41,7 +41,7 @@ BOOST_PYTHON_MODULE(st_dataset)
     def("create_io_context", create_io_context1);
     def("create_io_context", create_io_context2);
 
-    class_<DatasetIndexItem>("IndexItem", no_init)
+    class_<DatasetIndexItem>("IndexItem", init<std::string>())
         .def_readonly("file_path", &DatasetIndexItem::file_path)
         .def_readonly("offset", &DatasetIndexItem::offset)
         .def_readonly("file_size", &DatasetIndexItem::file_size)
