@@ -1,0 +1,6 @@
+Warning: Permanently added '10.10.17.165' (ECDSA) to the list of known hosts.
+Warning: Permanently added '10.10.17.166' (ECDSA) to the list of known hosts.
+1
+seed: 1530106820
+./standard.samp.ssd.sh: line 27: 179464 Killed                  $cmd --seed ${seed} --label ${label} --list_file ${list_file}${i} --dir ${dir}
+dataset_read_samp: no process found
