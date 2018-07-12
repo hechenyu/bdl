@@ -17,3 +17,10 @@ vector<uint8_t> DatasetFileReadHandle::readAll()
     DatafileView file_view = partition_reader_->read(index);
     return vector<uint8_t>(file_view.blob_data(), file_view.blob_data()+file_view.blob_size());
 }
+
+map<string, string> DatasetFileReadHandle::getAttrs()
+{
+    DatafileIndex index(index_item_.offset(), index_item_.file_size());
+    DatafileView file_view = partition_reader_->read(index);
+    return file_view.metadata().attrs();
+}

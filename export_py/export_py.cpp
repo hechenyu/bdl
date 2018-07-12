@@ -29,6 +29,18 @@ DatasetDirectReader::FileReadHandle
 DatasetDirectReader::FileReadHandle 
 (DatasetDirectReader::*DatasetDirectReader_openFile2)(std::string serialized_item) = &DatasetDirectReader::openFile; 
 
+dict getAttrs(DatasetFileReadHandle &handle)
+{
+    auto m = handle.getAttrs();
+    dict d;
+
+    for (auto &pair: m) {
+        d[pair.first] = pair.second;
+    }
+
+    return d;
+}
+
 BOOST_PYTHON_MODULE(st_dataset)
 {
     def("demo", demo);
@@ -80,6 +92,9 @@ BOOST_PYTHON_MODULE(st_dataset)
         .def("open", DatasetDirectReader_openFile1)
         .def("open", DatasetDirectReader_openFile2)
         ;
+
+    def("getAttrs", getAttrs);
 }
+
 
 

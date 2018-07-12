@@ -1,6 +1,8 @@
 #ifndef __dataset_file_read_handle_h 
 #define __dataset_file_read_handle_h 
 
+#include <map>
+#include <string>
 #include <memory>
 #include <vector>
 #include <stdint.h>
@@ -19,6 +21,8 @@ public:
             DatasetIndexItem index_item);
 
     std::vector<uint8_t> readAll();
+
+    std::map<std::string, std::string> getAttrs();
 };
 
 #endif
