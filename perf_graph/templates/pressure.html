@@ -1,0 +1,23 @@
+<html>
+<head>
+  <script src="https://cdn.anychart.com/releases/8.2.1/js/anychart-base.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/8.2.1/js/anychart-ui.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/8.2.1/js/anychart-exports.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.anychart.com/releases/8.2.1/css/anychart-ui.min.css" />
+  <link rel="stylesheet" href="https://cdn.anychart.com/releases/8.2.1/fonts/css/anychart-font.min.css" />
+  <style>
+    html, body, #container {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+    <div id="container"></div>
+</body>
+<script> this.data ={{ data|tojson|safe }}         
+         this.loader = "{{loader}}"
+        </script>
+<script src="{{ url_for('static',filename='pressure.js') }}"></script>
