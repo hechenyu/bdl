@@ -12,6 +12,7 @@ class PartitionPosReader {
 private:
     std::shared_ptr<IFileReader> reader_;
     std::vector<uint8_t> file_cache_;
+    DatafileIndex index_cached_;
 
 public:
     PartitionPosReader(const std::string &partition_path, std::shared_ptr<IFileReader> reader);

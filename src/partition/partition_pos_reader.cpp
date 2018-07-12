@@ -16,6 +16,9 @@ PartitionPosReader::~PartitionPosReader()
 
 DatafileView PartitionPosReader::read(DatafileIndex index)
 {
+    if (index == index_cached_)
+        return DatafileView(file_cache_.data(), file_cache_.size());
+
     file_cache_.clear();
     file_cache_.resize(index.file_size);
 
