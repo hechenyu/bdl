@@ -1,1 +1,1 @@
-{"label": "standard.perf.seq.hdd", "open_time usec:": 13620462.916000, "read_time usec": 93036608.812000, "total_time usec": 106657071.728000, "io_rate MB/s": 347.275660, "file_number" : 40832}
+{"label": "standard.perf.seq.hdd", "open_time usec:": 13620462.916000, "read_time usec": 93036608.812000, "total_time usec": 106657071.728000, "io_rate MB/s": 350.275660, "file_number" : 40832}

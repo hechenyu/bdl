@@ -5,7 +5,7 @@ anychart.onDocumentReady(function () {
     header: this.order,
     rows:Object.values(this.data)
   };
-  console.log(Object.values(this.data))
+
 
   // create column chart
   var chart = anychart.column();

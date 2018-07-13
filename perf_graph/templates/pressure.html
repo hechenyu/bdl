@@ -1,23 +1,87 @@
 <html>
+
 <head>
-  <script src="https://cdn.anychart.com/releases/8.2.1/js/anychart-base.min.js"></script>
-  <script src="https://cdn.anychart.com/releases/8.2.1/js/anychart-ui.min.js"></script>
-  <script src="https://cdn.anychart.com/releases/8.2.1/js/anychart-exports.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.anychart.com/releases/8.2.1/css/anychart-ui.min.css" />
-  <link rel="stylesheet" href="https://cdn.anychart.com/releases/8.2.1/fonts/css/anychart-font.min.css" />
-  <style>
-    html, body, #container {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-  </style>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"
+            integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.anychart.com/releases/8.2.1/js/anychart-base.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.2.1/js/anychart-ui.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+          integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+          crossorigin="anonymous">
+    <script src="https://cdn.anychart.com/releases/8.2.1/js/anychart-exports.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.anychart.com/releases/8.2.1/css/anychart-ui.min.css"/>
+    <link rel="stylesheet" href="https://cdn.anychart.com/releases/8.2.1/fonts/css/anychart-font.min.css"/>
+    <style>
+        html,
+        body,
+        #container {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #block_container {
+            text-align: center;
+        }
+
+        #bloc1, #bloc2 {
+            display: inline;
+        }
+    </style>
 </head>
+
 <body>
-    <div id="container"></div>
+
+<div id="block_container">
+    <div class="dropdown" id="bloc1">
+        <a class="btn  dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+           aria-haspopup="true"
+           aria-expanded="false">
+            Dirs
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            {% for t in dirs %}
+                <a class="dropdown-item" href="{{ url_for('pressure_c',dir=t,key="iorate") }}">{{ t }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="dropdown" id="bloc2">
+        <a class="btn  dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+           aria-haspopup="true"
+           aria-expanded="false">
+            Timestamp
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            {% for t in timestamp %}
+                <a class="dropdown-item" href="?timestamp={{ t }}">{{ t }}</a>
+            {% endfor %}
+
+            <a class="dropdown-item" href="javascript:void(0)" onclick="toLatestData();">Latest</a>
+        </div>
+        <a href="javascript:void(0)" onclick="toLatestData();">Latest</a>
+    </div>
+</div>
+
+<div id="container"></div>
 </body>
-<script> this.data ={{ data|tojson|safe }}         
-         this.loader = "{{loader}}"
-        </script>
+<script> this.data = {{ data | tojson | safe }}
+    function toLatestData() {
+        window.location.href = window.location.href.split('?')[0];
+    }
+
+function toResDir(t) {
+    window.location.href = window.location.href.split('/')
+}
+
+this.loader = "{{loader}}"
+</script>
 <script src="{{ url_for('static',filename='pressure.js') }}"></script>
