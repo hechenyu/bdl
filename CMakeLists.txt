@@ -1,4 +1,4 @@
-project(BASE_DATASET_LOADER)
+project(BDL)
 
 set (CMAKE_CXX_STANDARD 11)
 
