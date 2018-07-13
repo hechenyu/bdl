@@ -118,3 +118,7 @@ def format_data(data):
             k.append(data[t][i])
         res.append(k)
     return res
+def get_c_dir(rootdir):
+    dirs = list(os.listdir(rootdir))
+    dirs.remove('spark')
+    return dirs
