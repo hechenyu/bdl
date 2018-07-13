@@ -13,6 +13,6 @@ for e in index:
 
     f = index.open(e)
     all_content = bytes(f.readAll())
-    new_f = new_index.Append(e.file_path, "xxx")
+    new_f = new_index.Append(e.file_path, "file_type")
     new_f.writeAll(all_content)
 
