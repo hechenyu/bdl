@@ -11,10 +11,12 @@ this_sh_path=$PWD
 
 rm -rf ./build
 rm -rf ./lib
+rm -rf ./install
 mkdir build
 cd build
 cmake ..
 make
+make install
 
 #cd $this_sh_path
 

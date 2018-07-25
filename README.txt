@@ -12,9 +12,11 @@
 3) 构建工程, 工程顶级目录下, 执行./build.sh, 生成的lib和测试程序都在工程顶级目录的build路径下.
     a) lib文件在lib目录下
     b) 测试程序在build/test目录下
+    c) export C的头文件和lib在install目录下
 
 4) 项目工程需要依赖boost库, 确保系统安装boost
     $ sudo pacman -S boost # arch
+    $ cd thirdparty && ./boost_install.sh
 
 5) python封装lib在export_py目录下, 确保先执行build.sh, 然后编译st_dataset.so
     $ cd export_py

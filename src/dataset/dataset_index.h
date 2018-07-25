@@ -1,6 +1,7 @@
 #ifndef __dataset_index_h
 #define __dataset_index_h
 
+#include <cassert>
 #include <memory>
 #include <string>
 #include <vector>
